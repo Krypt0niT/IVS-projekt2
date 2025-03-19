@@ -1,0 +1,24 @@
+- Stanovené termíny
+	Termíny sa budú odvíjať od návrhu v MS Project (priloženom)
+
+- Rozdelenie úloh
+	Zhrnutie rozdelenia úloh (zhrnutie je len čiastočné, kompletné riešenie je zahrnuté v MS Project)
+	xuradnl00 - testy, kontrola vývoja, management, prepájanie celkov, makefie a doplnkové úlohy
+	xkuzmok00 - implementácia matematickej knižnice, návrhy dizajnu + mockupu, kontrola plnenia cieľov, MAT časť dokumentácie, testy
+	xlancor00 - práca s Microsoft Windows Form, implementácia dizajnu, implementácia interaktívneho prostredia oknovej aplikácie, installer/uninstaller
+
+- Komunikačné kanály
+	Osobný Discord server
+		Vytvárame nové kanály na tasky kde kolektívne riešime problémy aby sme sa vyhli zdŕžaniam
+		Pravidelné meetingy
+
+- Spravovanie verzii
+	na správu používame Github.com
+	mame stanovené pravidla úpravy názvov commitov (spomenuté v kostre projektu (prilozený obrázok))
+	odkaz na GitHub repozitár https://github.com/Krypt0niT/IVS-projekt2
+		konto ivs.kontrola@gmail.com - je pridané ako colaborator, treba potvrdiť účasť na maily a potom môže vidieť dianie v repozitári
+	
+	zoznam mien (xlogin00 - github nickname)
+	xuradnl00 - Krypt0niT
+	xkuzmok00 - katewins420
+	xlancor00 - JojoYou
