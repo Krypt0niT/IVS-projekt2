@@ -1,29 +1,78 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Visual Studio .gitignore
 
-# Precompiled Headers
-*.gch
-*.pch
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# User-specific files (Mono/Visual Studio Mac)
+*.pidb
+*.booproj
 
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]*/
+[Aa][Rr][Mm]64/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
 *.app
+*.exe
+*.dll
+*.ilk
+*.pdb
+*.ipdb
+*.iobj
+*.lib
+*.ncb
+*.sbr
+*.sdf
+*.opensdf
+*.tlog
+*.log
+*.cache
+*.csproj.user
+*.dbmdl
+*.jfm
+*.vs
+
+# Visual Studio Code
+.vscode/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+CMakeLists.txt.user
+
+# NuGet
+*.nupkg
+packages/
+
+# Entity Framework
+*.edmx.diagram
+*.edmx.sql
+
+# ASP.NET
+*.publish.xml
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn.lock
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+
+# JetBrains Rider
+.idea/
+*.iml
