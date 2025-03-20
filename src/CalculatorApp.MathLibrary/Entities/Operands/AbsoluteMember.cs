@@ -2,12 +2,15 @@
 
 public class AbsoluteMember : Term
 {
-    public AbsoluteMember(decimal absoluteValue) : base(absoluteValue)
+    private decimal AbsoluteValue { get; }
+
+    public AbsoluteMember(decimal absoluteValue, IList<Term>? terms = null) : base(terms)
     {
+        AbsoluteValue = absoluteValue;
     }
 
     public override decimal GetResult()
     {
-        return AbsoluteValue!.Value;
+        return AbsoluteValue;
     }
 }
