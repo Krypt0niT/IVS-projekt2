@@ -10,7 +10,7 @@ public class SumOperation : Term
     {
         decimal result = 0;
 
-        foreach (var term in InnerTerms)
+        foreach (var term in InnerTerms!)
         {
             result += term.GetResult();
         }

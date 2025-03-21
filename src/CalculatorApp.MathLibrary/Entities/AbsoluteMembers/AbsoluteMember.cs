@@ -1,8 +1,8 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
+﻿namespace CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 
 public class AbsoluteMember : Term
 {
-    private decimal AbsoluteValue { get; }
+    public decimal AbsoluteValue { get; init; }
 
     public AbsoluteMember(decimal absoluteValue, IList<Term>? terms = null) : base(terms)
     {
