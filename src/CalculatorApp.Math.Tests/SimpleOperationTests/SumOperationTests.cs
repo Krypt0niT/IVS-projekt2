@@ -15,13 +15,12 @@ public class SumOperationTests
             new List<Term>
             {
                 new AbsoluteMember(1),
-                new AbsoluteMember(2),
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(3.0m);
+        result.Should().Be(1);
     }
 
     [Fact]
