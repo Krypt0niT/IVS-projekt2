@@ -14,7 +14,6 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
                 new List<Term>
                 {
                     new AbsoluteMember(1),
-                    new AbsoluteMember(2),
                 }
             );
 
