@@ -8,6 +8,13 @@ public class SubOperation : Term
 
     public override decimal GetResult()
     {
-        throw new NotImplementedException();
+        decimal result = 0;
+
+        foreach (var term in InnerTerms!)
+        {
+            result -= term.GetResult();
+        }
+
+        return result;
     }
 }
