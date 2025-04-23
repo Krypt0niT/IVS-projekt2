@@ -8,11 +8,13 @@ public class SubOperation : Term
 
     public override decimal GetResult()
     {
-        decimal result = 0;
+        if (InnerTerms.Count == 0)
+            return 0;
 
-        foreach (var term in InnerTerms!)
+        decimal result = InnerTerms[0].GetResult();
+        for (int i = 1; i < InnerTerms.Count; i++)
         {
-            result -= term.GetResult();
+            result -= InnerTerms[i].GetResult();
         }
 
         return result;
