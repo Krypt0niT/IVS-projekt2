@@ -21,6 +21,37 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     }
 
     [Fact]
+    public void SingleNegativePowerOperationTest()
+    {
+
+        var input = new PowerOperation(-2,
+            new List<Term>{
+                new AbsoluteMember(2)
+            }
+        );
+
+        var result = input.GetResult();
+
+        result.Should().Be(0.25m); // 2^(-2) = 0.25
+    }
+
+    [Fact]
+    public void ZeroToNegativePowerOperationErrorTest()
+    {
+
+        var input = new PowerOperation(-2,
+            new List<Term>{
+                new AbsoluteMember(0)
+            }
+        );
+
+        Assert.Throws<DivideByZeroException>(() =>
+        {
+            var result = input.GetResult(); // 0^(-2) = error
+        });
+    }
+
+    [Fact]
     public void MultiplePowerErrorTest()
     {
         var input = new PowerOperation(3,
@@ -34,9 +65,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         {
             var result = input.GetResult();
         });
-
     }
-
 
     [Fact]
     public void DepthPowerTest()
@@ -85,7 +114,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
         var result = input.GetResult();
 
-        result.Should().Be(0.008m);
+        result.Should().Be(0.008m); // 0.2^3 = 0.008
 
     }
 
