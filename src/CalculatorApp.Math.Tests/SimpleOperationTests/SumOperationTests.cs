@@ -8,7 +8,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 public class SumOperationTests
 {
     [Fact]
-    public void SingleSumTest()
+    public void SingleSumTest() 
     {
         var input = new SumOperation
         (
@@ -20,7 +20,23 @@ public class SumOperationTests
 
         var result = input.GetResult();
 
-        result.Should().Be(1);
+        result.Should().Be(1); // + 1 = 1
+    }
+
+    public void MultipleNegativeNumberSumTest()
+    {
+        var input = new SumOperation
+        (
+            new List<Term>
+            {
+                new AbsoluteMember(-1),
+                new AbsoluteMember(1),
+            }
+        );
+
+        var result = input.GetResult();
+
+        result.Should().Be(0); // -1 + 1 = 0
     }
 
     [Fact]
@@ -46,7 +62,7 @@ public class SumOperationTests
 
         var result = input.GetResult();
 
-        // 1 + 5 + 5 + 15 + 1
+        // 1 + (5 + 5) + 15 + 1 = 27
         result.Should().Be(27m);
     }
 
@@ -79,6 +95,6 @@ public class SumOperationTests
 
         var result = input.GetResult();
 
-        result.Should().Be(0.3m);
+        result.Should().Be(0.3m); // 0.1 + 0.2 = 0.3
     }
 }
