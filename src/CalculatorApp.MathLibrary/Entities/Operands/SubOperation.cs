@@ -1,29 +1,44 @@
 ﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
-
-public class SubOperation : Term
-{
-    public SubOperation(IList<Term> innerTerms) : base(innerTerms)
+    /// <summary>
+    /// Represents a subtraction operation (a - b - c - ...).
+    /// </summary>
+    /// <remarks>
+    /// This class performs subtraction by taking the first term and subtracting all subsequent terms in the list.
+    /// If only one term is provided, it returns its negation.
+    /// </remarks>
+    public class SubOperation : Term
     {
-    }
-
-    public override decimal GetResult()
-    {
-        decimal result = 0;
-        if (InnerTerms.Count == 0)
-            return 0;
-
-        if (InnerTerms.Count == 1)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SubOperation"/> class.
+        /// </summary>
+        /// <param name="innerTerms">The list of terms to be subtracted.</param>
+        public SubOperation(IList<Term> innerTerms) : base(innerTerms)
         {
-            result -= InnerTerms.First().GetResult();
+        }
+
+        /// <summary>
+        /// Computes the result of the subtraction operation.
+        /// </summary>
+        /// <returns>The result of subtracting all inner terms.</returns>
+        public override decimal GetResult()
+        {
+            decimal result = 0;
+            if (InnerTerms.Count == 0)
+                return 0;
+
+            if (InnerTerms.Count == 1)
+            {
+                result -= InnerTerms.First().GetResult();
+                return result;
+            }
+
+            result = InnerTerms.First().GetResult();
+            for (int i = 1; i < InnerTerms.Count; i++)
+            {
+                result -= InnerTerms[i].GetResult();
+            }
+
             return result;
         }
-
-        result = InnerTerms.First().GetResult();
-        for (int i = 1; i < InnerTerms.Count; i++)
-        {
-            result -= InnerTerms[i].GetResult();
-        }
-
-        return result;
     }
-}
+

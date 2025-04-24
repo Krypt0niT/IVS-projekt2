@@ -1,11 +1,21 @@
 ﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
 
+/// <summary>
+/// Represents a factorial operation (n!).
+/// </summary>
 public class FactorialOperation : Term
 {
-    public FactorialOperation(IList<Term> innerTerms) : base(innerTerms)
-    {
-    }
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FactorialOperation"/> class.
+    /// </summary>
+    /// <param name="innerTerms">Should contain one whole, non-negative number.</param>
+    public FactorialOperation(IList<Term> innerTerms) : base(innerTerms){}
+    
+    /// <summary>
+    /// Calculates the factorial of a single term.
+    /// </summary>
+    /// <returns>The factorial result.</returns>
+    /// <exception cref="NotSupportedException">If the input is negative or not a whole number.</exception>
     public override decimal GetResult()
     {
         if (InnerTerms!.Count == 0)

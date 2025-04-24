@@ -1,11 +1,20 @@
 ﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
 
+/// <summary>
+/// Represents a multiplication operation (a * b * c * ...).
+/// </summary>
 public class MulOperation : Term
 {
-    public MulOperation(IList<Term> innerTerms) : base(innerTerms)
-    {
-    }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MulOperation"/> class.
+    /// </summary>
+    /// <param name="innerTerms">The terms to multiply.</param>
+    public MulOperation(IList<Term> innerTerms) : base(innerTerms){}
 
+    /// <summary>
+    /// Calculates the product of all terms.
+    /// </summary>
+    /// <returns>The result of multiplication.</returns>
     public override decimal GetResult()
     {
         decimal result = 0;

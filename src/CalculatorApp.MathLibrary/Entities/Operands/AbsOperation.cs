@@ -1,12 +1,21 @@
 ﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
 
+/// <summary>
+/// Represents an absolute value operation (|x|).
+/// </summary>
 public class AbsOperation : Term
 {
-    public AbsOperation(IList<Term> terms) : base(terms)
-    {
-        //if (terms.Count > 1) throw new NotSupportedException();
-    }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AbsOperation"/> class.
+    /// </summary>
+    /// <param name="terms">A single term to get the absolute value of.</param>
+    public AbsOperation(IList<Term> terms) : base(terms){}
 
+    /// <summary>
+    /// Calculates the absolute value of the single input term.
+    /// </summary>
+    /// <returns>The absolute value.</returns>
+    /// <exception cref="NotSupportedException">Thrown if more than one term is provided.</exception>
     public override decimal GetResult()
     {
         if (InnerTerms.Count == 0)
