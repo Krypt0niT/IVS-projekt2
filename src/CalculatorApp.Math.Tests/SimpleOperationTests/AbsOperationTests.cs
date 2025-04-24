@@ -7,41 +7,54 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     public class AbsOperationTests
     {
         [Fact]
-        public void SingleAbsTest()
+        public void SingleNegativeAbsTest()
         {
             var input = new AbsOperation
             (
                 new List<Term>
                 {
-                    new AbsoluteMember(10),
+                    new AbsoluteMember(-10),
                 }
             );
 
             var result = input.GetResult();
 
-            result.Should().Be(10);
+            result.Should().Be(10); // |-10| = 10
+        }
+        [Fact]
+        public void SinglePositiveAbsTest()
+        {
+            var input = new AbsOperation
+            (
+                new List<Term>
+                {
+                        new AbsoluteMember(10),
+                }
+            );
+
+            var result = input.GetResult();
+
+            result.Should().Be(10); // |10| = 10
         }
 
         [Fact]
-        public void MultipleAbsErrorTest()
-        {
-            var input = new AbsOperation
-            (
-                new List<Term>
-                {
-                    new AbsoluteMember(10),
-                    new AbsoluteMember(15),
-                    new AbsoluteMember(1),
-                }
-            );
+            public void MultipleAbsErrorTest()
+            {
+                var input = new AbsOperation
+                (
+                    new List<Term>
+                    {
+                        new AbsoluteMember(10),
+                        new AbsoluteMember(-15),
+                        new AbsoluteMember(1),
+                    }
+                );
 
-        Assert.Throws<NotSupportedException>(() =>
-        {
-            var result = input.GetResult();
-        });
-
-    }
-
+            Assert.Throws<NotSupportedException>(() =>
+            {
+                var result = input.GetResult();
+            });
+        }
 
         [Fact]
         public void DepthAbsTest()
@@ -62,7 +75,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(5m);
+            result.Should().Be(5m); // ||-5|| = 5
         }
 
         [Fact]
@@ -93,7 +106,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(0.2m);
+            result.Should().Be(0.2m); // |-0.2| = 0.2
         }
     }
 
