@@ -26,7 +26,7 @@ public class PowerOperation : Term
     /// Calculates the result of raising the base to the exponent.
     /// </summary>
     /// <returns>The result of the power operation.</returns>
-    /// <exception cref="NotSupportedException">Thrown when no or multiple terms are passed in.</exception>
+    /// <exception cref="NotSupportedException">Thrown when multiple terms are passed in.</exception>
     /// <exception cref="DivideByZeroException">Thrown when attempting to raise 0 to a negative exponent.</exception>
     public override decimal GetResult()
     {
