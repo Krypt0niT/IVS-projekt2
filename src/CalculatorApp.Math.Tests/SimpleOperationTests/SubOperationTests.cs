@@ -19,7 +19,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(-1);
+            result.Should().Be(-1); // - 1 = -1
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(1);
+            result.Should().Be(1); // 1 - 2 - (-2) = 1
         }
 
         [Fact]
@@ -63,9 +63,8 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            // 1 - 5 - 5 + 15 - 1
-            result.Should().Be(15m);
-        }
+            result.Should().Be(15m); // 1 - (5 - 5) + 15 - 1 = 15
+    }
 
         [Fact]
         public void EmptySubTest()
@@ -96,7 +95,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(-0.1m);
+            result.Should().Be(-0.1m); // 0.1 - 0.2 = -0.1
         }
 }
 
