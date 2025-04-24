@@ -3,8 +3,7 @@ using CalculatorApp.MathLibrary.Entities.Operands;
 using CalculatorApp.MathLibrary.Entities;
 using FluentAssertions;
 
-namespace CalculatorApp.Math.Tests.SimpleOperationTests
-{
+namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     public class DivOperationTests
     {
         [Fact]
@@ -20,7 +19,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests
 
             var result = input.GetResult();
 
-            result.Should().Be(1);
+            result.Should().Be(1); // [  / 1 ] = 1
         }
 
         [Fact]
@@ -30,15 +29,15 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests
             (
                 new List<Term>
                 {
-                        new AbsoluteMember(1),
-                        new AbsoluteMember(2),
-                        new AbsoluteMember(-1),
+                    new AbsoluteMember(1),
+                    new AbsoluteMember(2),
+                    new AbsoluteMember(-1),
                 }
             );
 
             var result = input.GetResult();
 
-            result.Should().Be(-0.5m);
+            result.Should().Be(-0.5m); // [ 1 / 2 / (-1) ] = -0.5
         }
 
         [Fact]
@@ -64,7 +63,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests
 
             var result = input.GetResult();
 
-            result.Should().Be(0.2m);
+            result.Should().Be(0.2m); // [ 1 / (5 / 5) / (-5) / (-1) ] = 0.2
         }
 
         [Fact]
@@ -96,7 +95,26 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests
 
             var result = input.GetResult();
 
-            result.Should().Be(0.5m);
+            result.Should().Be(0.5m); // [ 0.1 / 0.2 ] = 0.5
+        }
+
+        [Fact]
+        public void ZeroDivOperationErrorTest()
+        {
+
+            var input = new DivOperation
+            (
+               new List<Term>
+               {
+                    new AbsoluteMember(5),
+                    new AbsoluteMember(0),
+               }
+            );
+
+            Assert.Throws<DivideByZeroException>(() =>
+            {
+                var result = input.GetResult(); // [ 5 / 0 ] = error
+            });
         }
     }
-}
+
