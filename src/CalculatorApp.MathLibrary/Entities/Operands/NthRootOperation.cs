@@ -35,6 +35,9 @@ public class NthRootOperation : Term
         if (InnerTerms!.Count != 1)
             throw new NotSupportedException();
 
+        if (Degree < 0)
+            throw new NotSupportedException();
+
         decimal input = InnerTerms.First().GetResult();
 
         if (input < 0 && Degree % 2 == 0)
