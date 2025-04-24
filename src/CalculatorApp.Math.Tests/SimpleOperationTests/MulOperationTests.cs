@@ -63,7 +63,6 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            // 1 - 5 - 5 + 15 - 1
             result.Should().Be(125m);
         }
 
