@@ -13,13 +13,13 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(10),
+                new AbsoluteMember(10),
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(10);
+        result.Should().Be(10); // % 10 = 10
     }
 
     [Fact]
@@ -29,9 +29,9 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(10),
-                    new AbsoluteMember(15),
-                    new AbsoluteMember(1),
+                new AbsoluteMember(10),
+                new AbsoluteMember(15),
+                new AbsoluteMember(1),
             }
         );
 
@@ -39,7 +39,6 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         {
             var result = input.GetResult();
         });
-
     }
 
 
@@ -50,21 +49,21 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(4),
-                    new ModuloOperation
-                    (
-                        new List<Term>
-                        {
-                            new AbsoluteMember(7),
-                            new AbsoluteMember(5),
-                        }
-                    ),
+                new AbsoluteMember(4),
+                new ModuloOperation
+                (
+                    new List<Term>
+                    {
+                        new AbsoluteMember(7),
+                        new AbsoluteMember(5),
+                    }
+                ),
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(0m);
+        result.Should().Be(0m); // 4 % (7 % 5) = 0
     }
 
     [Fact]
@@ -89,14 +88,32 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(0.5m),
-                    new AbsoluteMember(0.2m)
+                new AbsoluteMember(0.5m),
+                new AbsoluteMember(0.2m)
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(0.1m);
+        result.Should().Be(0.1m); // 0.5 % 0.2 = 0.1
+    }
+
+    [Fact]
+    public void ModuloByZeroErrorTest()
+    {
+        var input = new ModuloOperation
+        (
+            new List<Term>
+            {
+                new AbsoluteMember(10),
+                new AbsoluteMember(0)
+            }
+        );
+
+        Assert.Throws<DivideByZeroException>(() =>
+        {
+            var result = input.GetResult(); // 10 % 0 = error
+        });
     }
 }
 
