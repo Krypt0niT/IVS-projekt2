@@ -19,7 +19,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
         var result = input.GetResult();
 
-        result.Should().Be(1.732050807568877295254353946m);
+        result.Should().Be(1.732050807568877295254353946m); // sqrt(2) = 1.732...
     }
 
     [Fact]
@@ -36,21 +36,20 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         {
             var result = input.GetResult();
         });
-
     }
 
 
     [Fact]
     public void DepthNthRootTest()
     {
-        var inner = new NthRootOperation(3,
+        var inner = new NthRootOperation(3,     // 3rd-root(8) = 2
             new List<Term>
             {
             new AbsoluteMember(8)
             }
         );
 
-        var outer = new NthRootOperation(2,
+        var outer = new NthRootOperation(2,     // sqrt(2) = 1.414...
             new List<Term>
             {
             inner
@@ -88,7 +87,38 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
         var result = input.GetResult();
 
-        result.Should().Be(0.4472135955001610322835205142m);
+        result.Should().Be(0.4472135955001610322835205142m); // sqrt(0.2) = 0.447...
+    }
+
+    [Fact]
+    public void NegativeNthRootErrorTest()
+    {
+        var input = new NthRootOperation(-3,
+            new List<Term>{
+                new AbsoluteMember(5)
+            }
+        );
+
+        Assert.Throws<NotSupportedException>(() =>
+        {
+            var result = input.GetResult();     // (-3)rd-root(5)
+        });
+
+    }
+
+    [Fact]
+    public void NegativeNumUnderEvenRootErrorTest()
+    {
+        var input = new NthRootOperation(4,
+            new List<Term>{
+                new AbsoluteMember(-5)
+            }
+        );
+
+        Assert.Throws<NotSupportedException>(() =>
+        {
+            var result = input.GetResult();     // 4th-root(-5)
+        });
 
     }
 }
