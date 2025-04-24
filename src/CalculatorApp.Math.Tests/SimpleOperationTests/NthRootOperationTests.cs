@@ -4,14 +4,14 @@ using CalculatorApp.MathLibrary.Entities;
 using FluentAssertions;
 
 namespace CalculatorApp.Math.Tests.SimpleOperationTests;
-    public class SquareRootOperationTests
+    public class NthRootOperationTests
     {
 
     [Fact]
-    public void SingleSquareRootOperationTest()
+    public void SingleNthRootOperationTest()
     {
 
-        var input = new SquareRootOperation(2,
+        var input = new NthRootOperation(2,
             new List<Term>{
                 new AbsoluteMember(3)
             }
@@ -23,9 +23,9 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     }
 
     [Fact]
-    public void MultipleSquareRootErrorTest()
+    public void MultipleNthRootErrorTest()
     {
-        var input = new SquareRootOperation(3,
+        var input = new NthRootOperation(3,
             new List<Term>{
                 new AbsoluteMember(5),
                 new AbsoluteMember(5)
@@ -41,16 +41,16 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
 
     [Fact]
-    public void DepthSquareRootTest()
+    public void DepthNthRootTest()
     {
-        var inner = new SquareRootOperation(3,
+        var inner = new NthRootOperation(3,
             new List<Term>
             {
             new AbsoluteMember(8)
             }
         );
 
-        var outer = new SquareRootOperation(2,
+        var outer = new NthRootOperation(2,
             new List<Term>
             {
             inner
@@ -63,9 +63,9 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     }
 
     [Fact]
-    public void EmptySquareRootTest()
+    public void EmptyNthRootTest()
     {
-        var input = new SquareRootOperation(3,
+        var input = new NthRootOperation(3,
             new List<Term>
             {
 
@@ -78,9 +78,9 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     }
 
     [Fact]
-    public void FloatingSquareRootTest()
+    public void FloatingNthRootTest()
     {
-        var input = new SquareRootOperation(2,
+        var input = new NthRootOperation(2,
             new List<Term>{
                 new AbsoluteMember(0.2m)
             }

@@ -2,15 +2,31 @@
 
 namespace CalculatorApp.MathLibrary.Entities.Operands;
 
-public class SquareRootOperation : Term
+/// <summary>
+/// Represents an n-th root operation (e.g. square root, cube root) on a single term.
+/// </summary>
+public class NthRootOperation : Term
 {
+    /// <summary>
+    /// The degree of the root (e.g. 2 for square root).
+    /// </summary>
     public uint Degree { get; init; }
 
-    public SquareRootOperation(uint degree, IList<Term> innerTerms) : base(innerTerms)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NthRootOperation"/> class.
+    /// </summary>
+    /// <param name="degree">The root degree.</param>
+    /// <param name="innerTerms">The term to apply the root to (should contain exactly one).</param>
+    public NthRootOperation(uint degree, IList<Term> innerTerms) : base(innerTerms)
     {
         Degree = degree;
     }
 
+    /// <summary>
+    /// Calculates the result of the root operation.
+    /// </summary>
+    /// <returns>The computed root as a decimal.</returns>
+    /// <exception cref="NotSupportedException">Thrown if input is invalid or unsupported.</exception>
     public override decimal GetResult()
     {
         if(InnerTerms!.Count == 0)
@@ -30,6 +46,13 @@ public class SquareRootOperation : Term
         return NthRoot(input, Degree, 0.000001m); // precision = 1e-6
     }
 
+    /// <summary>
+    /// Computes the n-th root of a given decimal value using Newton's method.
+    /// </summary>
+    /// <param name="value">The value to take the root of.</param>
+    /// <param name="n">The degree of the root.</param>
+    /// <param name="precision">Precision of approximation.</param>
+    /// <returns>The computed root.</returns>
     private decimal NthRoot(decimal value, uint n, decimal precision)
     {
         if (n == 0)
