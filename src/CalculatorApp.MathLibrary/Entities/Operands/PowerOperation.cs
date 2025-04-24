@@ -1,21 +1,23 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
+﻿using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
+
+namespace CalculatorApp.MathLibrary.Entities.Operands;
 
 /// <summary>
-/// Represents an exponentiation operation (x^n).
+/// Represents an exponentiation operation (x^n), including support for negative exponents.
 /// </summary>
 public class PowerOperation : Term
 {
     /// <summary>
     /// The exponent value.
     /// </summary>
-    public uint Exponent { get; init; }
+    public int Exponent { get; init; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PowerOperation"/> class.
     /// </summary>
-    /// <param name="exponent">The exponent to raise the base to.</param>
+    /// <param name="exponent">The exponent to raise the base to (can be negative).</param>
     /// <param name="innerTerms">The base value (should contain exactly one).</param>
-    public PowerOperation(uint exponent, IList<Term> innerTerms) : base(innerTerms)
+    public PowerOperation(int exponent, IList<Term> innerTerms) : base(innerTerms)
     {
         Exponent = exponent;
     }
@@ -24,6 +26,8 @@ public class PowerOperation : Term
     /// Calculates the result of raising the base to the exponent.
     /// </summary>
     /// <returns>The result of the power operation.</returns>
+    /// <exception cref="NotSupportedException">Thrown when no or multiple terms are passed in.</exception>
+    /// <exception cref="DivideByZeroException">Thrown when attempting to raise 0 to a negative exponent.</exception>
     public override decimal GetResult()
     {
         if (InnerTerms!.Count == 0)
@@ -34,24 +38,35 @@ public class PowerOperation : Term
 
         decimal baseValue = InnerTerms.First().GetResult();
 
+        if (baseValue == 0 && Exponent < 0)
+            throw new DivideByZeroException();
+
         return DecimalPow(baseValue, Exponent);
     }
 
     /// <summary>
-    /// Performs exponentiation using a simple loop.
+    /// Performs exponentiation for both positive and negative exponents using a simple loop.
     /// </summary>
     /// <param name="baseValue">Base value.</param>
-    /// <param name="exponent">Exponent.</param>
+    /// <param name="exponent">Exponent (can be negative).</param>
     /// <returns>Result of base^exponent.</returns>
-    private decimal DecimalPow(decimal baseValue, uint exponent)
+    private decimal DecimalPow(decimal baseValue, int exponent)
     {
         decimal result = 1;
+        decimal absExp;
+        if (exponent >= 0)
+            absExp = exponent;
+        else
+            absExp = -exponent;
 
-        for (uint i = 0; i < exponent; i++)
+        for (int i = 0; i < absExp; i++)
         {
             result *= baseValue;
         }
 
-        return result;
+        if (exponent >= 0)
+            return result;
+        else
+            return (1 / result);
     }
 }

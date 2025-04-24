@@ -10,14 +10,14 @@ public class NthRootOperation : Term
     /// <summary>
     /// The degree of the root (e.g. 2 for square root).
     /// </summary>
-    public uint Degree { get; init; }
+    public int Degree { get; init; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NthRootOperation"/> class.
     /// </summary>
     /// <param name="degree">The root degree.</param>
     /// <param name="innerTerms">The term to apply the root to (should contain exactly one).</param>
-    public NthRootOperation(uint degree, IList<Term> innerTerms) : base(innerTerms)
+    public NthRootOperation(int degree, IList<Term> innerTerms) : base(innerTerms)
     {
         Degree = degree;
     }
@@ -53,7 +53,7 @@ public class NthRootOperation : Term
     /// <param name="n">The degree of the root.</param>
     /// <param name="precision">Precision of approximation.</param>
     /// <returns>The computed root.</returns>
-    private decimal NthRoot(decimal value, uint n, decimal precision)
+    private decimal NthRoot(decimal value, int n, decimal precision)
     {
         if (n == 0)
             throw new NotSupportedException();
