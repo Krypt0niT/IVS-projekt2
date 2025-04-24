@@ -13,13 +13,13 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(5),
+                new AbsoluteMember(5),
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(120);
+        result.Should().Be(120); // 5! = 5 * 4 * 3 * 2 * 1 = 120
     }
 
     [Fact]
@@ -29,9 +29,9 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(10),
-                    new AbsoluteMember(15),
-                    new AbsoluteMember(1),
+                new AbsoluteMember(10),
+                new AbsoluteMember(15),
+                new AbsoluteMember(1),
             }
         );
 
@@ -39,7 +39,6 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         {
             var result = input.GetResult();
         });
-
     }
 
 
@@ -50,19 +49,19 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new FactorialOperation
-                    (
-                        new List<Term>
-                        {
-                            new AbsoluteMember(3),
-                        }
-                    ),
+                new FactorialOperation
+                (
+                    new List<Term>
+                    {
+                        new AbsoluteMember(3),
+                    }
+                ),
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(720m);
+        result.Should().Be(720m); // (3!)! = (3 * 2 * 1)! = 6 * 5 * 4 * 3 * 2 * 1 = 720
     }
 
     [Fact]
@@ -87,7 +86,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(0.5m),
+                new AbsoluteMember(0.5m),
             }
         );
 
@@ -95,6 +94,39 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         {
             var result = input.GetResult();
         });
+    }
+
+    [Fact]
+    public void NegativeFactorialErrorTest()
+    {
+        var input = new FactorialOperation
+        (
+            new List<Term>
+            {
+                new AbsoluteMember(-5m),
+            }
+        );
+
+        Assert.Throws<NotSupportedException>(() =>
+        {
+            var result = input.GetResult();
+        });
+    }
+
+    [Fact]
+    public void ZeroFactorialTest()
+    {
+        var input = new FactorialOperation
+        (
+            new List<Term>
+            {
+                new AbsoluteMember(0),
+            }
+        );
+
+        var result = input.GetResult();
+
+        result.Should().Be(1); // 0! = 1
     }
 }
 
