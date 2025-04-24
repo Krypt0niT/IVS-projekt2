@@ -15,6 +15,7 @@ public class DivOperation : Term
     /// Calculates the result of dividing the terms in sequence.
     /// </summary>
     /// <returns>The result of the division.</returns>
+    /// <exception cref="DivideByZeroException">Thrown if there would be division by zero.</exception>
     public override decimal GetResult()
     {
         decimal result = 0;
@@ -30,6 +31,9 @@ public class DivOperation : Term
         result = InnerTerms.First().GetResult();
         for (int i = 1; i < InnerTerms.Count; i++)
         {
+            if (InnerTerms[i].GetResult() == 0)
+                throw new DivideByZeroException();
+
             result /= InnerTerms[i].GetResult();
         }
 
