@@ -13,4 +13,8 @@
     <PackageReference Include="WpfMath" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CalculatorApp.MathLibrary\CalculatorApp.MathLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
