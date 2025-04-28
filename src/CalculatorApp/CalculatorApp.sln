@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorApp.WindowsForm",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorApp.MathLibrary", "..\CalculatorApp.MathLibrary\CalculatorApp.MathLibrary.csproj", "{FA6153FD-8BE6-4DA6-A3EC-AA5A87F6B443}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "..\WpfApp1\WpfApp1.csproj", "{6C72F17E-C0A2-4598-B7A1-83A42B3B5F5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{FA6153FD-8BE6-4DA6-A3EC-AA5A87F6B443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA6153FD-8BE6-4DA6-A3EC-AA5A87F6B443}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA6153FD-8BE6-4DA6-A3EC-AA5A87F6B443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C72F17E-C0A2-4598-B7A1-83A42B3B5F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C72F17E-C0A2-4598-B7A1-83A42B3B5F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C72F17E-C0A2-4598-B7A1-83A42B3B5F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C72F17E-C0A2-4598-B7A1-83A42B3B5F5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +58,6 @@ Global
 		{9A7DF10A-2157-426C-8E36-AB891999194A} = {BFE69589-0314-4D91-B748-1947FA119F55}
 		{4A6AD6D4-AD14-427E-AF66-A46FB2E58810} = {BFE69589-0314-4D91-B748-1947FA119F55}
 		{FA6153FD-8BE6-4DA6-A3EC-AA5A87F6B443} = {98CDF985-C2E9-476B-8194-7E769DB1FE1E}
+		{6C72F17E-C0A2-4598-B7A1-83A42B3B5F5F} = {BFE69589-0314-4D91-B748-1947FA119F55}
 	EndGlobalSection
 EndGlobal
