@@ -119,6 +119,37 @@ namespace WpfApp1
                     }
                 }
             }
+            // Plus
+            else if (sender.Equals(Plus))
+            {
+                equation.InnerTerms.Add(new SumOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true },
+                        new EmptyMember()
+                }));
+
+
+                unselectOnNew();
+
+            }
+            // Multiply
+            else if (sender.Equals(Multiply))
+            {
+                equation.InnerTerms.Add(new MulOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true },
+                        new EmptyMember()
+                }));
+
+                unselectOnNew();
+            }
+            // Absolute
+            else if (sender.Equals(Absolute))
+            {
+                equation.InnerTerms.Add(new AbsOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true }
+                }));
+
+                unselectOnNew();
+            }
             // Left Arrow
             else if (sender.Equals(Left_Arrow))
             {
@@ -250,6 +281,21 @@ namespace WpfApp1
         void update()
         {
             formulaWraper.Formula = equation.GetLateX();
+        }
+        void unselectOnNew()
+        {
+            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+            {
+                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+            }
+            else
+            {
+                equation.InnerTerms[idx].IsSelected = false;
+            }
+
+            sub_idx = 0;
+            idx++;
+            len++;
         }
     }
 }
