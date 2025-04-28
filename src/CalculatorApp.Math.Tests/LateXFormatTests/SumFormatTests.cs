@@ -8,9 +8,9 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     public class SumFormatTests
     {
     [Fact]
-    public void SimpleSubTest()
+    public void SimpleSumTest()
     {
-        var input = new SubOperation
+        var input = new SumOperation
         (
             new List<Term>
             {
@@ -27,9 +27,9 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     }
 
     [Fact]
-    public void SelectedFullSubTest()
+    public void SelectedFullSumTest()
     {
-        var input = new SubOperation
+        var input = new SumOperation
         (
             new List<Term>
             {
@@ -50,7 +50,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SelectedLeftMemberTest()
     {
-        var input = new SubOperation
+        var input = new SumOperation
         (
             new List<Term>
             {
@@ -71,7 +71,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
     public void SelectedRightMemberTest()
     {
-        var input = new SubOperation
+        var input = new SumOperation
         (
             new List<Term>
             {
