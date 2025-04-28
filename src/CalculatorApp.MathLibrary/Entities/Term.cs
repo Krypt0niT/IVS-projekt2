@@ -7,7 +7,7 @@ public abstract class Term
         InnerTerms = innerTerms;
     }
 
-    protected IList<Term>? InnerTerms { get; set; }
+    public IList<Term>? InnerTerms { get; set; }
 
     // TODO: inkapsulizovat?
     public bool IsSelected { get; set; }
