@@ -6,6 +6,7 @@ public class EmptyMember : Term
 {
     public EmptyMember(IList<Term>? terms = null) : base(terms)
     {
+        InnerTerms = null;
     }
 
     public override decimal GetResult()
@@ -15,7 +16,7 @@ public class EmptyMember : Term
 
     public override string GetLateX()
     {
-        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{_}}";
-        return "_";
+        if (IsSelected) return $"\\colorbox{{{Colors.Highlight}}}{{\\square}}";
+        return "\\square";
     }
 }
