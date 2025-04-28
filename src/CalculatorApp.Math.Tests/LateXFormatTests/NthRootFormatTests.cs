@@ -5,50 +5,47 @@ using CalculatorApp.MathLibrary.LateXStyles;
 using FluentAssertions;
 
 namespace CalculatorApp.Math.Tests.LateXFormatTests;
-    public class PowerFormatTests
+    public class NthRootFormatTests
     {
     [Fact]
-    public void PowerOperationTest()
+    public void NthRootOperationTest()
     {
-
-        var input = new PowerOperation(12,
+        var input = new NthRootOperation(3,
             new List<Term>{
-                new AbsoluteMember(10)
+                new AbsoluteMember(27)
             }
         );
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"10^{12}";
+        var expectedLateX = @"\sqrt[3]{27}";
 
-        result.Should().Be(expectedLateX);  // 10^(12) Should be all black 
+        result.Should().Be(expectedLateX);  // ³√27 Should be all black 
     }
 
     [Fact]
-    public void SelectedExponentPowerOperationTest()
+    public void SelectedDegreeNthRootOperationTest()
     {
-
-        var input = new PowerOperation(12,
+        var input = new NthRootOperation(3,
             new List<Term>{
-                new AbsoluteMember(10)
+                new AbsoluteMember(27)
             }
         );
         input.IsSelected = true;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"10^{\colorbox{red}{12}}";
+        var expectedLateX = @"\sqrt[\colorbox{red}{3}]{27}";
 
-        result.Should().Be(expectedLateX);  // Only exponent should be red 
+        result.Should().Be(expectedLateX);  // Only degree should be red 
     }
 
     [Fact]
     public void SelectedBasePowerOperationTest()
     {
-
-        var input = new PowerOperation(12,
+        var input = new PowerOperation(3,
             new List<Term>{
-                new AbsoluteMember(10)
+                new AbsoluteMember(27)
                 {
                     IsSelected = true
                 }
@@ -57,8 +54,9 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"\colorbox{red}{10}^{12}";
+        var expectedLateX = @"\sqrt[3]{\colorbox{red}{27}}";
 
-        result.Should().Be(expectedLateX);  // Absolute member should be red 
+        result.Should().Be(expectedLateX);  // Only absolute member should be red 
     }
 }
+
