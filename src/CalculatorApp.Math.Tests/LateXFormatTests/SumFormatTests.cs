@@ -5,7 +5,7 @@ using CalculatorApp.MathLibrary.LateXStyles;
 using FluentAssertions;
 
 namespace CalculatorApp.Math.Tests.LateXFormatTests;
-    public class SubFormatTests
+    public class SumFormatTests
     {
     [Fact]
     public void SimpleSubTest()
@@ -21,9 +21,9 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"12 - 10";
+        var expectedLateX = @"12 + 10";
 
-        result.Should().Be(expectedLateX);  // 12 - 10 Should be all black
+        result.Should().Be(expectedLateX);  // 12 + 10 Should be all black
     }
 
     [Fact]
@@ -42,9 +42,9 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"12 \colorbox{red}{-} 10";
+        var expectedLateX = @"12 \colorbox{red}{+} 10";
 
-        result.Should().Be(expectedLateX); //  Only - should be red
+        result.Should().Be(expectedLateX); //  Only + should be red
     }
 
     [Fact]
@@ -64,7 +64,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"\colorbox{red}{12} - 10";
+        var expectedLateX = @"\colorbox{red}{12} + 10";
 
         result.Should().Be(expectedLateX); // Only left member should be red
     }
@@ -90,5 +90,3 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
         result.Should().Be(expectedLateX); // Only right member should be red
     }
 }
-
-
