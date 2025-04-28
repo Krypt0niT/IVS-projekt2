@@ -47,7 +47,7 @@ public class NthRootOperation : Term
         if (input == 0)
             return 0;
 
-        return NthRoot(input, Degree, 0.000001m); // precision = 1e-6
+        return NthRoot(input, Degree, 0.0000000000001m); // precision = 1e-6
     }
 
     /// <summary>

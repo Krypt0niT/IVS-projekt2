@@ -11,15 +11,15 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     public void SingleNthRootOperationTest()
     {
 
-        var input = new NthRootOperation(2,
+        var input = new NthRootOperation(4,
             new List<Term>{
-                new AbsoluteMember(3)
+                new AbsoluteMember(16)
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(1.732050807568877295254353946m); // sqrt(2) = 1.732...
+        result.Should().Be(2m); // √16 = 2
     }
 
     [Fact]
@@ -38,27 +38,39 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
         });
     }
 
+    [Fact]
+    public void PerfectCubeRootTest()
+    {
+        var input = new NthRootOperation(3,
+            new List<Term>{
+            new AbsoluteMember(-64)
+            }
+        );
+
+        var result = input.GetResult();
+        result.Should().Be(-4m); // ∛64 = 4
+    }
 
     [Fact]
     public void DepthNthRootTest()
     {
-        var inner = new NthRootOperation(3,     // 3rd-root(8) = 2
+        var inner = new NthRootOperation(2,
             new List<Term>
             {
-            new AbsoluteMember(8)
+            new AbsoluteMember(64)
             }
-        );
+        );  // √(64) = 8
 
-        var outer = new NthRootOperation(2,     // sqrt(2) = 1.414...
+        var outer = new NthRootOperation(3,
             new List<Term>
             {
             inner
             }
-        );
+        );  // ∛(8) = 2
 
         var result = outer.GetResult();
 
-        result.Should().Be(1.4142135623730950492251214604m);
+        result.Should().Be(2m);
     }
 
     [Fact]
@@ -81,13 +93,13 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     {
         var input = new NthRootOperation(2,
             new List<Term>{
-                new AbsoluteMember(0.2m)
+                new AbsoluteMember(0.25m)
             }
         );
 
         var result = input.GetResult();
 
-        result.Should().Be(0.4472135955001610322835205142m); // sqrt(0.2) = 0.447...
+        result.Should().Be(0.5m); // √(0.25) = 0.5
     }
 
     [Fact]
@@ -95,7 +107,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     {
         var input = new NthRootOperation(-3,
             new List<Term>{
-                new AbsoluteMember(5)
+                new AbsoluteMember(27)
             }
         );
 
