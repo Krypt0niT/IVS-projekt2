@@ -119,6 +119,126 @@ namespace WpfApp1
                     }
                 }
             }
+            // Left Arrow
+            else if (sender.Equals(Left_Arrow))
+            {
+                if (idx > 0)
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    {
+                        // Move in term itself
+                        if (sub_idx == 1)
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                            sub_idx = 0;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        // Move out of term
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                            idx--;
+                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                            {
+                                if (equation.InnerTerms[idx].InnerTerms[1] == null)
+                                {
+                                    sub_idx = 0;
+                                }
+                                else
+                                {
+                                    sub_idx = 1;
+                                }
+
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            }
+                            else
+                            {
+                                equation.InnerTerms[idx].IsSelected = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].IsSelected = false;
+                        idx--;
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        {
+                            if (equation.InnerTerms[idx].InnerTerms[1] == null)
+                            {
+                                sub_idx = 0;
+                            }
+                            else
+                            {
+                                sub_idx = 1;
+                            }
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].IsSelected = true;
+                        }
+                    }
+                }
+            }
+            // Right Arrow
+            else if (sender.Equals(Right_Arrow))
+            {
+                if (idx < len)
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    {
+                        if (sub_idx == 0)
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                            sub_idx++;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        else if (idx + 1 != len)
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                            idx++;
+
+                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                            {
+                                sub_idx = 0;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            }
+                            else
+                            {
+                                equation.InnerTerms[idx].IsSelected = true;
+                            }
+                        }
+                    }
+                    else if (idx + 1 != len)
+                    {
+                        equation.InnerTerms[idx].IsSelected = false;
+                        idx++;
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        {
+                            sub_idx = 0;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].IsSelected = true;
+                        }
+                    }
+                }
+            }
+            else if (sender.Equals(Backspace))
+            {
+                idx = 0;
+                sub_idx = 0;
+                len = 1;
+                equation = new SumOperation(new List<Term>() { new AbsoluteMember(0) { IsSelected = true } });
+            }
+            // Equals
+            else if (sender.Equals(Equals))
+            {
+                var result = equation.GetResult();
+                formulaWraper.Formula = result.ToString();
+            }
 
             // Apply changes
             if (!sender.Equals(Equals))
