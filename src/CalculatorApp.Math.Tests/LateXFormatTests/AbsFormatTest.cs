@@ -19,12 +19,12 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests
                 }
             );
 
-            // TODO: implemetation of tests.
-            //var result = input.GetLateX();
+            var result = input.GetLateX();
 
-            //result.Should().Be("\\left|-10\\right|"); // |-10|
+            result.Should().Be("|-10|"); // |-10|
         }
 
+        [Fact]
         public void SelectedAbsTest()
         {
             var input = new AbsOperation
@@ -39,11 +39,12 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests
 
             var result = input.GetLateX();
 
-            var expectedLateX = @"\color{red}{|} -10  \color{red}{|}";
+            var expectedLateX = @"\color{red}{|}-10\color{red}{|}";
 
             result.Should().Be(expectedLateX); // |-10|
         }
 
+        [Fact]
         public void SelectedAbsoluteMemberTest()
         {
             var input = new AbsOperation

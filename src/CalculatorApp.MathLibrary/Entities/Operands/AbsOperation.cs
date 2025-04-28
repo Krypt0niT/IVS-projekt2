@@ -15,10 +15,7 @@ public class AbsOperation : Term
 
     public override string GetLateX()
     {
-        if (InnerTerms.Count > 1)
-            throw new NotSupportedException();
-
-        if (InnerTerms.Count == 0) throw new NotSupportedException();
+        if (InnerTerms.Count == 0 || InnerTerms.Count > 1) throw new NotSupportedException();
 
         var childLatex = InnerTerms.First().GetLateX();
 

@@ -1,4 +1,6 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
+﻿using CalculatorApp.MathLibrary.LateXStyles;
+
+namespace CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 
 public class AbsoluteMember : Term
 {
@@ -17,6 +19,9 @@ public class AbsoluteMember : Term
 
     public override string GetLateX()
     {
-        return AbsoluteValue.ToString();
+        if (AbsoluteValue == null) throw new Exception();
+
+        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{{AbsoluteValue.ToString()}}}";
+        return AbsoluteValue.Value.ToString();
     }
 }
