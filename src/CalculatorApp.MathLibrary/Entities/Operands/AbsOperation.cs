@@ -18,12 +18,12 @@ public class AbsOperation : Term
         if (InnerTerms.Count > 1)
             throw new NotSupportedException();
 
-        if (InnerTerms.Count == 0) return $"\\left| \\right|";
+        if (InnerTerms.Count == 0) throw new NotSupportedException();
 
         var childLatex = InnerTerms.First().GetLateX();
 
-        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{\\left|}}" + childLatex + $"\\color{{{Colors.Highlight}}}{{\\left|}}";
-        else return $"\\left|{childLatex}\\right|";
+        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{|}}" + childLatex + $"\\color{{{Colors.Highlight}}}{{|}}";
+        else return $"|{childLatex}|";
     }
 
     /// <summary>
