@@ -1,4 +1,5 @@
 ﻿using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
+using CalculatorApp.MathLibrary.LateXStyles;
 
 namespace CalculatorApp.MathLibrary.Entities.Operands;
 
@@ -16,6 +17,8 @@ public class DivOperation : Term
     public override string GetLateX()
     {
         if (InnerTerms == null || InnerTerms.Count != 2) throw new NotSupportedException();
+
+        if (IsSelected) return $"\\colorbox{{{Colors.Highlight}}}{{\\frac{{{InnerTerms[0].GetLateX()}}}{{{InnerTerms[1].GetLateX()}}}}}";
 
         return $"\\frac{{{InnerTerms[0].GetLateX()}}}{{{InnerTerms[1].GetLateX()}}}";
         throw new NotImplementedException();

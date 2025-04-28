@@ -15,15 +15,11 @@ public class ModuloOperation : Term
 
     public override string GetLateX()
     {
-        if (InnerTerms.Count > 1)
-            throw new NotSupportedException();
+        if (InnerTerms.Count != 2) throw new NotSupportedException();
 
-        if (InnerTerms.Count == 0) return $"%";
 
-        var childLatex = InnerTerms.First().GetLateX();
-
-        if (IsSelected) return $"{childLatex}\\color{{{Colors.Highlight}}}{{%}}";
-        else return $"{childLatex}%";
+        if (IsSelected) return $"{InnerTerms[0].GetLateX()} \\colorbox{{{Colors.Highlight}}}{{\\%}} {InnerTerms[1].GetLateX()}";
+        else return $"{InnerTerms[0].GetLateX()} \\% {InnerTerms[1].GetLateX()}";
     }
 
     /// <summary>

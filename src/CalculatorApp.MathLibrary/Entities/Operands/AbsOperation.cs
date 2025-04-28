@@ -19,7 +19,7 @@ public class AbsOperation : Term
 
         var childLatex = InnerTerms.First().GetLateX();
 
-        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{|}}" + childLatex + $"\\color{{{Colors.Highlight}}}{{|}}";
+        if (IsSelected) return $"\\colorbox{{{Colors.Highlight}}}{{|}}" + childLatex + $"\\colorbox{{{Colors.Highlight}}}{{|}}";
         else return $"|{childLatex}|";
     }
 

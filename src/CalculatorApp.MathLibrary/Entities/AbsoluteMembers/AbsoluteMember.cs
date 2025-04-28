@@ -21,7 +21,7 @@ public class AbsoluteMember : Term
     {
         if (AbsoluteValue == null) throw new Exception();
 
-        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{{AbsoluteValue.ToString()}}}";
+        if (IsSelected) return $"\\colorbox{{{Colors.Highlight}}}{{{AbsoluteValue.ToString()}}}";
         return AbsoluteValue.Value.ToString();
     }
 }
