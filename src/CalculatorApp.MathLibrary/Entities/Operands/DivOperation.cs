@@ -17,8 +17,9 @@ public class DivOperation : Term
     {
         if (InnerTerms == null || InnerTerms.Count != 2) throw new NotSupportedException();
 
+        if (IsSelected) return $"\\colorbox{{\\frac{{{InnerTerms[0].GetLateX()}}}{{{InnerTerms[1].GetLateX()}}}}}";
+
         return $"\\frac{{{InnerTerms[0].GetLateX()}}}{{{InnerTerms[1].GetLateX()}}}";
-        throw new NotImplementedException();
     }
 
     /// <summary>

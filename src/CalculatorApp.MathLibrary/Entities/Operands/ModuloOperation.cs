@@ -22,7 +22,7 @@ public class ModuloOperation : Term
 
         var childLatex = InnerTerms.First().GetLateX();
 
-        if (IsSelected) return $"{childLatex}\\color{{{Colors.Highlight}}}{{%}}";
+        if (IsSelected) return $"{childLatex}\\colorbox{{{Colors.Highlight}}}{{%}}";
         else return $"{childLatex}%";
     }
 

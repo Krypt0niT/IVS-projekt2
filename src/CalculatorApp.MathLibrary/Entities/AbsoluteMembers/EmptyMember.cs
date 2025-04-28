@@ -15,7 +15,7 @@ public class EmptyMember : Term
 
     public override string GetLateX()
     {
-        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{_}}";
+        if (IsSelected) return $"\\colorbox{{{Colors.Highlight}}}{{_}}";
         return "_";
     }
 }

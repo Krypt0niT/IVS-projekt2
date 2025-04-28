@@ -15,14 +15,12 @@ public class FactorialOperation : Term
 
     public override string GetLateX()
     {
-        if (InnerTerms.Count > 1)
+        if (InnerTerms.Count == 0 || InnerTerms.Count > 1)
             throw new NotSupportedException();
-
-        if (InnerTerms.Count == 0) return $"!";
 
         var childLatex = InnerTerms.First().GetLateX();
 
-        if (IsSelected) return $"{childLatex}\\color{{{Colors.Highlight}}}{{!}}";
+        if (IsSelected) return $"{childLatex}\\colorbox{{{Colors.Highlight}}}{{!}}";
         else return $"{childLatex}!";
     }
 
