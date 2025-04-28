@@ -75,11 +75,10 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
         (
             new List<Term>
             {
-                    new AbsoluteMember(-10)
-                    {
+                    new AbsoluteMember(-10),
+                    new AbsoluteMember(10){
                         IsSelected = true
-                    },
-                    new AbsoluteMember(10)
+                    }
             }
         );
 
