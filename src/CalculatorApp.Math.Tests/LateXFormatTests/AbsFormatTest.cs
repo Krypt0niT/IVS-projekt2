@@ -39,7 +39,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests
 
             var result = input.GetLateX();
 
-            var expectedLateX = @"\color{red}{|}-10\color{red}{|}";
+            var expectedLateX = @"\colorbox{red}{|}-10\colorbox{red}{|}";
 
             result.Should().Be(expectedLateX); // |-10|
         }
@@ -60,7 +60,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests
 
             var result = input.GetLateX();
 
-            var expectedLateX = @"|\color{red}{-10}|";
+            var expectedLateX = @"|\colorbox{red}{-10}|";
 
             result.Should().Be(expectedLateX); // |-10|
         }

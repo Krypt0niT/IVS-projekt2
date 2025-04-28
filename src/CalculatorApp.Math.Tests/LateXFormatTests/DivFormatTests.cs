@@ -40,7 +40,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"\color{red}{\frac{-10}{10}}";
+        var expectedLateX = @"\colorbox{red}{\frac{-10}{10}}";
 
         result.Should().Be(expectedLateX); //  Fraction should be fully red
     }
@@ -62,7 +62,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"\frac{\color{red}{-10}}{10}";
+        var expectedLateX = @"\frac{\colorbox{red}{-10}}{10}";
 
         result.Should().Be(expectedLateX); // Only numerator should be red
     }
@@ -83,7 +83,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"\frac{-10}{\color{red}{10}}";
+        var expectedLateX = @"\frac{-10}{\colorbox{red}{10}}";
 
         result.Should().Be(expectedLateX); // Only denominator should be red
     }
