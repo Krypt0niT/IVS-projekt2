@@ -37,7 +37,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(1); // 1 - 2 - (-2) = 1
+            result.Should().Be(-1); // - 1 - 2 - (-2) = -1
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(15m); // 1 - (5 - 5) + 15 - 1 = 15
+            result.Should().Be(23m); // - 1 - (- 5 - 5) + 15 - 1 = 23
     }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
             var result = input.GetResult();
 
-            result.Should().Be(-0.1m); // 0.1 - 0.2 = -0.1
+            result.Should().Be(-0.3m); // - 0.1 - 0.2 = -0.3
         }
 }
 
