@@ -16,11 +16,26 @@
         {
         }
 
-        /// <summary>
-        /// Computes the result of the subtraction operation.
-        /// </summary>
-        /// <returns>The result of subtracting all inner terms.</returns>
-        public override decimal GetResult()
+    public override string GetLateX()
+    {
+        var result = "";
+        if (InnerTerms == null) throw new Exception();
+        if (InnerTerms.Count == 1) return InnerTerms.First().GetLateX();
+
+        foreach (var a in InnerTerms)
+        {
+            result += a.GetLateX() + "-";
+        }
+        result = result.Substring(0, result.Length - 1); // removes -
+
+        return result;
+    }
+
+    /// <summary>
+    /// Computes the result of the subtraction operation.
+    /// </summary>
+    /// <returns>The result of subtracting all inner terms.</returns>
+    public override decimal GetResult()
         {
             decimal result = 0;
             if (InnerTerms.Count == 0)

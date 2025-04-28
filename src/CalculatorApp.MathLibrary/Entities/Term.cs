@@ -9,6 +9,10 @@ public abstract class Term
 
     protected IList<Term>? InnerTerms { get; set; }
 
+    // TODO: inkapsulizovat?
+    public bool IsSelected { get; set; }
+
     // Uses inner operations (or their calculated values / constants) to fill Value property.
     public abstract decimal GetResult();
+    public abstract string GetLateX();
 }
