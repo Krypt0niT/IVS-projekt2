@@ -1,6 +1,7 @@
 ﻿using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 using CalculatorApp.MathLibrary.Entities.Operands;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using XamlMath;
@@ -12,7 +13,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        SumOperation equation;
+        SumOperation equation = new SumOperation(new List<Term>() { new AbsoluteMember(0) { IsSelected = true } });
 
         public MainWindow()
         {
@@ -24,9 +25,10 @@ namespace WpfApp1
             formulaWraper.Foreground = new SolidColorBrush(Colors.Black);  // Farba textu
 
 
-            equation = new SumOperation
+            /*equation = new SumOperation
             (
-                new List<Term>() { 
+                new List<Term>() {
+                    new AbsoluteMember(2),
                     new SubOperation(new List<Term>() 
                     {
                         new AbsoluteMember(1) { IsSelected = true},
@@ -39,20 +41,19 @@ namespace WpfApp1
                         {
                             new AbsoluteMember(5646)
                         }
-                    ),
-                    new AbsoluteMember(2)
+                    )                    
                 }
-            );
-            var sub = equation.InnerTerms.ElementAt(0);
-            var firts = sub.InnerTerms.ElementAt(0);
+            );*/
 
-            var result = equation.GetLateX();
-            formulaWraper.Formula = result;
+
+            //  equation.InnerTerms[0].InnerTerms[0] = new AbsoluteMember(9999) { IsSelected = true };
+
+            formulaWraper.Formula = equation.GetLateX();
         }
 
         private void WindowsFormsHost_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
         {
-            
+
         }
 
         private void FormulaWrapper_Loaded(object sender, RoutedEventArgs e)
@@ -60,9 +61,8 @@ namespace WpfApp1
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) // +
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
     }
-}
