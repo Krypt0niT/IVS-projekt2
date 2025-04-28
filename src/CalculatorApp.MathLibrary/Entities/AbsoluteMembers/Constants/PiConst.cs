@@ -1,4 +1,6 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
+﻿using CalculatorApp.MathLibrary.LateXStyles;
+
+namespace CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 
 /// <summary>
 /// Represents the mathematical constant π (pi).
@@ -15,6 +17,7 @@ public class PiConst : Term
 
     public override string GetLateX()
     {
+        if (IsSelected) return $"\\colorbox{{{Colors.Highlight}}}{{\\pi}}";
         return @"\pi";
     }
 
