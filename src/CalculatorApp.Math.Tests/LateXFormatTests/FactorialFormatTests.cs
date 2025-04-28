@@ -10,7 +10,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SimpleFactorialTest()
     {
-        var input = new AbsOperation
+        var input = new FactorialOperation
         (
             new List<Term>
             {
@@ -26,7 +26,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SelectedFactorialTest()
     {
-        var input = new AbsOperation
+        var input = new FactorialOperation
         (
             new List<Term>
             {
@@ -46,7 +46,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SelectedAbsoluteMemberTest()
     {
-        var input = new AbsOperation
+        var input = new FactorialOperation
         (
             new List<Term>
             {

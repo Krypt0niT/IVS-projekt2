@@ -10,7 +10,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SimpleDivTest()
     {
-        var input = new AbsOperation
+        var input = new DivOperation
         (
             new List<Term>
             {
@@ -27,7 +27,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SelectedFullDivTest()
     {
-        var input = new AbsOperation
+        var input = new DivOperation
         (
             new List<Term>
             {
@@ -48,7 +48,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SelectedNumeratorTest() // selected 'citatel'
     {
-        var input = new AbsOperation
+        var input = new DivOperation
         (
             new List<Term>
             {
@@ -69,7 +69,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
     public void SelectedDenominatorTest() // selected 'menovatel'
     {
-        var input = new AbsOperation
+        var input = new DivOperation
         (
             new List<Term>
             {
