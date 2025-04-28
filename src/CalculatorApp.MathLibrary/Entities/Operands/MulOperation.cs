@@ -21,10 +21,10 @@ public class MulOperation : Term
 
         foreach(var a in InnerTerms)
         {
-            result += a.GetLateX() + "\\cdot";
+            result += a.GetLateX() + " \\times ";
         }
-        result = result.Substring(0, result.Length - 5); // removes \cdot
-
+        result = result.Substring(0, result.Length - 7); // removes " \times"
+        result = result.Trim();
         return result;
     }
 

@@ -24,9 +24,11 @@
 
         foreach (var a in InnerTerms)
         {
-            result += a.GetLateX() + "-";
+            result += a.GetLateX() + " - ";
         }
-        result = result.Substring(0, result.Length - 1); // removes -
+
+        result = result.Substring(0, result.Length - 2); // removes "- "
+        result = result.Trim();
 
         return result;
     }
