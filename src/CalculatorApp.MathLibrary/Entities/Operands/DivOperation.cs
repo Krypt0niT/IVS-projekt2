@@ -1,4 +1,6 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
+﻿using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
+
+namespace CalculatorApp.MathLibrary.Entities.Operands;
 
 /// <summary>
 /// Represents a division operation (a / b / c ...).
@@ -11,6 +13,14 @@ public class DivOperation : Term
     /// <param name="terms">The terms to be divided.</param>
     public DivOperation(IList<Term> terms) : base(terms){}
 
+    public override string GetLateX()
+    {
+        if (InnerTerms == null || InnerTerms.Count != 2) throw new NotSupportedException();
+
+        return $"\\frac{{{InnerTerms[0].GetLateX()}}}{{{InnerTerms[1].GetLateX()}}}";
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Calculates the result of dividing the terms in sequence.
     /// </summary>
@@ -18,6 +28,8 @@ public class DivOperation : Term
     /// <exception cref="DivideByZeroException">Thrown if there would be division by zero.</exception>
     public override decimal GetResult()
     {
+        // TODO: bude vzdy presne 2
+        // TODO: cele prerobit na zlomok nie na delenie
         decimal result = 0;
         if (InnerTerms.Count == 0)
             return 0;

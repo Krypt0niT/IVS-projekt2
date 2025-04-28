@@ -1,4 +1,6 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
+﻿using CalculatorApp.MathLibrary.LateXStyles;
+
+namespace CalculatorApp.MathLibrary.Entities.Operands;
 
 /// <summary>
 /// Represents a factorial operation (n!).
@@ -10,7 +12,20 @@ public class FactorialOperation : Term
     /// </summary>
     /// <param name="innerTerms">Should contain one whole, non-negative number.</param>
     public FactorialOperation(IList<Term> innerTerms) : base(innerTerms){}
-    
+
+    public override string GetLateX()
+    {
+        if (InnerTerms.Count > 1)
+            throw new NotSupportedException();
+
+        if (InnerTerms.Count == 0) return $"!";
+
+        var childLatex = InnerTerms.First().GetLateX();
+
+        if (IsSelected) return $"{childLatex}\\color{{{Colors.Highlight}}}{{!}}";
+        else return $"{childLatex}!";
+    }
+
     /// <summary>
     /// Calculates the factorial of a single term.
     /// </summary>

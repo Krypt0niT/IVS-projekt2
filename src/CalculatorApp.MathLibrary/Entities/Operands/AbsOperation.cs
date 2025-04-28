@@ -1,4 +1,6 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
+﻿using CalculatorApp.MathLibrary.LateXStyles;
+
+namespace CalculatorApp.MathLibrary.Entities.Operands;
 
 /// <summary>
 /// Represents an absolute value operation (|x|).
@@ -10,6 +12,19 @@ public class AbsOperation : Term
     /// </summary>
     /// <param name="terms">A single term to get the absolute value of.</param>
     public AbsOperation(IList<Term> terms) : base(terms){}
+
+    public override string GetLateX()
+    {
+        if (InnerTerms.Count > 1)
+            throw new NotSupportedException();
+
+        if (InnerTerms.Count == 0) return $"\\left| \\right|";
+
+        var childLatex = InnerTerms.First().GetLateX();
+
+        if (IsSelected) return $"\\color{{{Colors.Highlight}}}{{\\left|}}" + childLatex + $"\\color{{{Colors.Highlight}}}{{\\left|}}";
+        else return $"\\left|{childLatex}\\right|";
+    }
 
     /// <summary>
     /// Calculates the absolute value of the single input term.

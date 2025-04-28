@@ -16,6 +16,21 @@ public class SumOperation : Term
     {
     }
 
+    public override string GetLateX()
+    {
+        var result = "";
+        if (InnerTerms == null) throw new Exception();
+        if (InnerTerms.Count == 1) return InnerTerms.First().GetLateX();
+
+        foreach (var a in InnerTerms)
+        {
+            result += a.GetLateX() + "+";
+        }
+        result = result.Substring(0, result.Length - 1); // removes +
+        
+        return result;
+    }
+
     /// <summary>
     /// Calculates the result of the sum operation.
     /// </summary>

@@ -2,7 +2,7 @@
 
 public class AbsoluteMember : Term
 {
-    public decimal AbsoluteValue { get; init; }
+    public decimal? AbsoluteValue { get; init; }
 
     public AbsoluteMember(decimal absoluteValue, IList<Term>? terms = null) : base(terms)
     {
@@ -11,6 +11,12 @@ public class AbsoluteMember : Term
 
     public override decimal GetResult()
     {
-        return AbsoluteValue;
+        if (AbsoluteValue == null) throw new Exception("Chýbajúca hodnota.");
+        return AbsoluteValue.Value;
+    }
+
+    public override string GetLateX()
+    {
+        return AbsoluteValue.ToString();
     }
 }

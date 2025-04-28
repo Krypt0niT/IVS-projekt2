@@ -1,4 +1,5 @@
 ﻿using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
+using CalculatorApp.MathLibrary.LateXStyles;
 
 namespace CalculatorApp.MathLibrary.Entities.Operands;
 
@@ -68,5 +69,19 @@ public class PowerOperation : Term
             return result;
         else
             return (1 / result);
+    }
+
+    public override string GetLateX()
+    {
+        if (InnerTerms == null || InnerTerms.Count != 1) throw new NotSupportedException();
+
+        if (IsSelected)
+        {
+            return $"{InnerTerms.First().GetLateX()}^\\color{{{Colors.Highlight}}}{{{Exponent}}}";
+        }
+        else
+        {
+            return $"{InnerTerms.First().GetLateX()}^{Exponent}";
+        }
     }
 }

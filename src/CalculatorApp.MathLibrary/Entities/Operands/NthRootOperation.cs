@@ -1,4 +1,5 @@
 ﻿using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
+using CalculatorApp.MathLibrary.LateXStyles;
 
 namespace CalculatorApp.MathLibrary.Entities.Operands;
 
@@ -85,4 +86,19 @@ public class NthRootOperation : Term
         return x;
     }
 
+    public override string GetLateX()
+    {
+        if (InnerTerms == null || InnerTerms.Count != 1) throw new NotSupportedException();
+        
+        if (IsSelected)
+        {
+            return $"\\color{{{Colors.Highlight}}}{{\\sqrt[{Degree}]}}{{{InnerTerms.First().GetLateX()}}}";
+        }
+        else
+        {
+            if (Degree == 2) return $"\\sqrt{{{InnerTerms.First().GetLateX()}}}";
+
+            return $"\\sqrt[{Degree}]{{{InnerTerms.First().GetLateX()}}}";
+        }
+    }
 }

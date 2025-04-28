@@ -1,4 +1,6 @@
-﻿namespace CalculatorApp.MathLibrary.Entities.Operands;
+﻿using CalculatorApp.MathLibrary.LateXStyles;
+
+namespace CalculatorApp.MathLibrary.Entities.Operands;
 
 /// <summary>
 /// Represents a modulo operation (a % b).
@@ -10,6 +12,19 @@ public class ModuloOperation : Term
     /// </summary>
     /// <param name="terms">The terms for the modulo operation (should contain exactly two).</param>
     public ModuloOperation(IList<Term> terms) : base(terms) {}
+
+    public override string GetLateX()
+    {
+        if (InnerTerms.Count > 1)
+            throw new NotSupportedException();
+
+        if (InnerTerms.Count == 0) return $"%";
+
+        var childLatex = InnerTerms.First().GetLateX();
+
+        if (IsSelected) return $"{childLatex}\\color{{{Colors.Highlight}}}{{%}}";
+        else return $"{childLatex}%";
+    }
 
     /// <summary>
     /// Calculates the result of the modulo operation.

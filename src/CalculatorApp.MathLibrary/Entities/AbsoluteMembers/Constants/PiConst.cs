@@ -13,6 +13,11 @@ public class PiConst : Term
     {
     }
 
+    public override string GetLateX()
+    {
+        return @"\pi";
+    }
+
     // <summary>
     /// Returns the decimal approximation of the constant π (pi).
     /// </summary>
