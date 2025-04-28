@@ -76,3 +76,15 @@ yarn.lock
 # JetBrains Rider
 .idea/
 *.iml
+
+# Doxygen output
+html/
+latex/
+xml/
+rtf/
+man/
+doxygen_sqlite3.db
+doxygen.log
+*.tag
+*.dot
+*.md5
