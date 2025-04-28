@@ -31,26 +31,13 @@ public class DivOperation : Term
     /// <exception cref="DivideByZeroException">Thrown if there would be division by zero.</exception>
     public override decimal GetResult()
     {
-        // TODO: bude vzdy presne 2
-        // TODO: cele prerobit na zlomok nie na delenie
         decimal result = 0;
-        if (InnerTerms.Count == 0)
-            return 0;
+        if (InnerTerms == null || InnerTerms.Count != 2) throw new Exception("Chybajúce údaje v zlomku.");
+        
+        if (InnerTerms[1].GetResult() == 0)
+            throw new DivideByZeroException("Výsledok pod zlomkom nemôže byť nula.");
 
-        if (InnerTerms.Count == 1)
-        {
-            result = InnerTerms.First().GetResult();
-            return result;
-        }
-
-        result = InnerTerms.First().GetResult();
-        for (int i = 1; i < InnerTerms.Count; i++)
-        {
-            if (InnerTerms[i].GetResult() == 0)
-                throw new DivideByZeroException();
-
-            result /= InnerTerms[i].GetResult();
-        }
+            result = InnerTerms[0].GetResult() / InnerTerms[1].GetResult();
 
         return result;
     }
