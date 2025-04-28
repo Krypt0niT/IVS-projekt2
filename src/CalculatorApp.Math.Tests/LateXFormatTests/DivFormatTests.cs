@@ -21,7 +21,9 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         var result = input.GetLateX();
 
-        result.Should().Be("\frac{-10}{10}"); // -10/10
+        var expectedLateX = @"\frac{-10}{10}";
+
+        result.Should().Be(expectedLateX);  // -10/10 Should be all black
     }
 
     [Fact]
