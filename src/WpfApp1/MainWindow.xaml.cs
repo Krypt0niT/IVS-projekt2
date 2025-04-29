@@ -2,6 +2,7 @@
 // Replace 3 with Pi
 // Ability to add - / * before any term
 // Right arrow can go over len
+// When changing term type, it crashes when tries to change or remove value
 
 using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
@@ -213,16 +214,26 @@ namespace WpfApp1
             // Square Root 2
             else if (sender.Equals(Square_Root_2))
             {
-                equation.InnerTerms.Add(new NthRootOperation
-                     (
-                         2,
-                         new List<Term>()
-                         {
-                             new EmptyMember(){ IsSelected = true },
-                         }
-                     ));
-
-                unselectOnNew();
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                {
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                    {
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                    }
+                }
+                else
+                {
+                    equation.InnerTerms.Add(new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true }}));
+                    unselectOnNew();
+                }
             }
             // Power of 2
             else if (sender.Equals(Power_2))
@@ -244,7 +255,6 @@ namespace WpfApp1
                 else
                 {
                     equation.InnerTerms.Add(new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
-
                     unselectOnNew();
                 }
             }
