@@ -8,6 +8,7 @@ using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 using CalculatorApp.MathLibrary.Entities.Operands;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using XamlMath;
 
@@ -355,7 +356,7 @@ namespace WpfApp1
                     }
                 }
 
-                    update();
+                update();
             }
             // Equals
             else if (sender.Equals(Equals))
@@ -363,7 +364,6 @@ namespace WpfApp1
                 var result = equation.GetResult();
                 formulaWraper.Formula = result.ToString();
             }
-
             // Apply changes
             if (!sender.Equals(Equals))
             {
@@ -389,6 +389,64 @@ namespace WpfApp1
             sub_idx = 0;
             idx++;
             len++;
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            // Dot, Modulo, Factorial, Brackets
+            if (e.Key == Key.OemPeriod)
+                Dot.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D5 && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                Modulo.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D1 && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                Factorial.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D9 && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                Left_Bracket.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D0 && Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                Right_Bracket.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+
+            // Numbers
+            else if (e.Key == Key.D0 || e.Key == Key.NumPad0)
+                _0.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D1 || e.Key == Key.NumPad1)
+                _1.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D2 || e.Key == Key.NumPad2)
+                _2.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D3 || e.Key == Key.NumPad3)
+                _3.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D4 || e.Key == Key.NumPad4)
+                _4.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D5 || e.Key == Key.NumPad5)
+                _5.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D6 || e.Key == Key.NumPad6)
+                _6.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D7 || e.Key == Key.NumPad7)
+                _7.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D8 || e.Key == Key.NumPad8)
+                _8.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.D9 || e.Key == Key.NumPad9)
+                _9.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+
+            // Arrows
+            else if (e.Key == Key.Left)
+                Left_Arrow.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.Right)
+                Right_Arrow.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+
+            // Plus, Minus, Multiply, Dividi
+            else if (e.Key == Key.Add)
+                Plus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.Subtract)
+                Minus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.Multiply)
+                Multiply.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.Divide)
+                Divide.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+
+            // Backspace
+            else if (e.Key == Key.Back)
+                Backspace.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+
         }
     }
 }
