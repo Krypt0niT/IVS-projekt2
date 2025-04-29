@@ -19,7 +19,7 @@
         <Button x:Name="Pi" Content="pi" HorizontalAlignment="Left" Margin="18,161,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Absolute" Content="|x|" HorizontalAlignment="Left" Margin="47,161,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Factorial" Content="!" HorizontalAlignment="Left" Margin="18,186,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
-        <Button x:Name="Percent" Content="%" HorizontalAlignment="Left" Margin="47,186,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
+        <Button x:Name="Modulo" Content="%" HorizontalAlignment="Left" Margin="47,186,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Plus_Minus" Content="+-" HorizontalAlignment="Left" Margin="141,87,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Left_Arrow" Content="&lt;" HorizontalAlignment="Left" Margin="170,87,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="_7" Content="7" HorizontalAlignment="Left" Margin="141,112,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>

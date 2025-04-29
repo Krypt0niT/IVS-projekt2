@@ -1,5 +1,7 @@
 ﻿// TODO: backspace I use as clear all, change to backspace
 // Replace 3 with Pi
+// Ability to add - / * before any term
+// Right arrow can go over len
 
 using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
@@ -83,7 +85,7 @@ namespace WpfApp1
                         return;
                     }
 
-                    var past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                    String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
                     if (int.TryParse(past_num_str, out int new_num))
                     {
                         new_num *= 10;
@@ -102,7 +104,7 @@ namespace WpfApp1
                 }
                 else
                 {
-                    var past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                    String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
                     if (int.TryParse(past_num_str, out int new_num))
                     {
                         new_num *= 10;
@@ -123,13 +125,19 @@ namespace WpfApp1
             else if (sender.Equals(Plus))
             {
                 equation.InnerTerms.Add(new SumOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true },
-                        new EmptyMember()
+                        new EmptyMember() { IsSelected = true }
                 }));
 
+                unselectOnNew();
+            }
+            // Minus
+            else if (sender.Equals(Minus))
+            {
+                equation.InnerTerms.Add(new SubOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true }
+                }));
 
                 unselectOnNew();
-
             }
             // Multiply
             else if (sender.Equals(Multiply))
@@ -150,101 +158,117 @@ namespace WpfApp1
 
                 unselectOnNew();
             }
+            // Factorial
+            else if (sender.Equals(Factorial))
+            {
+                equation.InnerTerms.Add(new FactorialOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true }
+                }));
+
+                unselectOnNew();
+            }
+            // Modulo
+            else if (sender.Equals(Modulo))
+            {
+                equation.InnerTerms.Add(new ModuloOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true },
+                        new EmptyMember()
+                }));
+
+                unselectOnNew();
+            }
+            // Square Root 2
+            else if (sender.Equals(Square_Root_2))
+            {
+                equation.InnerTerms.Add(new NthRootOperation
+                     (
+                         2,
+                         new List<Term>()
+                         {
+                             new EmptyMember(){ IsSelected = true },
+                         }
+                     ));
+
+                unselectOnNew();
+            }
+            // Power of 2
+            else if (sender.Equals(Power_2))
+            {
+                equation.InnerTerms.Add(new PowerOperation
+                     (
+                         2,
+                         new List<Term>()
+                         {
+                             new EmptyMember(){ IsSelected = true },
+                         }
+                     ));
+
+                unselectOnNew();
+            }
             // Left Arrow
             else if (sender.Equals(Left_Arrow))
             {
-                if (idx > 0)
+                if (idx <= 0)
                 {
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    return;
+                }
+
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                {
+                    // Move in term itself
+                    if (sub_idx == 1)
                     {
-                        // Move in term itself
-                        if (sub_idx == 1)
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                            sub_idx = 0;
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
-                        }
-                        // Move out of term
-                        else
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-
-                            idx--;
-                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                            {
-                                if (equation.InnerTerms[idx].InnerTerms[1] == null)
-                                {
-                                    sub_idx = 0;
-                                }
-                                else
-                                {
-                                    sub_idx = 1;
-                                }
-
-                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
-                            }
-                            else
-                            {
-                                equation.InnerTerms[idx].IsSelected = true;
-                            }
-                        }
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                        sub_idx = 0;
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                     }
+                    // Move out of term
                     else
                     {
-                        equation.InnerTerms[idx].IsSelected = false;
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
                         idx--;
                         if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                         {
-                            if (equation.InnerTerms[idx].InnerTerms[1] == null)
-                            {
-                                sub_idx = 0;
-                            }
-                            else
-                            {
-                                sub_idx = 1;
-                            }
+                            sub_idx = 0;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
                         else
                         {
                             equation.InnerTerms[idx].IsSelected = true;
                         }
+                    }
+                }
+                else
+                {
+                    equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                    idx--;
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    {
+                        sub_idx = 0;
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].IsSelected = true;
                     }
                 }
             }
             // Right Arrow
             else if (sender.Equals(Right_Arrow))
             {
-                if (idx < len)
+                if (idx >= len)
                 {
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    return;
+                }
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                {
+                    if (idx + 1 < len)
                     {
-                        if (sub_idx == 0)
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                            sub_idx++;
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
-                        }
-                        else if (idx + 1 != len)
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                            idx++;
-
-                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                            {
-                                sub_idx = 0;
-                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
-                            }
-                            else
-                            {
-                                equation.InnerTerms[idx].IsSelected = true;
-                            }
-                        }
-                    }
-                    else if (idx + 1 != len)
-                    {
-                        equation.InnerTerms[idx].IsSelected = false;
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
                         idx++;
+
                         if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                         {
                             sub_idx = 0;
@@ -256,13 +280,82 @@ namespace WpfApp1
                         }
                     }
                 }
+                else if (idx + 1 < len)
+                {
+                    equation.InnerTerms[idx].IsSelected = false;
+                    idx++;
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    {
+                        sub_idx = 0;
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].IsSelected = true;
+                    }
+                }
             }
+            // Backspace
             else if (sender.Equals(Backspace))
             {
-                idx = 0;
-                sub_idx = 0;
-                len = 1;
-                equation = new SumOperation(new List<Term>() { new AbsoluteMember(0) { IsSelected = true } });
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                {
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                    {
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
+
+                        if (past_num_str.Length != 0 && !char.IsDigit(past_num_str[0]))
+                        {
+                            past_num_str = past_num_str.Substring(1);
+                        }
+
+                        if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new EmptyMember { IsSelected = true };
+                        }
+                        else if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms.RemoveAt(idx);
+                        idx--;
+                        len--;
+
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].IsSelected = true;
+                        }
+                    }
+                }
+                else
+                {
+                    String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                    if (past_num_str == "0")
+                    {
+                        return;
+                    }
+
+                    past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
+
+                    if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
+                    {
+                        equation.InnerTerms[idx] = new AbsoluteMember(0) { IsSelected = true };
+                    }
+                    else if (int.TryParse(past_num_str, out int new_num))
+                    {
+                        equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
+                    }
+                }
+
+                    update();
             }
             // Equals
             else if (sender.Equals(Equals))

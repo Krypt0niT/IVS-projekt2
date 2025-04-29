@@ -17,7 +17,6 @@ public class MulOperation : Term
     {
         var result = "";
         if (InnerTerms == null) throw new Exception();
-        if (InnerTerms.Count == 1) return InnerTerms.First().GetLateX();
 
         foreach(var a in InnerTerms)
         {
