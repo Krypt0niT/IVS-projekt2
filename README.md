@@ -1,19 +1,18 @@
 Prostredi
 ---------
 
-Ubuntu 64bit
 Windows 64bit
 
 Autori
 ------
 
 Nazev tymu
-- xlogin01 jmeno prijmeni 
-- xlogin02 jmeno prijmeni 
-- xlogin03 jmeno prijmeni 
-- xlogin04 jmeno prijmeni 
+- xuradnl00 Lukáš Úradník 
+- xkuzmok00 Katarína Kužmová 
+- xlancor00 Roman Láncoš 
 
 Licence
 -------
 
-Tento program je poskytovan...
+Tento program je poskytovaný pod licenciou **GNU GPLv3**.  
+Podrobnosti nájdete v [LICENSE.txt](LICENSE.txt).

@@ -51,7 +51,9 @@ namespace WpfApp1
          */
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var senderToNumber = new Dictionary<object, int>
+            try
+            {
+                var senderToNumber = new Dictionary<object, int>
             {
                 { _0, 0 },
                 { _1, 1 },
@@ -65,298 +67,354 @@ namespace WpfApp1
                 { _9, 9 }
             };
 
-            // Add number
-            if (senderToNumber.TryGetValue(sender, out int number))
-            {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                // Add number
+                if (senderToNumber.TryGetValue(sender, out int number))
                 {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
-                        if (bool_decimal)
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
                         {
-                            decimal value = Convert.ToDecimal("0." + number.ToString());
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+                            if (bool_decimal)
+                            {
+                                decimal value = Convert.ToDecimal("0." + number.ToString());
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+                            }
+                            else
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(number) { IsSelected = true };
+                            }
                         }
                         else
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(number) { IsSelected = true };
+                            if (bool_decimal)
+                            {
+                                String past_num_str_before = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                                decimal value = Convert.ToDecimal(past_num_str_before + "." + number.ToString());
+
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+
+                                bool_decimal = false;
+                                update();
+                                return;
+                            }
+
+                            String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+
+                            if (past_num_str.Contains("."))
+                            {
+                                String over = past_num_str.Split(".")[0];
+                                String behind = past_num_str.Split(".")[1];
+
+                                if (int.TryParse(behind, out int new_num))
+                                {
+                                    new_num *= 10;
+                                    new_num += number;
+
+                                    String combined = over + "." + new_num;
+                                    if (decimal.TryParse(combined, out decimal result))
+                                    {
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(result) { IsSelected = true };
+                                    }
+                                }
+                            }
+                            else if (int.TryParse(past_num_str, out int new_num))
+                            {
+                                new_num *= 10;
+                                new_num += number;
+
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
+                            }
                         }
                     }
                     else
                     {
                         if (bool_decimal)
                         {
-                            String past_num_str_before = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                            decimal value = Convert.ToDecimal(past_num_str_before + "." + number.ToString());
-
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
-
-                            bool_decimal = false;
-                            update();
-                            return;
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            decimal value = Convert.ToDecimal(past_num_str + "." + number.ToString());
+                            equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
                         }
-
-                        String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-
-                        if (past_num_str.Contains("."))
+                        else
                         {
-                            String over = past_num_str.Split(".")[0];
-                            String behind = past_num_str.Split(".")[1];
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (past_num_str.Contains("."))
+                            {
+                                String over = past_num_str.Split(".")[0];
+                                String behind = past_num_str.Split(".")[1];
 
-                            if (int.TryParse(behind, out int new_num))
+                                if (int.TryParse(behind, out int new_num))
+                                {
+                                    new_num *= 10;
+                                    new_num += number;
+
+                                    String combined = over + "." + new_num;
+                                    if (decimal.TryParse(combined, out decimal result))
+                                    {
+                                        equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
+                                    }
+                                }
+                            }
+                            else if (int.TryParse(past_num_str, out int new_num))
                             {
                                 new_num *= 10;
                                 new_num += number;
 
-                                String combined = over + "." + new_num;
-                                if (decimal.TryParse(combined, out decimal result))
-                                {
-                                    equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(result) { IsSelected = true };
-                                }
+                                equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
                             }
-                        }
-                        else if (int.TryParse(past_num_str, out int new_num))
-                        {
-                            new_num *= 10;
-                            new_num += number;
-
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
                         }
                     }
                 }
-                else
+                // Dot
+                else if (sender.Equals(Dot))
                 {
-                    if (bool_decimal)
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        decimal value = Convert.ToDecimal(past_num_str + "." + number.ToString());
-                        equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
+                        {
+                            String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (past_num_str.Contains(".")) { return; }
+                        }
+                        else
+                        {
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (past_num_str.Contains(".")) { return; }
+                        }
+                        bool_decimal = true;
                     }
                     else
                     {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (past_num_str.Contains("."))
-                        {
-                            String over = past_num_str.Split(".")[0];
-                            String behind = past_num_str.Split(".")[1];
-
-                            if (int.TryParse(behind, out int new_num))
-                            {
-                                new_num *= 10;
-                                new_num += number;
-
-                                String combined = over + "." + new_num;
-                                if (decimal.TryParse(combined, out decimal result))
-                                {
-                                    equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
-                                }
-                            }
-                        }
-                        else if (int.TryParse(past_num_str, out int new_num))
-                        {
-                            new_num *= 10;
-                            new_num += number;
-
-                            equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
-                        }
-                    }                   
-                }
-            }
-            // Dot
-            else if (sender.Equals(Dot)){
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
-                    {
-                        String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (past_num_str.Contains(".")) { return; }
-                    }
-                    else
-                    {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (past_num_str.Contains(".")) { return; }
-                    }
-                    bool_decimal = true;
-                }
-                else
-                {
                         String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
                         if (past_num_str.Contains(".")) { return; }
                         bool_decimal = true;
-                }
-
-                update();
-                return;
-            }
-            // Plus
-            else if (sender.Equals(Plus))
-            {
-                equation.InnerTerms.Add(new SumOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true }
-                }));
-
-                unselectOnNew();
-            }
-            // Minus
-            else if (sender.Equals(Minus))
-            {
-                equation.InnerTerms.Add(new SubOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true }
-                }));
-
-                unselectOnNew();
-            }
-            // Multiply
-            else if (sender.Equals(Multiply))
-            {
-                equation.InnerTerms.Add(new MulOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true },
-                        new EmptyMember()
-                }));
-
-                unselectOnNew();
-            }
-            // Divide
-            else if (sender.Equals(Divide))
-            {
-                equation.InnerTerms.Add(new DivOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true },
-                        new EmptyMember()
-                }));
-
-                unselectOnNew();
-            }
-            // Absolute
-            else if (sender.Equals(Absolute))
-            {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
-                    {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (int.TryParse(past_num_str, out int new_num))
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                        }
                     }
-                    else
-                    {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } });
-                    }
-                }
-                else
-                {
-                    equation.InnerTerms.Add(new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
-                    unselectOnNew();
-                }
 
-            }
-            // Factorial
-            else if (sender.Equals(Factorial))
-            {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
-                    {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (int.TryParse(past_num_str, out int new_num))
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                        }
-                    }
-                    else
-                    {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } });
-                    }
-                }
-                else
-                {
-                    equation.InnerTerms.Add(new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
-
-                    unselectOnNew();
-                }
-            }
-            // Modulo
-            else if (sender.Equals(Modulo))
-            {
-                equation.InnerTerms.Add(new ModuloOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true },
-                        new EmptyMember()
-                }));
-
-                unselectOnNew();
-            }
-            // Square Root 2
-            else if (sender.Equals(Square_Root_2))
-            {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
-                    {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (int.TryParse(past_num_str, out int new_num))
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                        }
-                    }
-                    else
-                    {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
-                    }
-                }
-                else
-                {
-                    equation.InnerTerms.Add(new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
-                    unselectOnNew();
-                }
-            }
-            // Power of 2
-            else if (sender.Equals(Power_2))
-            {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember)) {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (int.TryParse(past_num_str, out int new_num))
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                        }
-                    }
-                    else
-                    {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
-                    }
-                }
-                else
-                {
-                    equation.InnerTerms.Add(new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
-                    unselectOnNew();
-                }
-            }
-            // Left Arrow
-            else if (sender.Equals(Left_Arrow))
-            {
-                if (idx <= 0)
-                {
+                    update();
                     return;
                 }
-
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                // Plus
+                else if (sender.Equals(Plus))
                 {
-                    // Move in term itself
-                    if (sub_idx > 0)
+                    equation.InnerTerms.Add(new SumOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true }
+                }));
+
+                    unselectOnNew();
+                }
+                // Minus
+                else if (sender.Equals(Minus))
+                {
+                    equation.InnerTerms.Add(new SubOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true }
+                }));
+
+                    unselectOnNew();
+                }
+                // Multiply
+                else if (sender.Equals(Multiply))
+                {
+                    equation.InnerTerms.Add(new MulOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true },
+                        new EmptyMember()
+                }));
+
+                    unselectOnNew();
+                }
+                // Divide
+                else if (sender.Equals(Divide))
+                {
+                    equation.InnerTerms.Add(new DivOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true },
+                        new EmptyMember()
+                }));
+
+                    unselectOnNew();
+                }
+                // Absolute
+                else if (sender.Equals(Absolute))
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                        sub_idx--;
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                        {
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (int.TryParse(past_num_str, out int new_num))
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                            }
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } });
+                        }
                     }
-                    // Move out of term
                     else
                     {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                        equation.InnerTerms.Add(new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        unselectOnNew();
+                    }
+
+                }
+                // Factorial
+                else if (sender.Equals(Factorial))
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    {
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                        {
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (int.TryParse(past_num_str, out int new_num))
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                            }
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms.Add(new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
+
+                        unselectOnNew();
+                    }
+                }
+                // Modulo
+                else if (sender.Equals(Modulo))
+                {
+                    equation.InnerTerms.Add(new ModuloOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true },
+                        new EmptyMember()
+                }));
+
+                    unselectOnNew();
+                }
+                // Pi
+                else if (sender.Equals(Pi))
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new PiConst() { IsSelected = true };
+                    }
+                    else
+                    {
+                        equation.InnerTerms.Add(new PiConst() { IsSelected = true });
+                        unselectOnNew();
+                    }
+
+                }
+                // Square Root 2
+                else if (sender.Equals(Square_Root_2))
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    {
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                        {
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (int.TryParse(past_num_str, out int new_num))
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                            }
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms.Add(new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        unselectOnNew();
+                    }
+                }
+                // Power of 2
+                else if (sender.Equals(Power_2))
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    {
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                        {
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (int.TryParse(past_num_str, out int new_num))
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                            }
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms.Add(new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        unselectOnNew();
+                    }
+                }
+                // Power of N
+                else if (sender.Equals(Power))
+                {
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    {
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                        {
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            if (int.TryParse(past_num_str, out int new_num))
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(1, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                            }
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(1, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms.Add(new PowerOperation(1, new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        unselectOnNew();
+                    }
+                }
+                // Left Arrow
+                else if (sender.Equals(Left_Arrow))
+                {
+                    if (idx <= 0)
+                    {
+                        return;
+                    }
+
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    {
+                        // Move in term itself
+                        if (sub_idx > 0)
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                            sub_idx--;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        // Move out of term
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                            idx--;
+                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                            {
+                                sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            }
+                            else
+                            {
+                                equation.InnerTerms[idx].IsSelected = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].IsSelected = false;
 
                         idx--;
-                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                         {
                             sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
@@ -367,46 +425,45 @@ namespace WpfApp1
                         }
                     }
                 }
-                else
+                // Right Arrow
+                else if (sender.Equals(Right_Arrow))
                 {
-                    equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                    if (idx + 1 >= len && equation.InnerTerms[idx].InnerTerms.Count - sub_idx <= 1)
+                    {
+                        return;
+                    }
 
-                    idx--;
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
-                        sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
-                    }
-                    else
-                    {
-                        equation.InnerTerms[idx].IsSelected = true;
-                    }
-                }
-            }
-            // Right Arrow
-            else if (sender.Equals(Right_Arrow))
-            {
-                if (idx + 1 >= len && equation.InnerTerms[idx].InnerTerms.Count - sub_idx <= 1)
-                {
-                    return;
-                }
+                        // Move in term
+                        if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                            sub_idx++;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        // Move out of term
+                        else if (idx + 1 < len)
+                        {
+                            equation.InnerTerms[idx].IsSelected = false;
 
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                {
-                    // Move in term
-                    if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
-                    {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                        sub_idx++;
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            idx++;
+                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                            {
+                                sub_idx = 0;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            }
+                            else
+                            {
+                                equation.InnerTerms[idx].IsSelected = true;
+                            }
+                        }
                     }
-                    // Move out of term
                     else if (idx + 1 < len)
                     {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-
+                        equation.InnerTerms[idx].IsSelected = false;
                         idx++;
-                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                         {
                             sub_idx = 0;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
@@ -417,117 +474,105 @@ namespace WpfApp1
                         }
                     }
                 }
-                else if (idx + 1 < len)
+                // Backspace
+                else if (sender.Equals(Backspace))
                 {
-                    equation.InnerTerms[idx].IsSelected = false;
-                    idx++;
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
-                        sub_idx = 0;
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
-                    }
-                    else
-                    {
-                        equation.InnerTerms[idx].IsSelected = true;
-                    }
-                }
-            }
-            // Backspace
-            else if (sender.Equals(Backspace))
-            {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
-                    {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
+                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                        {
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
 
-                        if (past_num_str.Length != 0 && !char.IsDigit(past_num_str[0]))
-                        {
-                            past_num_str = past_num_str.Substring(1);
-                        }
+                            if (past_num_str.Length != 0 && !char.IsDigit(past_num_str[0]))
+                            {
+                                past_num_str = past_num_str.Substring(1);
+                            }
 
-                        if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new EmptyMember { IsSelected = true };
-                        }
-                        else if (past_num_str.Contains("."))
-                        {
+                            if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new EmptyMember { IsSelected = true };
+                            }
+                            else if (past_num_str.Contains("."))
+                            {
                                 if (decimal.TryParse(past_num_str, out decimal result))
                                 {
                                     equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(result) { IsSelected = true };
                                 }
+                            }
+                            else if (int.TryParse(past_num_str, out int new_num))
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
+                            }
                         }
-                        else if (int.TryParse(past_num_str, out int new_num))
+                        else
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
+                            equation.InnerTerms.RemoveAt(idx);
+                            idx--;
+                            len--;
+
+                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                            {
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            }
+                            else
+                            {
+                                equation.InnerTerms[idx].IsSelected = true;
+                            }
                         }
                     }
                     else
                     {
-                        equation.InnerTerms.RemoveAt(idx);
-                        idx--;
-                        len--;
-
-                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (past_num_str == "0")
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            return;
                         }
-                        else
+
+
+                        past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
+
+                        if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
                         {
-                            equation.InnerTerms[idx].IsSelected = true;
+                            equation.InnerTerms[idx] = new AbsoluteMember(0) { IsSelected = true };
+                        }
+                        else if (past_num_str.Contains(".") && decimal.TryParse(past_num_str, out decimal result))
+                        {
+                            equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
+                        }
+                        else if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
                         }
                     }
+
+                    update();
                 }
-                else
+                // Equals
+                else if (sender.Equals(Equals))
                 {
-                    String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                    if (past_num_str == "0")
+                    var result = equation.GetResult();
+                    formulaWraper.Formula = result.ToString();
+                }
+                // Open Github
+                else if (sender.Equals(Github))
+                {
+                    Process.Start(new ProcessStartInfo
                     {
-                        return;
-                    }
-                   
-
-                    past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
-
-                    if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
-                    {
-                        equation.InnerTerms[idx] = new AbsoluteMember(0) { IsSelected = true };
-                    }
-                    else if (past_num_str.Contains(".") && decimal.TryParse(past_num_str, out decimal result))
-                    {
-                        equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
-                    }
-                    else if (int.TryParse(past_num_str, out int new_num))
-                    {
-                        equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
-                    }
+                        FileName = "https://github.com/Krypt0niT/IVS-projekt2",
+                        UseShellExecute = true
+                    });
                 }
 
-                update();
-            }
-            // Equals
-            else if (sender.Equals(Equals))
-            {
-                var result = equation.GetResult();
-                formulaWraper.Formula = result.ToString();
-            }
-            // Open Github
-            else if (sender.Equals(Github))
-            {
-                Process.Start(new ProcessStartInfo
+                bool_decimal = false;
+                // Apply changes
+                if (!sender.Equals(Equals))
                 {
-                    FileName = "https://github.com/Krypt0niT/IVS-projekt2",
-                    UseShellExecute = true
-                });
-            }
+                    update();
+                }
 
-            bool_decimal = false;
-            // Apply changes
-            if (!sender.Equals(Equals))
-            {
-                update();
             }
+            catch (Exception ex) { ErrorLabel.Content = ex.Message; }
             
         }
 
@@ -538,7 +583,7 @@ namespace WpfApp1
         }
         void unselectOnNew()
         {
-            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
             {
                 equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
             }

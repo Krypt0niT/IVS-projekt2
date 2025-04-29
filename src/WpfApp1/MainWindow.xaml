@@ -42,6 +42,7 @@
         <Button x:Name="Equals" Content="=" HorizontalAlignment="Left" Margin="226,196,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Plus" Content="+" HorizontalAlignment="Left" Margin="255,196,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Github" Content="Link" HorizontalAlignment="Left" Margin="171,218,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
+        <Label x:Name="ErrorLabel" Content="Label" HorizontalAlignment="Left" Margin="160,266,0,0" VerticalAlignment="Top" Background="Red"/>
 
     </Grid>
 </Window>
