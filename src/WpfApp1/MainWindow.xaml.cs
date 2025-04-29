@@ -162,11 +162,27 @@ namespace WpfApp1
             // Factorial
             else if (sender.Equals(Factorial))
             {
-                equation.InnerTerms.Add(new FactorialOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true }
-                }));
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                {
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                    {
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } });
+                    }
+                }
+                else
+                {
+                    equation.InnerTerms.Add(new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
 
-                unselectOnNew();
+                    unselectOnNew();
+                }
             }
             // Modulo
             else if (sender.Equals(Modulo))
