@@ -131,6 +131,16 @@ namespace WpfApp1
 
                 unselectOnNew();
             }
+            // Divide
+            else if (sender.Equals(Divide))
+            {
+                equation.InnerTerms.Add(new DivOperation(new List<Term>(){
+                        new EmptyMember() { IsSelected = true },
+                        new EmptyMember()
+                }));
+
+                unselectOnNew();
+            }
             // Absolute
             else if (sender.Equals(Absolute))
             {
@@ -298,16 +308,18 @@ namespace WpfApp1
 
                 if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                 {
-                        // Move in term
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                        if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
+                    // Move in term
+                    if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
                         {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
                             sub_idx++;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
                         // Move out of term
-                        else
+                        else if (idx + 1 < len)
                         {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
                             idx++;
                             if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                             {
@@ -472,6 +484,10 @@ namespace WpfApp1
             else if (e.Key == Key.Left)
                 Left_Arrow.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             else if (e.Key == Key.Right)
+                Right_Arrow.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.Up)
+                Left_Arrow.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.Down)
                 Right_Arrow.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
 
             // Plus, Minus, Multiply, Dividi
