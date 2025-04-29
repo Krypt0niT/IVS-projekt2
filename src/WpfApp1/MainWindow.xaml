@@ -9,7 +9,7 @@
         Title="MainWindow" Height="600" Width="400"
         Keyboard.KeyDown="Window_KeyDown">
     <Grid x:Name="mainGrid">
-        <WindowsFormsHost ChildChanged="WindowsFormsHost_ChildChanged" Margin="120,577,180,107"/>
+        <WindowsFormsHost Margin="120,577,180,107"/>
         <local:FormulaWrapper x:Name="formulaWraper" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="364" Loaded="FormulaWrapper_Loaded" FontSize="18" FontFamily="Algerian" Margin="0,10,0,0"/>
         <Button x:Name="Left_Bracket" Content="(" HorizontalAlignment="Left" Margin="18,87,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Right_Bracket" Content=")" HorizontalAlignment="Left" Margin="47,87,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
@@ -41,6 +41,7 @@
         <Button x:Name="Minus" Content="-" HorizontalAlignment="Left" Margin="255,171,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Equals" Content="=" HorizontalAlignment="Left" Margin="226,196,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
         <Button x:Name="Plus" Content="+" HorizontalAlignment="Left" Margin="255,196,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
+        <Button x:Name="Github" Content="Link" HorizontalAlignment="Left" Margin="171,218,0,0" VerticalAlignment="Top" Width="24" Click="Button_Click"/>
 
     </Grid>
 </Window>

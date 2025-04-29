@@ -6,6 +6,7 @@
 using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 using CalculatorApp.MathLibrary.Entities.Operands;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -35,11 +36,6 @@ namespace WpfApp1
             formulaWraper.Foreground = new SolidColorBrush(Colors.Black);  // Farba textu
 
             formulaWraper.Formula = equation.GetLateX();
-        }
-
-        private void WindowsFormsHost_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
-        {
-
         }
 
         private void FormulaWrapper_Loaded(object sender, RoutedEventArgs e)
@@ -100,6 +96,24 @@ namespace WpfApp1
 
                         equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
                         len++;
+                    }
+                }
+            }
+            // Dot
+            else if (sender.Equals(Dot)){
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                {
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                    {
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } });
                     }
                 }
             }
@@ -164,7 +178,7 @@ namespace WpfApp1
                     equation.InnerTerms.Add(new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
                     unselectOnNew();
                 }
-                
+
             }
             // Factorial
             else if (sender.Equals(Factorial))
@@ -221,7 +235,7 @@ namespace WpfApp1
                 }
                 else
                 {
-                    equation.InnerTerms.Add(new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true }}));
+                    equation.InnerTerms.Add(new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
                     unselectOnNew();
                 }
             }
@@ -230,11 +244,11 @@ namespace WpfApp1
             {
                 if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                 {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember)){
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember)) {
                         String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
                         if (int.TryParse(past_num_str, out int new_num))
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2,new List<Term>(){new AbsoluteMember(new_num){ IsSelected = true }});
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                         }
                     }
                     else
@@ -310,27 +324,27 @@ namespace WpfApp1
                 {
                     // Move in term
                     if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                        sub_idx++;
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                    }
+                    // Move out of term
+                    else if (idx + 1 < len)
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                        idx++;
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                            sub_idx++;
+                            sub_idx = 0;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
-                        // Move out of term
-                        else if (idx + 1 < len)
+                        else
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-
-                            idx++;
-                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
-                            {
-                                sub_idx = 0;
-                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
-                            }
-                            else
-                            {
-                                equation.InnerTerms[idx].IsSelected = true;
-                            }
+                            equation.InnerTerms[idx].IsSelected = true;
                         }
+                    }
                 }
                 else if (idx + 1 < len)
                 {
@@ -415,6 +429,16 @@ namespace WpfApp1
                 var result = equation.GetResult();
                 formulaWraper.Formula = result.ToString();
             }
+            // Open Github
+            else if (sender.Equals(Github))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://github.com/Krypt0niT/IVS-projekt2",
+                    UseShellExecute = true
+                });
+            }
+
             // Apply changes
             if (!sender.Equals(Equals))
             {
