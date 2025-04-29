@@ -497,9 +497,11 @@ namespace WpfApp1
             else if (e.Key == Key.Divide)
                 Divide.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
 
-            // Backspace
+            // Backspace, Equals (Enter)
             else if (e.Key == Key.Back)
                 Backspace.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            else if (e.Key == Key.Enter)
+                Equals.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
 
         }
     }
