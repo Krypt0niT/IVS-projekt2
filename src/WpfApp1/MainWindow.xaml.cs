@@ -195,16 +195,26 @@ namespace WpfApp1
             // Power of 2
             else if (sender.Equals(Power_2))
             {
-                equation.InnerTerms.Add(new PowerOperation
-                     (
-                         2,
-                         new List<Term>()
-                         {
-                             new EmptyMember(){ IsSelected = true },
-                         }
-                     ));
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                {
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember)){
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2,new List<Term>(){new AbsoluteMember(new_num){ IsSelected = true }});
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                    }
+                }
+                else
+                {
+                    equation.InnerTerms.Add(new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
 
-                unselectOnNew();
+                    unselectOnNew();
+                }
             }
             // Left Arrow
             else if (sender.Equals(Left_Arrow))
@@ -369,7 +379,9 @@ namespace WpfApp1
             {
                 update();
             }
+            
         }
+
 
         void update()
         {
