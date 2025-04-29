@@ -11,15 +11,17 @@ public class PowerOperation : Term
     /// <summary>
     /// The exponent value.
     /// </summary>
-    public int Exponent { get; init; }
+    public Term Exponent { get; init; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PowerOperation"/> class.
     /// </summary>
     /// <param name="exponent">The exponent to raise the base to (can be negative).</param>
     /// <param name="innerTerms">The base value (should contain exactly one).</param>
-    public PowerOperation(int exponent, IList<Term> innerTerms) : base(innerTerms)
+    public PowerOperation(Term exponent, IList<Term> innerTerms) : base(innerTerms)
     {
+        if (exponent.GetType() != typeof(AbsoluteMember) || exponent.GetType() != typeof(EmptyMember))
+            throw new NotSupportedException("Exponent moze byt iba celočiselny alebo prazdny");
         Exponent = exponent;
     }
 
@@ -39,10 +41,19 @@ public class PowerOperation : Term
 
         decimal baseValue = InnerTerms.First().GetResult();
 
-        if (baseValue == 0 && Exponent < 0)
-            throw new DivideByZeroException();
+        if (Exponent.GetType() == typeof(AbsoluteMember))
+        {
+            var absoluteMember = (AbsoluteMember)Exponent;
 
-        return DecimalPow(baseValue, Exponent);
+            if (absoluteMember.AbsoluteValue % 1 != 0) 
+                throw new NotSupportedException("V exponente sa možu nachádzať iba celé čisla");
+
+            if (baseValue == 0 && absoluteMember.AbsoluteValue < 0)
+                throw new DivideByZeroException();
+
+            return DecimalPow(baseValue, (int)absoluteMember.AbsoluteValue);
+        }
+        throw new Exception("Chybajuci exponent");
     }
 
     /// <summary>
@@ -77,11 +88,11 @@ public class PowerOperation : Term
 
         if (IsSelected)
         {
-            return $"{InnerTerms.First().GetLateX()}^{{\\colorbox{{{Colors.Highlight}}}{{{Exponent}}}}}";
+            return $"{InnerTerms.First().GetLateX()}^{{\\colorbox{{{Colors.Highlight}}}{{{Exponent.GetLateX()}}}}}";
         }
         else
         {
-            return $"{InnerTerms.First().GetLateX()}^{{{Exponent}}}";
-        }
+            return $"{InnerTerms.First().GetLateX()}^{{{Exponent.GetLateX()}}}";
+        } 
     }
 }
