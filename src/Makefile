@@ -1,64 +1,45 @@
-# Nastavenie defaultného cieľa
+WPF_DIR := ../src/WpfApp1
+
+#STDDEV_EXE := ../src/CalculatorAp/bin/Debug/net8.0/StdDev.exe
+#CALCULATOR_EXE := $(WPF_DIR)/bin/Debug/net8.0/WpfApp1.exe
+
 .DEFAULT_GOAL := all
 
-# Hlavný projekt, ktorý sa spúšťa (môžeš upraviť podľa potreby)
-PROJECT_PATH = CalculatorApp
-
-# Výstupný priečinok, predpokladá sa Debug build
-BUILD_DIR = $(PROJECT_PATH)\bin\Debug
-
-# Výstupný súbor (prispôsobiť názvu .exe podľa VS projektu)
-EXECUTABLE = $(BUILD_DIR)\$(PROJECT_PATH).exe
-
-# Výstupný archív pre pack
-ARCHIVE_NAME = CalculatorApp.zip
-
-## Spustí program (musí byť predtým skompilovaný vo Visual Studiu)
 all: run
 
-## Spustí program (musí byť skompilovaný vo VS)
 run:
-	@if exist "$(EXECUTABLE)" ( \
-		echo Spustenie programu... && \
-		"$(EXECUTABLE)" \
-	) else ( \
-		echo [CHYBA] Program nie je skompilovaný. Skompiluj ho najprv vo Visual Studiu. && \
-		exit /b 1 \
-	)
+	@echo Starting calculator GUI...
+	dotnet run --project $(WPF_DIR)/WpfApp1.csproj
+#@"$(CALCULATOR_EXE)"
 
-## Zabalí celý projekt do ZIP archívu na odovzdanie
-pack:
-	@if exist "$(ARCHIVE_NAME)" del /q "$(ARCHIVE_NAME)"
-	@echo Zabalovanie projektu do $(ARCHIVE_NAME)...
-	@powershell -Command "Compress-Archive -Path * -DestinationPath '$(ARCHIVE_NAME)' -Force"
-	@echo Hotovo.
-
-## Vyčistí všetky výstupné (neodovzdávané) súbory
-clean:
-	@echo Mazanie súborov, ktoré nemajú byť odovzdané...
-	@if exist "$(PROJECT_PATH)\bin" rmdir /s /q "$(PROJECT_PATH)\bin"
-	@if exist "$(PROJECT_PATH)\obj" rmdir /s /q "$(PROJECT_PATH)\obj"
-	@if exist "$(ARCHIVE_NAME)" del /q "$(ARCHIVE_NAME)"
-	@echo Hotovo.
-
-## Spustí program so vstupom pre výpočet smerodajnej odchýlky
 stddev:
-	@if exist "$(EXECUTABLE)" ( \
-		echo Spúšťam test pre smerodajnú odchýlku... && \
-		"$(EXECUTABLE)" < test_input.txt \
-	) else ( \
-		echo [CHYBA] Program nie je skompilovaný. Skompiluj ho najprv vo Visual Studiu. && \
-		exit /b 1 \
-	)
+	@echo Running StdDev with test data...
+#@type ../testdata.txt | "$(STDDEV_EXE)"
 
-## Zobrazí nápovedu
+clean:
+	@echo Removing unnecesary files...
+#@for /D %%d in (../src\*) do if exist %%d\bin rmdir /S /Q %%d\bin
+#@for /D %%d in (../src\*) do if exist %%d\obj rmdir /S /Q %%d\obj
+# @if exist $(DOC_DIR) rmdir /S /Q $(DOC_DIR)
+
+pack:
+	@echo Packing project...
+	@powershell Compress-Archive -Path "..\*" -DestinationPath "..\xuradnl00_xkuzmok00_xlancor00.zip"
+
+doc:
+	@echo Generating documentation...
+	@doxygen ../src/Doxyfile
+
 help:
-	@echo ======= Makefile napoveda =======
-	@echo Dostupné ciele:
-	@echo   make / make all       - Spustí program (musí byť skompilovaný cez Visual Studio)
-	@echo   make run              - To isté ako all
-	@echo   make stddev           - Spustí program s testovacím vstupom pre smerodajnú odchýlku
-	@echo   make pack             - Zabalí projekt do CalculatorApp.zip pre odovzdanie
-	@echo   make clean            - Odstráni bin/obj a ďalšie dočasné súbory
-	@echo   make help             - Zobrazí túto nápovedu
+	@echo ======= Makefile Help =======
+	@echo Available targets:
+	@echo -------------------------------
+	@echo all       - runs calculator and standard deviation
+	@echo run       - runs calculator GUI
+	@echo stddev    - runs standard deviation calculation
+	@echo test      - runs math library tests
+	@echo doc       - generates documentation
+	@echo pack      - creates project zip package
+	@echo clean     - cleans temporary files
+	@echo help      - shows this help
 	@echo ==================================
