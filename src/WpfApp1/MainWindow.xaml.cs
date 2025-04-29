@@ -2,6 +2,7 @@
 // Replace 3 with Pi
 // When changing term type, it crashes when tries to change or remove value
 // Bug: -x^2
+// Right arrow still makes problems when only 1. term is there
 
 using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
@@ -25,6 +26,7 @@ namespace WpfApp1
         int idx = 0;
         int sub_idx = 0;
         int len = 1;
+        bool bool_decimal = false;
 
         public MainWindow()
         {
@@ -70,52 +72,121 @@ namespace WpfApp1
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
                     {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(number) { IsSelected = true };
-
-                        update();
-                        return;
+                        if (bool_decimal)
+                        {
+                            decimal value = Convert.ToDecimal("0." + number.ToString());
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(number) { IsSelected = true };
+                        }
                     }
-
-                    String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                    if (int.TryParse(past_num_str, out int new_num))
+                    else
                     {
-                        new_num *= 10;
-                        new_num += number;
+                        if (bool_decimal)
+                        {
+                            String past_num_str_before = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                            decimal value = Convert.ToDecimal(past_num_str_before + "." + number.ToString());
 
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
-                        len++;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+
+                            bool_decimal = false;
+                            update();
+                            return;
+                        }
+
+                        String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+
+                        if (past_num_str.Contains("."))
+                        {
+                            String over = past_num_str.Split(".")[0];
+                            String behind = past_num_str.Split(".")[1];
+
+                            if (int.TryParse(behind, out int new_num))
+                            {
+                                new_num *= 10;
+                                new_num += number;
+
+                                String combined = over + "." + new_num;
+                                if (decimal.TryParse(combined, out decimal result))
+                                {
+                                    equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(result) { IsSelected = true };
+                                }
+                            }
+                        }
+                        else if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            new_num *= 10;
+                            new_num += number;
+
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
+                        }
                     }
                 }
                 else
                 {
-                    String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                    if (int.TryParse(past_num_str, out int new_num))
+                    if (bool_decimal)
                     {
-                        new_num *= 10;
-                        new_num += number;
-
-                        equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
-                        len++;
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        decimal value = Convert.ToDecimal(past_num_str + "." + number.ToString());
+                        equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
                     }
+                    else
+                    {
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (past_num_str.Contains("."))
+                        {
+                            String over = past_num_str.Split(".")[0];
+                            String behind = past_num_str.Split(".")[1];
+
+                            if (int.TryParse(behind, out int new_num))
+                            {
+                                new_num *= 10;
+                                new_num += number;
+
+                                String combined = over + "." + new_num;
+                                if (decimal.TryParse(combined, out decimal result))
+                                {
+                                    equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
+                                }
+                            }
+                        }
+                        else if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            new_num *= 10;
+                            new_num += number;
+
+                            equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
+                        }
+                    }                   
                 }
             }
             // Dot
             else if (sender.Equals(Dot)){
                 if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                 {
-                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
                     {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
-                        if (int.TryParse(past_num_str, out int new_num))
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                        }
+                        String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (past_num_str.Contains(".")) { return; }
                     }
                     else
                     {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } });
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (past_num_str.Contains(".")) { return; }
                     }
+                    bool_decimal = true;
                 }
+                else
+                {
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (past_num_str.Contains(".")) { return; }
+                        bool_decimal = true;
+                }
+
+                update();
+                return;
             }
             // Plus
             else if (sender.Equals(Plus))
@@ -380,6 +451,13 @@ namespace WpfApp1
                         {
                             equation.InnerTerms[idx].InnerTerms[sub_idx] = new EmptyMember { IsSelected = true };
                         }
+                        else if (past_num_str.Contains("."))
+                        {
+                                if (decimal.TryParse(past_num_str, out decimal result))
+                                {
+                                    equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(result) { IsSelected = true };
+                                }
+                        }
                         else if (int.TryParse(past_num_str, out int new_num))
                         {
                             equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
@@ -408,12 +486,17 @@ namespace WpfApp1
                     {
                         return;
                     }
+                   
 
                     past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
 
                     if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
                     {
                         equation.InnerTerms[idx] = new AbsoluteMember(0) { IsSelected = true };
+                    }
+                    else if (past_num_str.Contains(".") && decimal.TryParse(past_num_str, out decimal result))
+                    {
+                        equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
                     }
                     else if (int.TryParse(past_num_str, out int new_num))
                     {
@@ -439,6 +522,7 @@ namespace WpfApp1
                 });
             }
 
+            bool_decimal = false;
             // Apply changes
             if (!sender.Equals(Equals))
             {
