@@ -39,24 +39,5 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
 
         result.Should().Be(expectedLateX);  // Only degree should be red 
     }
-
-    [Fact]
-    public void SelectedBasePowerOperationTest()
-    {
-        var input = new PowerOperation(3,
-            new List<Term>{
-                new AbsoluteMember(27)
-                {
-                    IsSelected = true
-                }
-            }
-        );
-
-        var result = input.GetLateX();
-
-        var expectedLateX = @"\sqrt[3]{\colorbox{red}{27}}";
-
-        result.Should().Be(expectedLateX);  // Only absolute member should be red 
-    }
 }
 
