@@ -1,8 +1,7 @@
-﻿// TODO: backspace I use as clear all, change to backspace
+﻿// TODO
 // Replace 3 with Pi
-// Ability to add - / * before any term
-// Right arrow can go over len
 // When changing term type, it crashes when tries to change or remove value
+// Bug: -x^2
 
 using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
@@ -11,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Linq;
 using XamlMath;
 
 namespace WpfApp1
@@ -68,20 +68,13 @@ namespace WpfApp1
             };
 
             // Add number
-            if (senderToNumber.TryGetValue(sender, out int number) || sender.Equals(Pi))
+            if (senderToNumber.TryGetValue(sender, out int number))
             {
                 if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
                     {
-                        if (sender.Equals(Pi))
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(3) { IsSelected = true };
-                        }
-                        else
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(number) { IsSelected = true };
-                        }
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(number) { IsSelected = true };
 
                         update();
                         return;
@@ -91,14 +84,7 @@ namespace WpfApp1
                     if (int.TryParse(past_num_str, out int new_num))
                     {
                         new_num *= 10;
-                        if (sender.Equals(Pi))
-                        {
-                            new_num += 3;
-                        }
-                        else
-                        {
-                            new_num += number;
-                        }
+                        new_num += number;
 
                         equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
                         len++;
@@ -110,14 +96,8 @@ namespace WpfApp1
                     if (int.TryParse(past_num_str, out int new_num))
                     {
                         new_num *= 10;
-                        if (sender.Equals(Pi))
-                        {
-                            new_num += 3;
-                        }
-                        else
-                        {
-                            new_num += number;
-                        }
+                        new_num += number;
+
                         equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
                         len++;
                     }
@@ -269,10 +249,10 @@ namespace WpfApp1
                 if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                 {
                     // Move in term itself
-                    if (sub_idx == 1)
+                    if (sub_idx > 0)
                     {
                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                        sub_idx = 0;
+                        sub_idx--;
                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                     }
                     // Move out of term
@@ -283,7 +263,7 @@ namespace WpfApp1
                         idx--;
                         if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                         {
-                            sub_idx = 0;
+                            sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
                         else
@@ -299,7 +279,7 @@ namespace WpfApp1
                     idx--;
                     if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                     {
-                        sub_idx = 0;
+                        sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                     }
                     else
@@ -311,27 +291,34 @@ namespace WpfApp1
             // Right Arrow
             else if (sender.Equals(Right_Arrow))
             {
-                if (idx >= len)
+                if (idx + 1 >= len)
                 {
                     return;
                 }
+
                 if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
                 {
-                    if (idx + 1 < len)
-                    {
+                        // Move in term
                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                        idx++;
-
-                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
                         {
-                            sub_idx = 0;
+                            sub_idx++;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
+                        // Move out of term
                         else
                         {
-                            equation.InnerTerms[idx].IsSelected = true;
+                            idx++;
+                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                            {
+                                sub_idx = 0;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                            }
+                            else
+                            {
+                                equation.InnerTerms[idx].IsSelected = true;
+                            }
                         }
-                    }
                 }
                 else if (idx + 1 < len)
                 {
