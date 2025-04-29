@@ -68,7 +68,7 @@ namespace WpfApp1
             // Add number
             if (senderToNumber.TryGetValue(sender, out int number))
             {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
                     {
@@ -164,7 +164,7 @@ namespace WpfApp1
             }
             // Dot
             else if (sender.Equals(Dot)){
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
                     {
@@ -229,7 +229,7 @@ namespace WpfApp1
             // Absolute
             else if (sender.Equals(Absolute))
             {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                     {
@@ -254,7 +254,7 @@ namespace WpfApp1
             // Factorial
             else if (sender.Equals(Factorial))
             {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                     {
@@ -286,10 +286,24 @@ namespace WpfApp1
 
                 unselectOnNew();
             }
+            // Pi
+            else if (sender.Equals(Pi))
+            {
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                {
+                    equation.InnerTerms[idx].InnerTerms[sub_idx] = new PiConst() { IsSelected = true };
+                }
+                else
+                {
+                    equation.InnerTerms.Add(new PiConst() { IsSelected = true });
+                    unselectOnNew();
+                }
+
+            }
             // Square Root 2
             else if (sender.Equals(Square_Root_2))
             {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                     {
@@ -313,7 +327,7 @@ namespace WpfApp1
             // Power of 2
             else if (sender.Equals(Power_2))
             {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember)) {
                         String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
@@ -333,6 +347,30 @@ namespace WpfApp1
                     unselectOnNew();
                 }
             }
+            // Power of N
+            else if (sender.Equals(Power))
+            {
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                {
+                    if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                    {
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (int.TryParse(past_num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(1, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                        }
+                    }
+                    else
+                    {
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(1, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                    }
+                }
+                else
+                {
+                    equation.InnerTerms.Add(new PowerOperation(1, new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                    unselectOnNew();
+                }
+            }
             // Left Arrow
             else if (sender.Equals(Left_Arrow))
             {
@@ -341,7 +379,7 @@ namespace WpfApp1
                     return;
                 }
 
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     // Move in term itself
                     if (sub_idx > 0)
@@ -356,7 +394,7 @@ namespace WpfApp1
                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
 
                         idx--;
-                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                         {
                             sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
@@ -369,10 +407,10 @@ namespace WpfApp1
                 }
                 else
                 {
-                    equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                    equation.InnerTerms[idx].IsSelected = false;
 
                     idx--;
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
                         sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
@@ -391,7 +429,7 @@ namespace WpfApp1
                     return;
                 }
 
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     // Move in term
                     if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
@@ -403,10 +441,10 @@ namespace WpfApp1
                     // Move out of term
                     else if (idx + 1 < len)
                     {
-                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                        equation.InnerTerms[idx].IsSelected = false;
 
                         idx++;
-                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                         {
                             sub_idx = 0;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
@@ -421,7 +459,7 @@ namespace WpfApp1
                 {
                     equation.InnerTerms[idx].IsSelected = false;
                     idx++;
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
                         sub_idx = 0;
                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
@@ -435,7 +473,7 @@ namespace WpfApp1
             // Backspace
             else if (sender.Equals(Backspace))
             {
-                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                 {
                     if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                     {
@@ -469,7 +507,7 @@ namespace WpfApp1
                         idx--;
                         len--;
 
-                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                         {
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
@@ -538,7 +576,7 @@ namespace WpfApp1
         }
         void unselectOnNew()
         {
-            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember))
+            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
             {
                 equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
             }
