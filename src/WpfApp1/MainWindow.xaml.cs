@@ -291,7 +291,7 @@ namespace WpfApp1
             // Right Arrow
             else if (sender.Equals(Right_Arrow))
             {
-                if (idx + 1 >= len)
+                if (idx + 1 >= len && equation.InnerTerms[idx].InnerTerms.Count - sub_idx <= 1)
                 {
                     return;
                 }
