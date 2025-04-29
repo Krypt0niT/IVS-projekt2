@@ -77,11 +77,11 @@ public class PowerOperation : Term
 
         if (IsSelected)
         {
-            return $"{InnerTerms.First().GetLateX()}^\\color{{{Colors.Highlight}}}{{{Exponent}}}";
+            return $"{InnerTerms.First().GetLateX()}^{{\\colorbox{{{Colors.Highlight}}}{{{Exponent}}}}}";
         }
         else
         {
-            return $"{InnerTerms.First().GetLateX()}^{Exponent}";
+            return $"{InnerTerms.First().GetLateX()}^{{{Exponent}}}";
         }
     }
 }

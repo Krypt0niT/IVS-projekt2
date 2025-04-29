@@ -132,7 +132,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
 
         var result = input.GetLateX();
 
-        var expectedLateX = @"\colorbox{red}{27}^3";
+        var expectedLateX = @"\colorbox{red}{27}^{3}";
 
         result.Should().Be(expectedLateX);  // Only absolute member should be red 
     }

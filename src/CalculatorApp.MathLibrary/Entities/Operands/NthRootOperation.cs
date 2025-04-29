@@ -92,7 +92,7 @@ public class NthRootOperation : Term
         
         if (IsSelected)
         {
-            return $"\\color{{{Colors.Highlight}}}{{\\sqrt[{Degree}]}}{{{InnerTerms.First().GetLateX()}}}";
+            return $"\\sqrt[\\colorbox{{{Colors.Highlight}}}{{{Degree}}}]{{{InnerTerms.First().GetLateX()}}}";
         }
         else
         {
