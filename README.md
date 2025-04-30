@@ -6,7 +6,7 @@ Windows 64bit
 Autori
 ------
 
-Nazev tymu
+BlaBlaCar
 - xuradnl00 Lukáš Úradník 
 - xkuzmok00 Katarína Kužmová 
 - xlancor00 Roman Láncoš 
