@@ -21,6 +21,7 @@
     <None Remove="img\factorial.png" />
     <None Remove="img\github-button.png" />
     <None Remove="img\left-arrow.png" />
+    <None Remove="img\lightbulb.png" />
     <None Remove="img\minus.png" />
     <None Remove="img\modulo.png" />
     <None Remove="img\mul.png" />
@@ -64,6 +65,7 @@
     <Resource Include="img\factorial.png" />
     <Resource Include="img\github-button.png" />
     <Resource Include="img\left-arrow.png" />
+    <Resource Include="img\lightbulb.png" />
     <Resource Include="img\minus.png" />
     <Resource Include="img\modulo.png" />
     <Resource Include="img\mul.png" />
