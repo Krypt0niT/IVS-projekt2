@@ -45,9 +45,11 @@ public class NthRootFormatTests
         var input = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(27)
+                { 
+                    IsSelected = true
+                }
             }
         );
-        input.IsSelected = true;
 
         var result = input.GetLateX();
 
