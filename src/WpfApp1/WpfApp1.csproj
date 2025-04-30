@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="WpfMath" Version="2.1.0" />
+     <PackageReference Include="WixToolset.UI.wixext" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:WixUI="http://schemas.microsoft.com/wix/UIExtension">
+    
+    <Product Id="*" 
+             Name="SetupProject" 
+             Language="1033" 
+             Version="1.0.0.0" 
+             Manufacturer="IVS-BlaBlaCar" 
+             UpgradeCode="D62D733C-CC76-49CF-A647-8C3BB49E7EC4">
+        
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+        <!-- Premenná ukazujúca na tvoj RTF súbor 
+        <WixVariable Id="WixUILicenseRtf" Value="gpl-3.0.rtf" />
+
+         Pridá základné UI s licenčnou obrazovkou 
+        <UIRef Id="WixUI_Minimal" />
+        <UIRef Id="WixUI_LicenseAgreement" />
+        <UIRef Id="WixUI_ErrorProgressText" />
+        -->
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="SetupProject" Level="1">
+            <ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+
+        <!--<Icon Id="AppIcon.ico" SourceFile="icons/root.ico" />-->
+        
+	</Product>
+
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="SetupProject" />
+            </Directory>
+        </Directory>
+    </Fragment>
+
+    <!--<Fragment>
+        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+            <Component Id="MainExecutable" Guid="3C1CAA63-CF3C-4E2E-9B5D-0EF2EF7B7106">
+                <File Source="..\WpfApp1\publish\WpfApp1.exe" />
+                <File Source="..\WpfApp1\publish\CalculatorApp.MathLibrary.dll" />
+                <File Source="..\WpfApp1\publish\WpfApp1.runtimeconfig.json" />
+                <File Source="..\WpfApp1\publish\WpfApp1.deps.json" />
+            </Component>
+            
+        </ComponentGroup>
+    </Fragment>-->
+    
+    
+</Wix>
