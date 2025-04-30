@@ -102,12 +102,18 @@ namespace CalculatorApp.Math.Tests.MultipleOperationTests;
 
         var sub = new SubOperation(
             new List<Term> {
-            new AbsoluteMember(100),
             mul
             }
-        );  // 100 - 30 = 70
+        );  // - 30
 
-        var result = sub.GetResult();
+        var sum = new SumOperation(
+            new List<Term> {
+            new AbsoluteMember(100),
+            sub
+            }
+        );  // 100 + (-30) = 70
+
+        var result = sum.GetResult();
         result.Should().Be(70m);  // 100 - (|-15| * (23 % 7)) = 70
     }
 }

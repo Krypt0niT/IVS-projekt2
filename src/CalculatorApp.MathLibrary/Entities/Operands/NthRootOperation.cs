@@ -61,29 +61,27 @@ public class NthRootOperation : Term
     /// <returns>The computed root.</returns>
     private decimal NthRoot(decimal value, int n, decimal precision)
     {
-        if (n == 0)
-            throw new NotSupportedException();
+        if (n == 0) throw new NotSupportedException();
 
         decimal x = value / n;
-        decimal prev = 0;
-
-        while (new AbsOperation(
-            new List<Term> {
-                new SubOperation(new List<Term> {
-                    new AbsoluteMember(x),
-                    new AbsoluteMember(prev)
-                })
-            }
-        ).GetResult() > precision)
+        decimal prev;
+        decimal abs;
+        do
         {
             prev = x;
+            decimal pow = 1;
 
-            var pow = new PowerOperation(new AbsoluteMember(n - 1), new List<Term> {
-            new AbsoluteMember(x)
-        }).GetResult();
+            for (int i = 0; i < n - 1; i++)
+                pow *= x;
 
             x = ((n - 1) * x + value / pow) / n;
+
+            if ((x - prev) < 0)
+                abs = (x - prev) * (-1);
+            else
+                abs = x - prev;
         }
+        while (abs > precision);
 
         return x;
     }
