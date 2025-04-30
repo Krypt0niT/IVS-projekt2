@@ -4,12 +4,13 @@ using CalculatorApp.MathLibrary.Entities;
 using FluentAssertions;
 
 namespace CalculatorApp.Math.Tests.SimpleOperationTests;
-    public class PowerOperationTests
-    {
+
+public class PowerOperationTests
+{
     [Fact]
     public void SinglePowerOperationTest(){
 
-        var input = new PowerOperation(0, 
+        var input = new PowerOperation(new AbsoluteMember(0), 
             new List<Term>{
                 new AbsoluteMember(0)
             }
@@ -24,7 +25,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     public void SingleNegativePowerOperationTest()
     {
 
-        var input = new PowerOperation(-2,
+        var input = new PowerOperation(new AbsoluteMember(-2),
             new List<Term>{
                 new AbsoluteMember(2)
             }
@@ -39,7 +40,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     public void ZeroToNegativePowerOperationErrorTest()
     {
 
-        var input = new PowerOperation(-2,
+        var input = new PowerOperation(new AbsoluteMember(-2),
             new List<Term>{
                 new AbsoluteMember(0)
             }
@@ -54,7 +55,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void MultiplePowerErrorTest()
     {
-        var input = new PowerOperation(3,
+        var input = new PowerOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(5),
                 new AbsoluteMember(5)
@@ -70,14 +71,14 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void DepthPowerTest()
     {
-        var inner = new PowerOperation(3, // 5^3 = 125
+        var inner = new PowerOperation(new AbsoluteMember(3), // 5^3 = 125
             new List<Term>
             {
             new AbsoluteMember(5)
             }
         );
 
-        var outer = new PowerOperation(2, // (5^3)^2 = 125^2 = 15625
+        var outer = new PowerOperation(new AbsoluteMember(2), // (5^3)^2 = 125^2 = 15625
             new List<Term>
             {
             inner
@@ -92,7 +93,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void EmptyPowerTest()
     {
-        var input = new PowerOperation(3,
+        var input = new PowerOperation(new AbsoluteMember(3),
             new List<Term>{
 
             }
@@ -106,7 +107,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void FloatingPowerTest()
     {
-        var input = new PowerOperation(3,
+        var input = new PowerOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(0.2m)
             }
@@ -121,7 +122,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void SelectedBasePowerOperationTest()
     {
-        var input = new PowerOperation(3,
+        var input = new PowerOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(27)
                 {

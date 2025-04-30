@@ -20,8 +20,6 @@ public class PowerOperation : Term
     /// <param name="innerTerms">The base value (should contain exactly one).</param>
     public PowerOperation(Term exponent, IList<Term> innerTerms) : base(innerTerms)
     {
-        if (exponent.GetType() != typeof(AbsoluteMember) || exponent.GetType() != typeof(EmptyMember))
-            throw new NotSupportedException("Exponent moze byt iba celočiselny alebo prazdny");
         Exponent = exponent;
     }
 
@@ -39,21 +37,16 @@ public class PowerOperation : Term
         if (InnerTerms.Count != 1)
             throw new NotSupportedException();
 
-        decimal baseValue = InnerTerms.First().GetResult();
+        var baseValue = InnerTerms.First().GetResult();
+        var absoluteMember = Exponent.GetResult();
 
-        if (Exponent.GetType() == typeof(AbsoluteMember))
-        {
-            var absoluteMember = (AbsoluteMember)Exponent;
+        if (absoluteMember % 1 != 0) 
+            throw new NotSupportedException("V exponente sa možu nachádzať iba celé čisla");
 
-            if (absoluteMember.AbsoluteValue % 1 != 0) 
-                throw new NotSupportedException("V exponente sa možu nachádzať iba celé čisla");
+        if (baseValue == 0 && absoluteMember < 0)
+            throw new DivideByZeroException();
 
-            if (baseValue == 0 && absoluteMember.AbsoluteValue < 0)
-                throw new DivideByZeroException();
-
-            return DecimalPow(baseValue, (int)absoluteMember.AbsoluteValue);
-        }
-        throw new Exception("Chybajuci exponent");
+        return DecimalPow(baseValue, (int)absoluteMember);
     }
 
     /// <summary>

@@ -49,7 +49,7 @@ namespace CalculatorApp.Math.Tests.MultipleOperationTests;
         div
     });  // 40 + 1.2 = 41.2
 
-        var power = new PowerOperation(2,
+        var power = new PowerOperation(new AbsoluteMember(2),
             new List<Term>{
             sum
             }
@@ -66,7 +66,7 @@ namespace CalculatorApp.Math.Tests.MultipleOperationTests;
             new List<Term> { new AbsoluteMember(4) }  // 4! = 24
         );
 
-        var root = new NthRootOperation(3,
+        var root = new NthRootOperation(new AbsoluteMember(3),
             new List<Term> { new AbsoluteMember(27) }  // ∛27 = 3
         );
 
@@ -74,7 +74,7 @@ namespace CalculatorApp.Math.Tests.MultipleOperationTests;
             new List<Term> { factorial, root }  // 24 + 3 = 27
         );
 
-        var power = new PowerOperation(2,
+        var power = new PowerOperation(new AbsoluteMember(2),
             new List<Term> { sum }  // 27^2 = 729
         );
 

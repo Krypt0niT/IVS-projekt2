@@ -11,7 +11,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     public void SingleNthRootOperationTest()
     {
 
-        var input = new NthRootOperation(4,
+        var input = new NthRootOperation(new AbsoluteMember(4),
             new List<Term>{
                 new AbsoluteMember(16)
             }
@@ -25,7 +25,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void MultipleNthRootErrorTest()
     {
-        var input = new NthRootOperation(3,
+        var input = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(5),
                 new AbsoluteMember(5)
@@ -41,7 +41,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void PerfectCubeRootTest()
     {
-        var input = new NthRootOperation(3,
+        var input = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>{
             new AbsoluteMember(-64)
             }
@@ -54,14 +54,14 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void DepthNthRootTest()
     {
-        var inner = new NthRootOperation(2,
+        var inner = new NthRootOperation(new AbsoluteMember(2),
             new List<Term>
             {
             new AbsoluteMember(64)
             }
         );  // √(64) = 8
 
-        var outer = new NthRootOperation(3,
+        var outer = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>
             {
             inner
@@ -76,7 +76,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void EmptyNthRootTest()
     {
-        var input = new NthRootOperation(3,
+        var input = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>
             {
 
@@ -91,7 +91,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void FloatingNthRootTest()
     {
-        var input = new NthRootOperation(2,
+        var input = new NthRootOperation(new AbsoluteMember(2),
             new List<Term>{
                 new AbsoluteMember(0.25m)
             }
@@ -105,7 +105,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void NegativeNthRootErrorTest()
     {
-        var input = new NthRootOperation(-3,
+        var input = new NthRootOperation(new AbsoluteMember(-3),
             new List<Term>{
                 new AbsoluteMember(27)
             }
@@ -121,7 +121,7 @@ namespace CalculatorApp.Math.Tests.SimpleOperationTests;
     [Fact]
     public void NegativeNumUnderEvenRootErrorTest()
     {
-        var input = new NthRootOperation(4,
+        var input = new NthRootOperation(new AbsoluteMember(4),
             new List<Term>{
                 new AbsoluteMember(-5)
             }

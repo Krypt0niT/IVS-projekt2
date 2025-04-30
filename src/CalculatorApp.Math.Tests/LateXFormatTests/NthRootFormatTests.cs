@@ -10,7 +10,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void NthRootOperationTest()
     {
-        var input = new NthRootOperation(3,
+        var input = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(27)
             }
@@ -26,7 +26,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SelectedDegreeNthRootOperationTest()
     {
-        var input = new NthRootOperation(3,
+        var input = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(27)
             }

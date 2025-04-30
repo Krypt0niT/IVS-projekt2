@@ -11,14 +11,14 @@ public class NthRootOperation : Term
     /// <summary>
     /// The degree of the root (e.g. 2 for square root).
     /// </summary>
-    public int Degree { get; init; }
+    public Term Degree { get; init; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NthRootOperation"/> class.
     /// </summary>
     /// <param name="degree">The root degree.</param>
     /// <param name="innerTerms">The term to apply the root to (should contain exactly one).</param>
-    public NthRootOperation(int degree, IList<Term> innerTerms) : base(innerTerms)
+    public NthRootOperation(Term degree, IList<Term> innerTerms) : base(innerTerms)
     {
         Degree = degree;
     }
@@ -36,18 +36,20 @@ public class NthRootOperation : Term
         if (InnerTerms!.Count != 1)
             throw new NotSupportedException();
 
-        if (Degree < 0)
+        var degree = Degree.GetResult();
+
+        if (degree < 0)
             throw new NotSupportedException();
 
         decimal input = InnerTerms.First().GetResult();
 
-        if (input < 0 && Degree % 2 == 0)
-            throw new NotSupportedException();
+        if (input < 0 && degree % 2 == 0)
+            throw new NotSupportedException("Odmocnina môže byť iba celočíselná.");
 
         if (input == 0)
             return 0;
 
-        return NthRoot(input, Degree, 0.0000000000001m); // precision = 1e-6
+        return NthRoot(input, (int)degree, 0.0000000000001m); // precision = 1e-6
     }
 
     /// <summary>
@@ -76,7 +78,7 @@ public class NthRootOperation : Term
         {
             prev = x;
 
-            var pow = new PowerOperation(n - 1, new List<Term> {
+            var pow = new PowerOperation(new AbsoluteMember(n - 1), new List<Term> {
             new AbsoluteMember(x)
         }).GetResult();
 
@@ -89,16 +91,23 @@ public class NthRootOperation : Term
     public override string GetLateX()
     {
         if (InnerTerms == null || InnerTerms.Count != 1) throw new NotSupportedException();
-        
+
+        var degreeLateX = Degree.GetLateX();
+
         if (IsSelected)
         {
-            return $"\\sqrt[\\colorbox{{{Colors.Highlight}}}{{{Degree}}}]{{{InnerTerms.First().GetLateX()}}}";
+            return $"\\sqrt[\\colorbox{{{Colors.Highlight}}}{{{degreeLateX}}}]{{{InnerTerms.First().GetLateX()}}}";
         }
         else
         {
-            if (Degree == 2) return $"\\sqrt{{{InnerTerms.First().GetLateX()}}}";
+            if (Degree.GetType() == typeof(AbsoluteMember))
+            {
+                var absoluteMember = (AbsoluteMember)Degree;
 
-            return $"\\sqrt[{Degree}]{{{InnerTerms.First().GetLateX()}}}";
+                if (absoluteMember.AbsoluteValue == 2) return $"\\sqrt{{{InnerTerms.First().GetLateX()}}}";
+            }
+            
+            return $"\\sqrt[{degreeLateX}]{{{InnerTerms.First().GetLateX()}}}";
         }
     }
 }

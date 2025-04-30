@@ -10,8 +10,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void PowerOperationTest()
     {
-
-        var input = new PowerOperation(12,
+        var input = new PowerOperation(new AbsoluteMember(12),
             new List<Term>{
                 new AbsoluteMember(10)
             }
@@ -28,7 +27,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     public void SelectedExponentPowerOperationTest()
     {
 
-        var input = new PowerOperation(12,
+        var input = new PowerOperation(new AbsoluteMember(12),
             new List<Term>{
                 new AbsoluteMember(10)
             }
@@ -46,7 +45,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     public void SelectedBasePowerOperationTest()
     {
 
-        var input = new PowerOperation(12,
+        var input = new PowerOperation(new AbsoluteMember(12),
             new List<Term>{
                 new AbsoluteMember(10)
                 {
