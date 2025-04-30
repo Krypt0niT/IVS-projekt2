@@ -628,6 +628,15 @@ namespace WpfApp1
 
                     update();
                 }
+                // CE
+                else if (sender.Equals(Right_Bracket))
+                {
+                    equation = new SumOperation(new List<Term>() { new AbsoluteMember(0) { IsSelected = true } });
+                    idx = 0;
+                    sub_idx = 0;
+                    len = 1;
+                    bool_decimal = false;
+                }
                 // Equals
                 else if (sender.Equals(Equals))
                 {
