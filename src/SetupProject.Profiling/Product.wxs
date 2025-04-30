@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:WixUI="http://schemas.microsoft.com/wix/UIExtension">
+
+    <Product Id="*"
+             Name="LateX CalculatorApp Profiling"
+             Language="1033"
+             Version="1.0.0.1"
+             Manufacturer="IVS-BlaBlaCar"
+             UpgradeCode="D62D733C-CC76-49CF-A647-8C3BB49E7EC4">
+
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+        <MediaTemplate />
+
+        <!-- Ikona pre shortcut -->
+        <Icon Id="AppIcon" SourceFile="icons/right-arrow.ico" />
+
+        <Feature Id="ProductFeature" Title="LateX CalculatorApp Profiling" Level="1">
+            <ComponentGroupRef Id="ProductComponents" />
+            <ComponentRef Id="ApplicationShortcut" />
+        </Feature>
+
+    </Product>
+
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="INSTALLFOLDER" Name="LateX CalculatorApp Profiling" />
+            </Directory>
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ApplicationProgramsFolder" Name="LateX CalculatorApp Profiling"/>
+            </Directory>
+        </Directory>
+    </Fragment>
+
+    <Fragment>
+        <!-- Shortcut komponenta (ikona sa zobrazí cez tento shortcut) -->
+        <Component Id="ApplicationShortcut" Guid="F54A3C1B-FA67-4CFB-B6AF-1A9B2E222222" Directory="ApplicationProgramsFolder">
+            <Shortcut Id="StartMenuShortcut"
+                      Name="LateX CalculatorApp Profiling"
+                      Description="Spusti aplikaciu LateX CalculatorApp"
+                      Target="[INSTALLFOLDER]CalculatorApp.Profiling.exe"
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon="AppIcon"
+                      IconIndex="0" />
+            <RemoveFolder Id="RemoveShortcutsDir" On="uninstall" />
+            <RegistryValue Root="HKCU" Key="Software\LateX CalculatorApp Profiling" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        </Component>
+    </Fragment>
+
+</Wix>
