@@ -88,7 +88,7 @@ namespace WpfApp1
                         {
                             if (bool_decimal)
                             {
-                                String past_num_str_before = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                                String past_num_str_before = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                                 decimal value = Convert.ToDecimal(past_num_str_before + "." + number.ToString());
 
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
@@ -98,7 +98,7 @@ namespace WpfApp1
                                 return;
                             }
 
-                            String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
 
                             if (past_num_str.Contains("."))
                             {
@@ -130,13 +130,13 @@ namespace WpfApp1
                     {
                         if (bool_decimal)
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             decimal value = Convert.ToDecimal(past_num_str + "." + number.ToString());
                             equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
                         }
                         else
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (past_num_str.Contains("."))
                             {
                                 String over = past_num_str.Split(".")[0];
@@ -171,19 +171,19 @@ namespace WpfApp1
                     {
                         if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() == typeof(EmptyMember))
                         {
-                            String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].InnerTerms[sub_idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (past_num_str.Contains(".")) { return; }
                         }
                         else
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (past_num_str.Contains(".")) { return; }
                         }
                         bool_decimal = true;
                     }
                     else
                     {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                         if (past_num_str.Contains(".")) { return; }
                         bool_decimal = true;
                     }
@@ -234,7 +234,7 @@ namespace WpfApp1
                     {
                         if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
@@ -259,7 +259,7 @@ namespace WpfApp1
                     {
                         if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
@@ -306,7 +306,7 @@ namespace WpfApp1
                 {
                     if (equation.InnerTerms[idx].GetType() == typeof(SumOperation))
                     {
-                        String num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                        String num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                         if (num_str.Contains(".")){
                             decimal value = Convert.ToDecimal(num_str);
                             equation.InnerTerms[idx] = new SubOperation(new List<Term>() { new AbsoluteMember(value) { IsSelected = true } });
@@ -318,7 +318,7 @@ namespace WpfApp1
                     }
                     else if (equation.InnerTerms[idx].GetType() == typeof(SubOperation))
                     {
-                        String num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                        String num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                         if (!string.IsNullOrEmpty(num_str) && num_str.Length > 1)
                         {
                             num_str = num_str.Substring(1);
@@ -343,7 +343,7 @@ namespace WpfApp1
                     {
                         if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
@@ -367,7 +367,7 @@ namespace WpfApp1
                     {
                         if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
@@ -391,7 +391,7 @@ namespace WpfApp1
                     {
                         if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new EmptyMember(), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
@@ -514,8 +514,7 @@ namespace WpfApp1
                     {
                         if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("\\sqrt{", "");
-                            System.Windows.MessageBox.Show($"Hello, {past_num_str}");
+                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                             
                             past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
 
@@ -559,7 +558,7 @@ namespace WpfApp1
                     }
                     else
                     {
-                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "");
+                        String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
                         if (past_num_str == "0")
                         {
                             return;
