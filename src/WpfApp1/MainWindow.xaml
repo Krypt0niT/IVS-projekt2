@@ -7,6 +7,7 @@
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         Title="Calculator" Height="600" Width="400"
+        ResizeMode="NoResize"
         Keyboard.KeyDown="Window_KeyDown">
     <Grid x:Name="mainGrid">
         <WindowsFormsHost Margin="120,577,180,107"/>
