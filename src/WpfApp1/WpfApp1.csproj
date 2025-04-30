@@ -10,11 +10,77 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\2nd-power.png" />
+    <None Remove="img\abs.png" />
+    <None Remove="img\backspace.png" />
+    <None Remove="img\div.png" />
+    <None Remove="img\equal.png" />
+    <None Remove="img\factorial.png" />
+    <None Remove="img\github-button.png" />
+    <None Remove="img\left-arrow.png" />
+    <None Remove="img\left-bracket.png" />
+    <None Remove="img\minus.png" />
+    <None Remove="img\modulo.png" />
+    <None Remove="img\mul.png" />
+    <None Remove="img\neg.png" />
+    <None Remove="img\pi.png" />
+    <None Remove="img\plus.png" />
+    <None Remove="img\power.png" />
+    <None Remove="img\right-arrow.png" />
+    <None Remove="img\right-bracket.png" />
+    <None Remove="img\root.png" />
+    <None Remove="img\sqrt.png" />
+    <None Remove="img\_0.png" />
+    <None Remove="img\_1.png" />
+    <None Remove="img\_2.png" />
+    <None Remove="img\_3.png" />
+    <None Remove="img\_4.png" />
+    <None Remove="img\_5.png" />
+    <None Remove="img\_6.png" />
+    <None Remove="img\_7.png" />
+    <None Remove="img\_8.png" />
+    <None Remove="img\_9.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="WpfMath" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CalculatorApp.MathLibrary\CalculatorApp.MathLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\2nd-power.png" />
+    <Resource Include="img\abs.png" />
+    <Resource Include="img\backspace.png" />
+    <Resource Include="img\div.png" />
+    <Resource Include="img\equal.png" />
+    <Resource Include="img\factorial.png" />
+    <Resource Include="img\github-button.png" />
+    <Resource Include="img\left-arrow.png" />
+    <Resource Include="img\left-bracket.png" />
+    <Resource Include="img\minus.png" />
+    <Resource Include="img\modulo.png" />
+    <Resource Include="img\mul.png" />
+    <Resource Include="img\neg.png" />
+    <Resource Include="img\pi.png" />
+    <Resource Include="img\plus.png" />
+    <Resource Include="img\power.png" />
+    <Resource Include="img\right-arrow.png" />
+    <Resource Include="img\right-bracket.png" />
+    <Resource Include="img\root.png" />
+    <Resource Include="img\sqrt.png" />
+    <Resource Include="img\_0.png" />
+    <Resource Include="img\_1.png" />
+    <Resource Include="img\_2.png" />
+    <Resource Include="img\_3.png" />
+    <Resource Include="img\_4.png" />
+    <Resource Include="img\_5.png" />
+    <Resource Include="img\_6.png" />
+    <Resource Include="img\_7.png" />
+    <Resource Include="img\_8.png" />
+    <Resource Include="img\_9.png" />
   </ItemGroup>
 
 </Project>
