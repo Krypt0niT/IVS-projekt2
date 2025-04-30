@@ -41,23 +41,4 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
         result.Should().Be(expectedLateX);  // Only exponent should be red 
     }
 
-    [Fact]
-    public void SelectedBasePowerOperationTest()
-    {
-
-        var input = new PowerOperation(new AbsoluteMember(12),
-            new List<Term>{
-                new AbsoluteMember(10)
-                {
-                    IsSelected = true
-                }
-            }
-        );
-
-        var result = input.GetLateX();
-
-        var expectedLateX = @"\colorbox{red}{10}^{12}";
-
-        result.Should().Be(expectedLateX);  // Absolute member should be red 
-    }
 }

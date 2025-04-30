@@ -69,24 +69,4 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
         result.Should().Be(expectedLateX); // Only left member should be red
     }
 
-    public void SelectedRightMemberTest()
-    {
-        var input = new SumOperation
-        (
-            new List<Term>
-            {
-                    new AbsoluteMember(12),
-
-                    new AbsoluteMember(10){
-                        IsSelected = true
-                    }
-            }
-        );
-
-        var result = input.GetLateX();
-
-        var expectedLateX = @"12 + \colorbox{red}{10}";
-
-        result.Should().Be(expectedLateX); // Only right member should be red
-    }
 }

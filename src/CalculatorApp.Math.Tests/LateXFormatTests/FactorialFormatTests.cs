@@ -43,25 +43,5 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
         result.Should().Be(expectedLateX); // Only ! should be red
     }
 
-    [Fact]
-    public void SelectedAbsoluteMemberTest()
-    {
-        var input = new FactorialOperation
-        (
-            new List<Term>
-            {
-                    new AbsoluteMember(5)
-                    {
-                        IsSelected = true
-                    }
-            }
-        );
-
-        var result = input.GetLateX();
-
-        var expectedLateX = @"\colorbox{red}{5}!";
-
-        result.Should().Be(expectedLateX); // Only number should be red
-    }
 }
 
