@@ -461,7 +461,7 @@ namespace WpfApp1
                 // Right Arrow
                 else if (sender.Equals(Right_Arrow))
                 {
-                    if (idx + 1 >= len && equation.InnerTerms[idx].InnerTerms.Count - sub_idx <= 1)
+                    if (idx + 1 >= len && (equation.InnerTerms[idx].InnerTerms == null || equation.InnerTerms[idx].InnerTerms.Count - sub_idx <= 1))
                     {
                         return;
                     }
@@ -478,7 +478,7 @@ namespace WpfApp1
                         // Move out of term
                         else if (idx + 1 < len)
                         {
-                            equation.InnerTerms[idx].IsSelected = false;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
 
                             idx++;
                             if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
@@ -628,7 +628,7 @@ namespace WpfApp1
             }
 
             sub_idx = 0;
-            idx++;
+            idx = equation.InnerTerms.Count - 1;
             len++;
         }
 
