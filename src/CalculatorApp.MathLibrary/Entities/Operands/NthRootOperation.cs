@@ -44,7 +44,7 @@ public class NthRootOperation : Term
         decimal input = InnerTerms.First().GetResult();
 
         if (input < 0 && degree % 2 == 0)
-            throw new NotSupportedException("Odmocnina môže byť iba celočíselná.");
+            throw new NotSupportedException("Pod odmocninou s párnym exponentom nemôže byť záporné čislo.");
 
         if (input == 0)
             return 0;
