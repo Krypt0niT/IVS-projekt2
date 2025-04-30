@@ -11,7 +11,7 @@ public class PowerOperation : Term
     /// <summary>
     /// The exponent value.
     /// </summary>
-    public Term Exponent { get; init; }
+    public Term Exponent { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PowerOperation"/> class.
