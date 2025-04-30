@@ -566,6 +566,8 @@ namespace WpfApp1
                                 else
                                     past_num_str = CleanLatex(sqr.Degree.IsSelected ? CleanLatex(sqr.Degree.GetLateX()) : CleanLatex(sqr.InnerTerms[0].GetLateX()));
                             }
+                            else if (subTerm != null)
+                                past_num_str = CleanLatex(subTerm.GetLateX());
                             else
                                 past_num_str = CleanLatex(term.GetLateX());
 
