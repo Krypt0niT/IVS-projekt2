@@ -1,12 +1,11 @@
 ﻿using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 using CalculatorApp.MathLibrary.Entities.Operands;
-using CalculatorApp.MathLibrary.LateXStyles;
 using FluentAssertions;
 
 namespace CalculatorApp.Math.Tests.LateXFormatTests;
-    public class NthRootFormatTests
-    {
+public class NthRootFormatTests
+{
     [Fact]
     public void NthRootOperationTest()
     {
@@ -43,7 +42,7 @@ namespace CalculatorApp.Math.Tests.LateXFormatTests;
     [Fact]
     public void SelectedAbsoluteMemberNthRootOperationTest()
     {
-        var input = new NthRootOperation(3,
+        var input = new NthRootOperation(new AbsoluteMember(3),
             new List<Term>{
                 new AbsoluteMember(27)
             }
