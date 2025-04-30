@@ -37,6 +37,9 @@ namespace WpfApp1
             formulaWraper.FontFamily = new System.Windows.Media.FontFamily("Arial");  // Font
             formulaWraper.Foreground = new SolidColorBrush(Colors.Black);  // Farba textu
 
+            equation.InnerTerms.Add(new BracketsMember(new List<Term>(){
+                        new EmptyMember() { IsSelected = true }
+                }));
             formulaWraper.Formula = equation.GetLateX();
         }
 
@@ -203,9 +206,7 @@ namespace WpfApp1
                 // Minus
                 else if (sender.Equals(Minus))
                 {
-                    equation.InnerTerms.Add(new SubOperation(new List<Term>(){
-                        new EmptyMember() { IsSelected = true }
-                }));
+                    equation.InnerTerms.Add(new SubOperation(new List<Term>(){new EmptyMember() { IsSelected = true }}));
 
                     unselectOnNew();
                 }
@@ -302,6 +303,41 @@ namespace WpfApp1
                         unselectOnNew();
                     }
 
+                }
+                // Negation
+                else if (sender.Equals(Negation))
+                {
+                    if (equation.InnerTerms[idx].GetType() == typeof(SumOperation))
+                    {
+                        String num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (num_str.Contains(".")){
+                            decimal value = Convert.ToDecimal(num_str);
+                            equation.InnerTerms[idx] = new SubOperation(new List<Term>() { new AbsoluteMember(value) { IsSelected = true } });
+                        }
+                        else if (int.TryParse(num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx] = new SubOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                        }
+                    }
+                    else if (equation.InnerTerms[idx].GetType() == typeof(SubOperation))
+                    {
+                        String num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
+                        if (!string.IsNullOrEmpty(num_str) && num_str.Length > 1)
+                        {
+                            num_str = num_str.Substring(1);
+                        }
+
+
+                        if (num_str.Contains("."))
+                        {
+                            decimal value = Convert.ToDecimal(num_str);
+                            equation.InnerTerms[idx] = new SumOperation(new List<Term>() { new AbsoluteMember(value) { IsSelected = true } });
+                        }
+                        else if (int.TryParse(num_str, out int new_num))
+                        {
+                            equation.InnerTerms[idx] = new SumOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                        }
+                    }
                 }
                 // Square Root 2
                 else if (sender.Equals(Square_Root_2))
