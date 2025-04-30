@@ -428,17 +428,86 @@ namespace WpfApp1
                         // Move out of term
                         else
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-
-                            idx--;
-                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                            if (equation.InnerTerms[idx].GetType() == typeof(PowerOperation) || equation.InnerTerms[idx].GetType() == typeof(NthRootOperation))
                             {
-                                sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
-                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                if (equation.InnerTerms[idx].GetType() == typeof(PowerOperation))
+                                {
+                                    PowerOperation a = (PowerOperation)equation.InnerTerms[idx];
+                                    if (sub_idx > 0)
+                                    {
+                                        a.Exponent.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                                        sub_idx--;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                    }
+                                    else if (!a.Exponent.IsSelected)
+                                    {
+                                        a.Exponent.IsSelected = true;
+                                        a.InnerTerms[sub_idx].IsSelected = false;
+                                    }
+                                    else
+                                    {
+                                        a.Exponent.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                                        idx--;
+                                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                                        {
+                                            sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
+                                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                        }
+                                        else
+                                        {
+                                            equation.InnerTerms[idx].IsSelected = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    NthRootOperation a = (NthRootOperation)equation.InnerTerms[idx];
+                                    if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
+                                    {
+                                        a.Degree.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                                        sub_idx++;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                    }
+                                    else if (!a.Degree.IsSelected)
+                                    {
+                                        a.Degree.IsSelected = true;
+                                    }
+                                    else
+                                    {
+                                        a.Degree.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                                        idx--;
+                                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                                        {
+                                            sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
+                                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                        }
+                                        else
+                                        {
+                                            equation.InnerTerms[idx].IsSelected = true;
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
-                                equation.InnerTerms[idx].IsSelected = true;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                                idx--;
+                                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                                {
+                                    sub_idx = equation.InnerTerms[idx].InnerTerms.Count - 1;
+                                    equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                }
+                                else
+                                {
+                                    equation.InnerTerms[idx].IsSelected = true;
+                                }
                             }
                         }
                     }
@@ -471,24 +540,93 @@ namespace WpfApp1
                         // Move in term
                         if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                            sub_idx++;
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                                sub_idx++;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
                         // Move out of term
                         else if (idx + 1 < len)
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-
-                            idx++;
-                            if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                            if (equation.InnerTerms[idx].GetType() == typeof(PowerOperation) || equation.InnerTerms[idx].GetType() == typeof(NthRootOperation))
                             {
-                                sub_idx = 0;
-                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                if (equation.InnerTerms[idx].GetType() == typeof(PowerOperation))
+                                {
+                                    PowerOperation a = (PowerOperation)equation.InnerTerms[idx];
+                                    if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
+                                    {
+                                        a.Exponent.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                                        sub_idx++;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                    }
+                                    else if (!a.Exponent.IsSelected)
+                                    {
+                                        a.Exponent.IsSelected = true;
+                                        a.InnerTerms[sub_idx].IsSelected = false;
+                                    }
+                                    else
+                                    {
+                                        a.Exponent.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                                        idx++;
+                                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                                        {
+                                            sub_idx = 0;
+                                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                        }
+                                        else
+                                        {
+                                            equation.InnerTerms[idx].IsSelected = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    NthRootOperation a = (NthRootOperation)equation.InnerTerms[idx];
+                                    if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
+                                    {
+                                        a.Degree.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+                                        sub_idx++;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                    }
+                                    else if (!a.Degree.IsSelected)
+                                    {
+                                        a.Degree.IsSelected = true;
+                                    }
+                                    else
+                                    {
+                                        a.Degree.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                                        idx++;
+                                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                                        {
+                                            sub_idx = 0;
+                                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                        }
+                                        else
+                                        {
+                                            equation.InnerTerms[idx].IsSelected = true;
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
-                                equation.InnerTerms[idx].IsSelected = true;
+                                equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
+
+                                idx++;
+                                if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                                {
+                                    sub_idx = 0;
+                                    equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                                }
+                                else
+                                {
+                                    equation.InnerTerms[idx].IsSelected = true;
+                                }
                             }
                         }
                     }
