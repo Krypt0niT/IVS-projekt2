@@ -560,7 +560,7 @@ namespace WpfApp1
                         {
                             if (term is MulOperation || term is ModuloOperation)
                                 current_size -= 7;
-                            else if (!isComplex)
+                            else if (isComplex)
                                 current_size -= 3;
                             else current_size--;
 
