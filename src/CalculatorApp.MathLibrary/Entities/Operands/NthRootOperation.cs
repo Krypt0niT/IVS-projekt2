@@ -11,7 +11,7 @@ public class NthRootOperation : Term
     /// <summary>
     /// The degree of the root (e.g. 2 for square root).
     /// </summary>
-    public Term Degree { get; init; }
+    public Term Degree { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NthRootOperation"/> class.

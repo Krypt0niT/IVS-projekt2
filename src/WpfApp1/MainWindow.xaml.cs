@@ -4,11 +4,14 @@
 // Bug: -x^2
 // Right arrow still makes problems when only 1. term is there
 // Clear Arrows and down
+// Power exponenet doesn't support decimals
 
 using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 using CalculatorApp.MathLibrary.Entities.Operands;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -61,7 +64,7 @@ namespace WpfApp1
                 var subTerm = isComplex ? term.InnerTerms[sub_idx] : null;
                 bool isSubTermEmpty = subTerm is EmptyMember;
 
-                string CleanLatex(string s) => s.Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "").Replace("\\square", "");
+                string CleanLatex(string s) => s.Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "").Replace("\\sqrt", "").Replace("[\\square]{", "");
 
                 // Add number
                 var senderToNumber = new Dictionary<object, int>
@@ -78,39 +81,37 @@ namespace WpfApp1
                     { _9, 9 }
                 };
                 if (senderToNumber.TryGetValue(sender, out int number))
-                {
-                    // Local function
-                    void SetValue(object target, decimal value)
-                    {
-                        // Power operation uses Exponent
-                        if (target is PowerOperation p)
-                        {
-                            if (p.Exponent.IsSelected) p.Exponent = new AbsoluteMember(value) { IsSelected = true };
-                            else if (isComplex) term.InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
-                            else equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
-                        }
-                        // Others
-                        else
-                        {
-                            if (isComplex) term.InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
-                            else equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
-                        }
-                    }
-
+                { 
                     // Logic
                     if (isComplex)
                     {
                         if (isSubTermEmpty)
                         {
                             decimal value = bool_decimal ? Convert.ToDecimal("0." + number) : number;
-                            SetValue(term, value);
+                            SetValue(term, value, isComplex);
                         }
                         else
                         {
-                            string past = CleanLatex(subTerm.GetLateX());
+                            string past = "";
+                            if (term is PowerOperation pwd)
+                            {
+                                if (pwd.Exponent.IsSelected && pwd.Exponent is EmptyMember)
+                                    past = "0";
+                                else
+                                    past = CleanLatex(pwd.Exponent.IsSelected ? CleanLatex(pwd.Exponent.GetLateX()) : CleanLatex(pwd.InnerTerms[0].GetLateX()));
+                            }
+                            else if (term is NthRootOperation sqr)
+                            {
+                                if (sqr.Degree.IsSelected && sqr.Degree is EmptyMember)
+                                    past = "0";
+                                else
+                                    past = CleanLatex(sqr.Degree.IsSelected ? CleanLatex(sqr.Degree.GetLateX()) : CleanLatex(sqr.InnerTerms[0].GetLateX()));
+                            }
+                            else
+                                past = CleanLatex(subTerm.GetLateX());
 
                             if (bool_decimal)
-                                SetValue(term, Convert.ToDecimal(past + "." + number));
+                                SetValue(term, Convert.ToDecimal(past + "." + number), isComplex);
                             else if (past.Contains("."))
                             {
                                 var parts = past.Split('.');
@@ -118,12 +119,12 @@ namespace WpfApp1
                                 {
                                     var combined = parts[0] + "." + (behind * 10 + number);
                                     if (decimal.TryParse(combined, out decimal result))
-                                        SetValue(term, result);
+                                        SetValue(term, result, isComplex);
                                 }
                             }
                             else if (int.TryParse(past, out int new_num))
                             {
-                                SetValue(term, new_num * 10 + number);
+                                SetValue(term, new_num * 10 + number, isComplex);
                             }
                         }
                     }
@@ -132,7 +133,7 @@ namespace WpfApp1
                         string past = CleanLatex(term.GetLateX());
 
                         if (bool_decimal)
-                            SetValue(term, Convert.ToDecimal(past + "." + number));
+                            SetValue(term, Convert.ToDecimal(past + "." + number), isComplex);
                         else if (past.Contains("."))
                         {
                             var parts = past.Split('.');
@@ -140,12 +141,12 @@ namespace WpfApp1
                             {
                                 var combined = parts[0] + "." + (behind * 10 + number);
                                 if (decimal.TryParse(combined, out decimal result))
-                                    SetValue(term, result);
+                                    SetValue(term, result, isComplex);
                             }
                         }
                         else if (int.TryParse(past, out int new_num))
                         {
-                            SetValue(term, new_num * 10 + number);
+                            SetValue(term, new_num * 10 + number, isComplex);
                         }
                     }
                 }
@@ -268,7 +269,7 @@ namespace WpfApp1
                         });
                     }
                 }
-                // Square Root 2
+                // Square Root of 2
                 else if (sender.Equals(Square_Root_2))
                 {
                     if (isComplex && isSubTermEmpty && int.TryParse(CleanLatex(term.GetLateX()), out int new_num))
@@ -276,6 +277,17 @@ namespace WpfApp1
                     else if (!isComplex)
                     {
                         equation.InnerTerms.Add(new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        unselectOnNew();
+                    }
+                }
+                // Square Root of N
+                else if (sender.Equals(Square_Root))
+                {
+                    if (isComplex && isSubTermEmpty && int.TryParse(CleanLatex(term.GetLateX()), out int new_num))
+                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new EmptyMember(), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                    else if (!isComplex)
+                    {
+                        equation.InnerTerms.Add(new NthRootOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
                     }
                 }
@@ -307,13 +319,12 @@ namespace WpfApp1
                     if (idx <= 0)
                         return;
 
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    if (isComplex)
                     {
                         // Move in term itself
                         if (sub_idx > 0)
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                            sub_idx--;
+                            equation.InnerTerms[idx].InnerTerms[sub_idx--].IsSelected = false;
                             equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                         }
                         // Move out of term
@@ -321,24 +332,22 @@ namespace WpfApp1
                         {
                             if (equation.InnerTerms[idx].GetType() == typeof(PowerOperation) || equation.InnerTerms[idx].GetType() == typeof(NthRootOperation))
                             {
-                                if (equation.InnerTerms[idx].GetType() == typeof(PowerOperation))
+                                if (equation.InnerTerms[idx] is PowerOperation pwd)
                                 {
-                                    PowerOperation a = (PowerOperation)equation.InnerTerms[idx];
                                     if (sub_idx > 0)
                                     {
-                                        a.Exponent.IsSelected = false;
-                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                                        sub_idx--;
+                                        pwd.Exponent.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx--].IsSelected = false;
                                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                                     }
-                                    else if (!a.Exponent.IsSelected)
+                                    else if (!pwd.Exponent.IsSelected)
                                     {
-                                        a.Exponent.IsSelected = true;
-                                        a.InnerTerms[sub_idx].IsSelected = false;
+                                        pwd.Exponent.IsSelected = true;
+                                        pwd.InnerTerms[sub_idx].IsSelected = false;
                                     }
                                     else
                                     {
-                                        a.Exponent.IsSelected = false;
+                                        pwd.Exponent.IsSelected = false;
                                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
 
                                         idx--;
@@ -353,23 +362,22 @@ namespace WpfApp1
                                         }
                                     }
                                 }
-                                else
+                                else if (equation.InnerTerms[idx] is NthRootOperation sqr)
                                 {
-                                    NthRootOperation a = (NthRootOperation)equation.InnerTerms[idx];
-                                    if (equation.InnerTerms[idx].InnerTerms.Count - sub_idx > 1)
+                                    if (sub_idx > 0)
                                     {
-                                        a.Degree.IsSelected = false;
-                                        equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
-                                        sub_idx++;
+                                        sqr.Degree.IsSelected = false;
+                                        equation.InnerTerms[idx].InnerTerms[sub_idx--].IsSelected = false;
                                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
                                     }
-                                    else if (!a.Degree.IsSelected)
+                                    else if (!sqr.Degree.IsSelected)
                                     {
-                                        a.Degree.IsSelected = true;
+                                        sqr.Degree.IsSelected = true;
+                                        sqr.InnerTerms[sub_idx].IsSelected = false;
                                     }
                                     else
                                     {
-                                        a.Degree.IsSelected = false;
+                                        sqr.Degree.IsSelected = false;
                                         equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = false;
 
                                         idx--;
@@ -539,35 +547,40 @@ namespace WpfApp1
                 // Backspace
                 else if (sender.Equals(Backspace))
                 {
-                    if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                    if (isComplex)
                     {
-                        if (equation.InnerTerms[idx].InnerTerms[sub_idx].GetType() != typeof(EmptyMember))
+                        if (!isSubTermEmpty)
                         {
-                            String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
+                            string past_num_str;
+                            if(term is PowerOperation pwd)
+                            {
+                                if (pwd.Exponent.IsSelected && pwd.Exponent is EmptyMember)
+                                    past_num_str = "0";
+                                else
+                                    past_num_str = CleanLatex(pwd.Exponent.IsSelected ? CleanLatex(pwd.Exponent.GetLateX()) : CleanLatex(pwd.InnerTerms[0].GetLateX()));
+                            }
+                            else if (term is NthRootOperation sqr)
+                            {
+                                if (sqr.Degree.IsSelected && sqr.Degree is EmptyMember)
+                                    past_num_str = "0";
+                                else
+                                    past_num_str = CleanLatex(sqr.Degree.IsSelected ? CleanLatex(sqr.Degree.GetLateX()) : CleanLatex(sqr.InnerTerms[0].GetLateX()));
+                            }
+                            else
+                                past_num_str = CleanLatex(term.GetLateX());
 
                             past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
-
                             if (past_num_str.Length != 0 && !char.IsDigit(past_num_str[0]))
-                            {
                                 past_num_str = past_num_str.Substring(1);
-                            }
 
 
                             if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
-                            {
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new EmptyMember { IsSelected = true };
-                            }
-                            else if (past_num_str.Contains("."))
+                            else if (decimal.TryParse(past_num_str, out decimal result))
                             {
-                                if (decimal.TryParse(past_num_str, out decimal result))
-                                {
-                                    equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(result) { IsSelected = true };
-                                }
+                                SetValue(term, result, isComplex);
                             }
-                            else if (int.TryParse(past_num_str, out int new_num))
-                            {
-                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(new_num) { IsSelected = true };
-                            }
+                            
                         }
                         else
                         {
@@ -644,6 +657,29 @@ namespace WpfApp1
         void update()
         {
             formulaWraper.Formula = equation.GetLateX();
+        }
+        void SetValue(object target, decimal value, bool isComplex)
+        {
+            // Power operation uses Exponent
+            if (target is PowerOperation p)
+            {
+                if (p.Exponent.IsSelected) p.Exponent = new AbsoluteMember(value) { IsSelected = true };
+                else if (isComplex) equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+                else equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
+            }
+            // Square root uses Degree
+            else if (target is NthRootOperation s)
+            {
+                if (s.Degree.IsSelected) s.Degree = new AbsoluteMember(value) { IsSelected = true };
+                else if (isComplex) equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+                else equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
+            }
+            // Others
+            else
+            {
+                if (isComplex) equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(value) { IsSelected = true };
+                else equation.InnerTerms[idx] = new AbsoluteMember(value) { IsSelected = true };
+            }
         }
 
         void unselectOnNew()
