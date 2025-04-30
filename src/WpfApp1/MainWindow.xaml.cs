@@ -557,6 +557,21 @@ namespace WpfApp1
                             }
                         }
                     }
+                    else if (term is PiConst)
+                    {
+                        equation.InnerTerms.RemoveAt(idx);
+                        idx--;
+                        len--;
+
+                        if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx].IsSelected = true;
+                        }
+                        else
+                        {
+                            equation.InnerTerms[idx].IsSelected = true;
+                        }
+                    }
                     else
                     {
                         String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "");
