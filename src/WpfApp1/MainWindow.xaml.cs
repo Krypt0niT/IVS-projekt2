@@ -32,6 +32,9 @@ namespace WpfApp1
         int len = 1;
         bool bool_decimal = false;
 
+        int max_size= 22;
+        int current_size = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -80,8 +83,10 @@ namespace WpfApp1
                     { _8, 8 },
                     { _9, 9 }
                 };
-                if (senderToNumber.TryGetValue(sender, out int number))
+                if (current_size < max_size && senderToNumber.TryGetValue(sender, out int number))
                 {
+                    current_size++;
+
                     // Logic
                     if (isComplex)
                     {
@@ -164,24 +169,27 @@ namespace WpfApp1
                     return;
                 }
                 // Plus
-                else if (sender.Equals(Plus))
+                else if (current_size + 3 < max_size && sender.Equals(Plus))
                 {
+                    current_size += 3;
                     equation.InnerTerms.Add(new SumOperation(new List<Term>(){
                         new EmptyMember() { IsSelected = true }
                     }));
                     unselectOnNew();
                 }
                 // Minus
-                else if (sender.Equals(Minus))
+                else if (current_size + 3 < max_size && sender.Equals(Minus))
                 {
+                    current_size += 3;
                     equation.InnerTerms.Add(new SubOperation(new List<Term>() {
                         new EmptyMember() { IsSelected = true }
                     }));
                     unselectOnNew();
                 }
                 // Multiply
-                else if (sender.Equals(Multiply))
+                else if (current_size + 7 < max_size && sender.Equals(Multiply))
                 {
+                    current_size += 7;
                     equation.InnerTerms.Add(new MulOperation(new List<Term>(){
                         new EmptyMember() { IsSelected = true },
                         new EmptyMember()
@@ -189,8 +197,9 @@ namespace WpfApp1
                     unselectOnNew();
                 }
                 // Divide
-                else if (sender.Equals(Divide))
+                else if (current_size < max_size && sender.Equals(Divide))
                 {
+                    current_size+=3;
                     equation.InnerTerms.Add(new DivOperation(new List<Term>(){
                         new EmptyMember() { IsSelected = true },
                         new EmptyMember()
@@ -198,20 +207,23 @@ namespace WpfApp1
                     unselectOnNew();
                 }
                 // Absolute
-                else if (sender.Equals(Absolute))
+                else if (current_size < max_size && sender.Equals(Absolute))
                 {
-                        equation.InnerTerms.Add(new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                    current_size+=3;
+                    equation.InnerTerms.Add(new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
                 }
                 // Factorial
-                else if (sender.Equals(Factorial))
+                else if (current_size < max_size && sender.Equals(Factorial))
                 {
-                        equation.InnerTerms.Add(new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
-                        unselectOnNew();
+                    current_size+=3;
+                    equation.InnerTerms.Add(new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                    unselectOnNew();
                 }
                 // Modulo
-                else if (sender.Equals(Modulo))
+                else if (current_size + 7 < max_size && sender.Equals(Modulo))
                 {
+                    current_size += 7;
                     equation.InnerTerms.Add(new ModuloOperation(new List<Term>(){
                         new EmptyMember() { IsSelected = true },
                         new EmptyMember()
@@ -219,13 +231,14 @@ namespace WpfApp1
                     unselectOnNew();
                 }
                 // Pi
-                else if (sender.Equals(Pi))
+                else if (current_size+2< max_size && sender.Equals(Pi))
                 {
-                        equation.InnerTerms.Add(new PiConst() { IsSelected = true });
+                    current_size+=2;
+                    equation.InnerTerms.Add(new PiConst() { IsSelected = true });
                         unselectOnNew();
                 }
                 // Negation
-                else if (sender.Equals(Negation))
+                else if (current_size+3< max_size && sender.Equals(Negation))
                 {
                     String num_str = CleanLatex(term.GetLateX());
                     if (num_str.Length == 0)
@@ -247,28 +260,32 @@ namespace WpfApp1
                     }
                 }
                 // Square Root of 2
-                else if (sender.Equals(Square_Root_2))
+                else if (current_size < max_size && sender.Equals(Square_Root_2))
                 {
-                        equation.InnerTerms.Add(new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
-                        unselectOnNew();
+                    current_size+=3;
+                    equation.InnerTerms.Add(new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                    unselectOnNew();
                 }
                 // Square Root of N
-                else if (sender.Equals(Square_Root))
+                else if (current_size+3< max_size && sender.Equals(Square_Root))
                 {
-                        equation.InnerTerms.Add(new NthRootOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
-                        unselectOnNew();
+                    current_size+=3;
+                    equation.InnerTerms.Add(new NthRootOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                    unselectOnNew();
                 }
                 // Power of 2
-                else if (sender.Equals(Power_2))
+                else if (current_size+3< max_size && sender.Equals(Power_2))
                 {
-                        equation.InnerTerms.Add(new PowerOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                    current_size+=3;
+                    equation.InnerTerms.Add(new PowerOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
                 }
                 // Power of N
-                else if (sender.Equals(Power))
+                else if (current_size+3< max_size && sender.Equals(Power))
                 {
-                        equation.InnerTerms.Add(new PowerOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
-                        unselectOnNew();
+                    current_size+=3;
+                    equation.InnerTerms.Add(new PowerOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                    unselectOnNew();
                 }
                 // Left Arrow
                 else if (sender.Equals(Left_Arrow))
@@ -529,6 +546,7 @@ namespace WpfApp1
                                 past_num_str = CleanLatex(term.GetLateX());
 
                             past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
+                            current_size--;
                             if (past_num_str.Length != 0 && !char.IsDigit(past_num_str[0]))
                                 past_num_str = past_num_str.Substring(1);
 
@@ -536,13 +554,16 @@ namespace WpfApp1
                             if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
                                 equation.InnerTerms[idx].InnerTerms[sub_idx] = new EmptyMember { IsSelected = true };
                             else if (decimal.TryParse(past_num_str, out decimal result))
-                            {
                                 SetValue(term, result, isComplex);
-                            }
-
                         }
                         else
                         {
+                            if (term is MulOperation || term is ModuloOperation)
+                                current_size -= 7;
+                            else if (!isComplex)
+                                current_size -= 3;
+                            else current_size--;
+
                             equation.InnerTerms.RemoveAt(idx);
                             idx--;
                             len--;
@@ -559,6 +580,7 @@ namespace WpfApp1
                     }
                     else if (term is PiConst)
                     {
+                        current_size -= 2;
                         equation.InnerTerms.RemoveAt(idx);
                         idx--;
                         len--;
@@ -582,7 +604,7 @@ namespace WpfApp1
 
 
                         past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
-
+                        current_size--;
                         if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
                         {
                             equation.InnerTerms[idx] = new AbsoluteMember(0) { IsSelected = true };
@@ -733,8 +755,8 @@ namespace WpfApp1
             // Plus, Minus, Multiply, Dividi
             else if (e.Key == Key.Add)
                 Plus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
-            else if (e.Key == Key.Subtract)
-                Minus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+            /*else if (e.Key == Key.Subtract)
+                Minus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));*/
             else if (e.Key == Key.Multiply)
                 Multiply.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             else if (e.Key == Key.Divide)
