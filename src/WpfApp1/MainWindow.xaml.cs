@@ -37,9 +37,6 @@ namespace WpfApp1
             formulaWraper.FontFamily = new System.Windows.Media.FontFamily("Arial");  // Font
             formulaWraper.Foreground = new SolidColorBrush(Colors.Black);  // Farba textu
 
-            equation.InnerTerms.Add(new BracketsMember(new List<Term>(){
-                        new EmptyMember() { IsSelected = true }
-                }));
             formulaWraper.Formula = equation.GetLateX();
         }
 
@@ -349,17 +346,17 @@ namespace WpfApp1
                             String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
-                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                             }
                         }
                         else
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } });
                         }
                     }
                     else
                     {
-                        equation.InnerTerms.Add(new NthRootOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        equation.InnerTerms.Add(new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
                     }
                 }
@@ -373,17 +370,17 @@ namespace WpfApp1
                             String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
-                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                             }
                         }
                         else
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } });
                         }
                     }
                     else
                     {
-                        equation.InnerTerms.Add(new PowerOperation(2, new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        equation.InnerTerms.Add(new PowerOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
                     }
                 }
@@ -397,17 +394,17 @@ namespace WpfApp1
                             String past_num_str = equation.InnerTerms[idx].GetLateX().Replace("\\colorbox{red}{", "").Replace("}", "");
                             if (int.TryParse(past_num_str, out int new_num))
                             {
-                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(1, new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
+                                equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new EmptyMember(), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                             }
                         }
                         else
                         {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(1, new List<Term>() { new EmptyMember() { IsSelected = true } });
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } });
                         }
                     }
                     else
                     {
-                        equation.InnerTerms.Add(new PowerOperation(1, new List<Term>() { new EmptyMember() { IsSelected = true } }));
+                        equation.InnerTerms.Add(new PowerOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
                     }
                 }
