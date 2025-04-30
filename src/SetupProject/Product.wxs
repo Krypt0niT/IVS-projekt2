@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:WixUI="http://schemas.microsoft.com/wix/UIExtension">
-    
-    <Product Id="*" 
-             Name="SetupProject" 
-             Language="1033" 
-             Version="1.0.0.0" 
-             Manufacturer="IVS-BlaBlaCar" 
-             UpgradeCode="D62D733C-CC76-49CF-A647-8C3BB49E7EC4">
-        
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-        <!-- Premenná ukazujúca na tvoj RTF súbor 
-        <WixVariable Id="WixUILicenseRtf" Value="gpl-3.0.rtf" />
+  <Product Id="*"
+           Name="LateX CalculatorApp"
+           Language="1033"
+           Version="1.0.0.7"
+           Manufacturer="IVS-BlaBlaCar"
+           UpgradeCode="D62D733C-CC76-49CF-A647-8C3BB49E7EC4">
 
-         Pridá základné UI s licenčnou obrazovkou 
-        <UIRef Id="WixUI_Minimal" />
-        <UIRef Id="WixUI_LicenseAgreement" />
-        <UIRef Id="WixUI_ErrorProgressText" />
-        -->
-        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate />
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate />
 
-		<Feature Id="ProductFeature" Title="SetupProject" Level="1">
-            <ComponentGroupRef Id="ProductComponents" />
-		</Feature>
+    <!-- Ikona pre shortcut -->
+    <Icon Id="AppIcon" SourceFile="icons/root.ico" />
 
-        <!--<Icon Id="AppIcon.ico" SourceFile="icons/root.ico" />-->
-        
-	</Product>
+    <Feature Id="ProductFeature" Title="LateX CalculatorApp" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
 
-    <Fragment>
-        <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFilesFolder">
-                <Directory Id="INSTALLFOLDER" Name="SetupProject" />
-            </Directory>
-        </Directory>
-    </Fragment>
+  </Product>
 
-    <!--<Fragment>
-        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-            <Component Id="MainExecutable" Guid="3C1CAA63-CF3C-4E2E-9B5D-0EF2EF7B7106">
-                <File Source="..\WpfApp1\publish\WpfApp1.exe" />
-                <File Source="..\WpfApp1\publish\CalculatorApp.MathLibrary.dll" />
-                <File Source="..\WpfApp1\publish\WpfApp1.runtimeconfig.json" />
-                <File Source="..\WpfApp1\publish\WpfApp1.deps.json" />
-            </Component>
-            
-        </ComponentGroup>
-    </Fragment>-->
-    
-    
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="LateX CalculatorApp" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="LateX CalculatorApp"/>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <!-- Shortcut komponenta (ikona sa zobrazí cez tento shortcut) -->
+    <Component Id="ApplicationShortcut" Guid="F54A3C1B-FA67-4CFB-B6AF-1A9B2E222222" Directory="ApplicationProgramsFolder">
+      <Shortcut Id="StartMenuShortcut"
+                Name="LateX CalculatorApp"
+                Description="Spusti aplikaciu LateX CalculatorApp"
+                Target="[INSTALLFOLDER]WpfApp1.exe"
+                WorkingDirectory="INSTALLFOLDER"
+                Icon="AppIcon"
+                IconIndex="0" />
+      <RemoveFolder Id="RemoveShortcutsDir" On="uninstall" />
+      <RegistryValue Root="HKCU" Key="Software\LateX CalculatorApp" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+    </Component>
+  </Fragment>
+
 </Wix>
