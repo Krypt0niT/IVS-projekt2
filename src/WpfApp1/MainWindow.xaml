@@ -6,103 +6,105 @@
         xmlns:local="clr-namespace:WpfApp1"
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="400"
+        Title="Calculator" Height="600" Width="400"
         Keyboard.KeyDown="Window_KeyDown">
     <Grid x:Name="mainGrid">
         <WindowsFormsHost Margin="120,577,180,107"/>
         <local:FormulaWrapper x:Name="formulaWraper" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="364" Loaded="FormulaWrapper_Loaded" FontSize="18" FontFamily="Algerian" Margin="0,10,0,0"/>
-        <Button x:Name="Left_Bracket" HorizontalAlignment="Left" Margin="75,92,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
-            <Image Source="img\left-bracket.png"></Image>
+        <Button x:Name="Left_Bracket" HorizontalAlignment="Left" Margin="35,92,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
+            <Image Source="img\brackets.png"></Image>
         </Button>
-        <Button x:Name="Right_Bracket" HorizontalAlignment="Left" Margin="115,92,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
-            <Image Source="img\right-bracket.png"></Image>
+        <Button x:Name="Right_Bracket" HorizontalAlignment="Left" Margin="261,93,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
+            <Image Source="img\clear-all.png"></Image>
         </Button>
-        <Button x:Name="Power_2" HorizontalAlignment="Left" Margin="75,132,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Power_2" HorizontalAlignment="Left" Margin="35,143,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\2nd-power.png"></Image>
         </Button>
-        <Button x:Name="Power" HorizontalAlignment="Left" Margin="115,132,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Power" HorizontalAlignment="Left" Margin="86,143,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\power.png"></Image>
         </Button>
-        <Button x:Name="Square_Root_2" HorizontalAlignment="Left" Margin="75,172,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Square_Root_2" HorizontalAlignment="Left" Margin="35,194,0,0" VerticalAlignment="Top" Width="51" Height="50" BorderThickness="0" Click="Button_Click">
             <Image Source="img\sqrt.png"></Image>
         </Button>
-        <Button x:Name="Square_Root" HorizontalAlignment="Left" Margin="115,172,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Square_Root" HorizontalAlignment="Left" Margin="86,194,0,0" VerticalAlignment="Top" Width="51" Height="50" BorderThickness="0" Click="Button_Click">
             <Image Source="img\root.png"></Image>
         </Button>
-        <Button x:Name="Pi" HorizontalAlignment="Left" Margin="75,212,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Pi" HorizontalAlignment="Left" Margin="35,244,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\pi.png"></Image>
         </Button>
-        <Button x:Name="Absolute" HorizontalAlignment="Left" Margin="115,212,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Absolute" HorizontalAlignment="Left" Margin="86,244,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\abs.png"></Image>
         </Button>
-        <Button x:Name="Factorial" HorizontalAlignment="Left" Margin="75,252,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Factorial" HorizontalAlignment="Left" Margin="35,295,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\factorial.png"></Image>
         </Button>
-        <Button x:Name="Modulo" HorizontalAlignment="Left" Margin="115,252,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Modulo" HorizontalAlignment="Left" Margin="86,295,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\modulo.png"></Image>
         </Button>
-        <Button x:Name="Negation" HorizontalAlignment="Left" Margin="173,92,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Negation" HorizontalAlignment="Left" Margin="86,92,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\neg.png"></Image>
         </Button>
-        <Button x:Name="Left_Arrow" HorizontalAlignment="Left" Margin="213,93,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Left_Arrow" HorizontalAlignment="Left" Margin="160,93,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\left-arrow.png"></Image>
         </Button>
-        <Button x:Name="_7" HorizontalAlignment="Left" Margin="173,132,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_7" HorizontalAlignment="Left" Margin="160,144,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_7.png"></Image>
         </Button>
-        <Button x:Name="_8" HorizontalAlignment="Left" Margin="213,133,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_8" HorizontalAlignment="Left" Margin="211,144,0,0" VerticalAlignment="Top" Width="50" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_8.png"></Image>
         </Button>
-        <Button x:Name="_4" HorizontalAlignment="Left" Margin="173,172,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_4" HorizontalAlignment="Left" Margin="160,195,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_4.png"></Image>
         </Button>
-        <Button x:Name="_5" HorizontalAlignment="Left" Margin="213,173,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_5" HorizontalAlignment="Left" Margin="211,195,0,0" VerticalAlignment="Top" Width="50" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_5.png"></Image>
         </Button>
-        <Button x:Name="_1" HorizontalAlignment="Left" Margin="173,212,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_1" HorizontalAlignment="Left" Margin="160,246,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_1.png"></Image>
         </Button>
-        <Button x:Name="_2" HorizontalAlignment="Left" Margin="213,213,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_2" HorizontalAlignment="Left" Margin="211,246,0,0" VerticalAlignment="Top" Width="50" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_2.png"></Image>
         </Button>
-        <Button x:Name="_0" HorizontalAlignment="Left" Margin="213,253,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_0" HorizontalAlignment="Left" Margin="211,297,0,0" VerticalAlignment="Top" Width="50" Height="50" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_0.png"></Image>
         </Button>
-        <Button x:Name="Dot" Content="." HorizontalAlignment="Left" Margin="173,252,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click"/>
-        <Button x:Name="Right_Arrow" HorizontalAlignment="Left" Margin="253,93,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Dot" HorizontalAlignment="Left" Margin="160,297,0,0" VerticalAlignment="Top" Width="51" Height="50" BorderThickness="0" Click="Button_Click">
+            <Image Source="img\dot.png"></Image>
+        </Button>
+        <Button x:Name="Right_Arrow" HorizontalAlignment="Left" Margin="211,93,0,0" VerticalAlignment="Top" Width="50" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\right-arrow.png"></Image>
         </Button>
-        <Button x:Name="Backspace" HorizontalAlignment="Left" Margin="293,93,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Backspace" HorizontalAlignment="Left" Margin="312,93,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\backspace.png"></Image>
         </Button>
-        <Button x:Name="_9" HorizontalAlignment="Left" Margin="253,133,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_9" HorizontalAlignment="Left" Margin="261,144,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_9.png"></Image>
         </Button>
-        <Button x:Name="Divide" HorizontalAlignment="Left" Margin="293,133,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Divide" HorizontalAlignment="Left" Margin="312,144,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\div.png"></Image>
         </Button>
-        <Button x:Name="_6" HorizontalAlignment="Left" Margin="253,173,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_6" HorizontalAlignment="Left" Margin="261,195,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_6.png"></Image>
         </Button>
-        <Button x:Name="Multiply" HorizontalAlignment="Left" Margin="293,173,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Multiply" HorizontalAlignment="Left" Margin="312,195,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\mul.png"></Image>
         </Button>
-        <Button x:Name="_3" HorizontalAlignment="Left" Margin="253,213,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="_3" HorizontalAlignment="Left" Margin="261,246,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\_3.png"></Image>
         </Button>
-        <Button x:Name="Minus" HorizontalAlignment="Left" Margin="293,213,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Minus" HorizontalAlignment="Left" Margin="312,246,0,0" VerticalAlignment="Top" Width="51" Height="51" BorderThickness="0" Click="Button_Click">
             <Image Source="img\minus.png"></Image>
         </Button>
-        <Button x:Name="Equals" HorizontalAlignment="Left" Margin="253,253,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Equals" HorizontalAlignment="Left" Margin="261,297,0,0" VerticalAlignment="Top" Width="51" Height="50" BorderThickness="0" Click="Button_Click">
             <Image Source="img\equal.png"></Image>
         </Button>
-        <Button x:Name="Plus" HorizontalAlignment="Left" Margin="293,253,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Plus" HorizontalAlignment="Left" Margin="312,297,0,0" VerticalAlignment="Top" Width="51" Height="50" BorderThickness="0" Click="Button_Click">
             <Image Source="img\plus.png"></Image>
         </Button>
-        <Button x:Name="Github" HorizontalAlignment="Left" Margin="18,252,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+        <Button x:Name="Github" HorizontalAlignment="Left" Margin="8,467,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
             <Image Source="img\github-button.png"></Image>
         </Button>
-        <Label x:Name="ErrorLabel" Content="Label" HorizontalAlignment="Left" Margin="20,324,0,0" VerticalAlignment="Top" Background="Red"/>
+        <Label x:Name="ErrorLabel" Content="Label" HorizontalAlignment="Left" Margin="10,529,0,0" VerticalAlignment="Top" Background="Red"/>
 
     </Grid>
 </Window>
