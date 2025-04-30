@@ -35,6 +35,8 @@ namespace WpfApp1
         int max_size= 22;
         int current_size = 0;
 
+        bool bool_out = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -176,15 +178,28 @@ namespace WpfApp1
                         new EmptyMember() { IsSelected = true }
                     }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Minus
-                else if (current_size + 3 < max_size && sender.Equals(Minus))
+                else if (sender.Equals(Minus))
                 {
-                    current_size += 3;
-                    equation.InnerTerms.Add(new SubOperation(new List<Term>() {
+                    if (current_size + 3 < max_size && bool_out)
+                    {
+                        current_size += 3;
+                        equation.InnerTerms.Add(new SubOperation(new List<Term>() {
                         new EmptyMember() { IsSelected = true }
                     }));
-                    unselectOnNew();
+                        unselectOnNew();
+                    }
+                    else if (isComplex)
+                    {
+                        string past = CleanLatex(subTerm.GetLateX());
+                        if (long.TryParse(past, out long new_num))
+                        {
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(-new_num);
+                        }
+                    }
+                        bool_out = false;
                 }
                 // Multiply
                 else if (current_size + 7 < max_size && sender.Equals(Multiply))
@@ -195,6 +210,7 @@ namespace WpfApp1
                         new EmptyMember()
                     }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Divide
                 else if (current_size < max_size && sender.Equals(Divide))
@@ -205,6 +221,7 @@ namespace WpfApp1
                         new EmptyMember()
                     }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Absolute
                 else if (current_size < max_size && sender.Equals(Absolute))
@@ -212,6 +229,7 @@ namespace WpfApp1
                     current_size+=3;
                     equation.InnerTerms.Add(new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
+                    bool_out = false;
                 }
                 // Factorial
                 else if (current_size < max_size && sender.Equals(Factorial))
@@ -219,6 +237,7 @@ namespace WpfApp1
                     current_size+=3;
                     equation.InnerTerms.Add(new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Modulo
                 else if (current_size + 7 < max_size && sender.Equals(Modulo))
@@ -229,6 +248,7 @@ namespace WpfApp1
                         new EmptyMember()
                     }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Pi
                 else if (current_size+2< max_size && sender.Equals(Pi))
@@ -236,6 +256,7 @@ namespace WpfApp1
                     current_size+=2;
                     equation.InnerTerms.Add(new PiConst() { IsSelected = true });
                         unselectOnNew();
+                    bool_out = false;
                 }
                 // Negation
                 else if (current_size+3< max_size && sender.Equals(Negation))
@@ -265,6 +286,7 @@ namespace WpfApp1
                     current_size+=3;
                     equation.InnerTerms.Add(new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Square Root of N
                 else if (current_size+3< max_size && sender.Equals(Square_Root))
@@ -272,6 +294,7 @@ namespace WpfApp1
                     current_size+=3;
                     equation.InnerTerms.Add(new NthRootOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Power of 2
                 else if (current_size+3< max_size && sender.Equals(Power_2))
@@ -279,6 +302,7 @@ namespace WpfApp1
                     current_size+=3;
                     equation.InnerTerms.Add(new PowerOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
+                    bool_out = false;
                 }
                 // Power of N
                 else if (current_size+3< max_size && sender.Equals(Power))
@@ -286,6 +310,7 @@ namespace WpfApp1
                     current_size+=3;
                     equation.InnerTerms.Add(new PowerOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                     unselectOnNew();
+                    bool_out = false;
                 }
                 // Left Arrow
                 else if (sender.Equals(Left_Arrow))
@@ -403,10 +428,10 @@ namespace WpfApp1
                 // Right Arrow
                 else if (sender.Equals(Right_Arrow))
                 {
+                    if (idx + 1 == len)
+                        bool_out = true;
                     if (idx + 1 >= len && (equation.InnerTerms[idx].InnerTerms == null || equation.InnerTerms[idx].InnerTerms.Count - sub_idx <= 1))
-                    {
                         return;
-                    }
 
                     if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
                     {
@@ -755,8 +780,8 @@ namespace WpfApp1
             // Plus, Minus, Multiply, Dividi
             else if (e.Key == Key.Add)
                 Plus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
-            /*else if (e.Key == Key.Subtract)
-                Minus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));*/
+            else if (e.Key == Key.Subtract)
+                Minus.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             else if (e.Key == Key.Multiply)
                 Multiply.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             else if (e.Key == Key.Divide)
