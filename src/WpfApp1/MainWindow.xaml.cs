@@ -1,12 +1,4 @@
-﻿// TODO
-// Replace 3 with Pi
-// When changing term type, it crashes when tries to change or remove value
-// Bug: -x^2
-// Right arrow still makes problems when only 1. term is there
-// Clear Arrows and down
-// Power exponenet doesn't support decimals
-
-using CalculatorApp.MathLibrary.Entities;
+﻿using CalculatorApp.MathLibrary.Entities;
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 using CalculatorApp.MathLibrary.Entities.Operands;
 using System.Diagnostics;
@@ -195,9 +187,13 @@ namespace WpfApp1
                     {
                         string past = CleanLatex(subTerm.GetLateX());
                         if (long.TryParse(past, out long new_num))
-                        {
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(-new_num);
-                        }
+                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(-new_num) { IsSelected = true };
+                    }
+                    else
+                    {
+                        string past = CleanLatex(term.GetLateX());
+                        if (long.TryParse(past, out long new_num))
+                            equation.InnerTerms[idx] = new AbsoluteMember(-new_num) { IsSelected = true };
                     }
                         bool_out = false;
                 }
