@@ -81,7 +81,7 @@ namespace WpfApp1
                     { _9, 9 }
                 };
                 if (senderToNumber.TryGetValue(sender, out int number))
-                { 
+                {
                     // Logic
                     if (isComplex)
                     {
@@ -552,7 +552,7 @@ namespace WpfApp1
                         if (!isSubTermEmpty)
                         {
                             string past_num_str;
-                            if(term is PowerOperation pwd)
+                            if (term is PowerOperation pwd)
                             {
                                 if (pwd.Exponent.IsSelected && pwd.Exponent is EmptyMember)
                                     past_num_str = "0";
@@ -580,7 +580,7 @@ namespace WpfApp1
                             {
                                 SetValue(term, result, isComplex);
                             }
-                            
+
                         }
                         else
                         {
@@ -640,7 +640,10 @@ namespace WpfApp1
                         UseShellExecute = true
                     });
                 }
-
+                else if (sender.Equals(Popup_Btn))
+                {
+                    Popup.IsOpen = true;
+                }
                 bool_decimal = false;
                 // Apply changes
                 if (!sender.Equals(Equals))

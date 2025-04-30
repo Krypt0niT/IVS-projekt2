@@ -7,6 +7,7 @@
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         Title="Calculator" Height="600" Width="400"
+        ResizeMode="NoResize"
         Keyboard.KeyDown="Window_KeyDown">
     <Grid x:Name="mainGrid">
         <WindowsFormsHost Margin="120,577,180,107"/>
@@ -106,5 +107,13 @@
         </Button>
         <Label x:Name="ErrorLabel" Content="Label" HorizontalAlignment="Left" Margin="10,529,0,0" VerticalAlignment="Top" Background="Red"/>
 
+        <Popup Name="Popup" Placement="Mouse" StaysOpen="False">
+            <Border Background="LightGray" BorderBrush="Black" BorderThickness="1" Padding="10">
+                <TextBlock TextAlignment="Center" Text="Calculator supports arithmetic operations: Addition, Subtraction, Multiplication, Division.&#x0a;With useful features as: Modulo, Factorial, Absolute value, Square root and Root.&#x0a;In addition it support constant: Pi&#x0a;Calculator developed by: xuradnl00 xkuzmok00 xlancor00" />
+            </Border>
+        </Popup>
+        <Button x:Name="Popup_Btn" HorizontalAlignment="Left" Margin="340,514,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderThickness="0" Click="Button_Click">
+            <Image Source="/img/lightbulb.png"/>
+        </Button>
     </Grid>
 </Window>
