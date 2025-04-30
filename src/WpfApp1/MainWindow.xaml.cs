@@ -64,7 +64,7 @@ namespace WpfApp1
                 var subTerm = isComplex ? term.InnerTerms[sub_idx] : null;
                 bool isSubTermEmpty = subTerm is EmptyMember;
 
-                string CleanLatex(string s) => s.Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "").Replace("\\sqrt", "").Replace("[\\square]{", "");
+                string CleanLatex(string s) => s.Replace("\\colorbox{red}{", "").Replace("}", "").Replace("^{2", "").Replace("\\sqrt{", "").Replace("^{\\square", "").Replace("\\sqrt", "").Replace("[\\square]{", "").Replace("\\square", "");
 
                 // Add number
                 var senderToNumber = new Dictionary<object, int>
@@ -200,32 +200,14 @@ namespace WpfApp1
                 // Absolute
                 else if (sender.Equals(Absolute))
                 {
-                    if (isComplex && isSubTermEmpty)
-                    {
-                        String past = CleanLatex(term.GetLateX());
-                        if (long.TryParse(past, out long new_num))
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                    }
-                    else if (!isComplex)
-                    {
                         equation.InnerTerms.Add(new AbsOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
-                    }
                 }
                 // Factorial
                 else if (sender.Equals(Factorial))
                 {
-                    if (isComplex && isSubTermEmpty)
-                    {
-                        String past = CleanLatex(term.GetLateX());
-                        if (long.TryParse(past, out long new_num))
-                            equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                    }
-                    else if (!isComplex)
-                    {
                         equation.InnerTerms.Add(new FactorialOperation(new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
-                    }
                 }
                 // Modulo
                 else if (sender.Equals(Modulo))
@@ -239,14 +221,8 @@ namespace WpfApp1
                 // Pi
                 else if (sender.Equals(Pi))
                 {
-                    if (isComplex)
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new PiConst() { IsSelected = true };
-                    else
-                    {
                         equation.InnerTerms.Add(new PiConst() { IsSelected = true });
                         unselectOnNew();
-                    }
-
                 }
                 // Negation
                 else if (sender.Equals(Negation))
@@ -273,46 +249,26 @@ namespace WpfApp1
                 // Square Root of 2
                 else if (sender.Equals(Square_Root_2))
                 {
-                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                    else if (!isComplex)
-                    {
                         equation.InnerTerms.Add(new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
-                    }
                 }
                 // Square Root of N
                 else if (sender.Equals(Square_Root))
                 {
-                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new EmptyMember(), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                    else if (!isComplex)
-                    {
                         equation.InnerTerms.Add(new NthRootOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
-                    }
                 }
                 // Power of 2
                 else if (sender.Equals(Power_2))
                 {
-                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                    else if (!isComplex)
-                    {
                         equation.InnerTerms.Add(new PowerOperation(new AbsoluteMember(2), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
-                    }
                 }
                 // Power of N
                 else if (sender.Equals(Power))
                 {
-                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
-                        equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new EmptyMember(), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
-                    else if (!isComplex)
-                    {
                         equation.InnerTerms.Add(new PowerOperation(new EmptyMember(), new List<Term>() { new EmptyMember() { IsSelected = true } }));
                         unselectOnNew();
-                    }
                 }
                 // Left Arrow
                 else if (sender.Equals(Left_Arrow))
