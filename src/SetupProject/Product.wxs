@@ -5,7 +5,7 @@
   <Product Id="*"
            Name="LateX CalculatorApp"
            Language="1033"
-           Version="1.0.0.7"
+           Version="1.0.0.8"
            Manufacturer="IVS-BlaBlaCar"
            UpgradeCode="D62D733C-CC76-49CF-A647-8C3BB49E7EC4">
 
