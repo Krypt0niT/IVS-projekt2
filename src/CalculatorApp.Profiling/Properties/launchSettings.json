@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CalculatorApp.Profiling": {
+      "commandName": "Project",
+      "commandLineArgs": "< C:\\Users\\Krypt\\Desktop\\test.txt"
+    }
+  }
+}
