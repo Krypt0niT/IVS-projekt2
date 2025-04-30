@@ -115,16 +115,16 @@ namespace WpfApp1
                             else if (past.Contains("."))
                             {
                                 var parts = past.Split('.');
-                                if (int.TryParse(parts[1], out int behind))
+                                if (long.TryParse(parts[1], out long behind) && behind < 999_999_999)
                                 {
                                     var combined = parts[0] + "." + (behind * 10 + number);
                                     if (decimal.TryParse(combined, out decimal result))
                                         SetValue(term, result, isComplex);
                                 }
                             }
-                            else if (int.TryParse(past, out int new_num))
+                            else if (long.TryParse(past, out long new_num) && new_num < 999_999_999_999_999_999)
                             {
-                                SetValue(term, new_num * 10 + number, isComplex);
+                                SetValue(term, new_num * 10 + (long) number, isComplex);
                             }
                         }
                     }
@@ -137,17 +137,18 @@ namespace WpfApp1
                         else if (past.Contains("."))
                         {
                             var parts = past.Split('.');
-                            if (int.TryParse(parts[1], out int behind))
+                            if (long.TryParse(parts[1], out long behind) && behind < 999_999_999)
                             {
                                 var combined = parts[0] + "." + (behind * 10 + number);
                                 if (decimal.TryParse(combined, out decimal result))
                                     SetValue(term, result, isComplex);
                             }
                         }
-                        else if (int.TryParse(past, out int new_num))
+                        else if (long.TryParse(past, out long new_num) && new_num < 999_999_999_999_999_999)
                         {
-                            SetValue(term, new_num * 10 + number, isComplex);
+                            SetValue(term, new_num * 10 + (long) number, isComplex);
                         }
+
                     }
                 }
                 // Dot
@@ -202,7 +203,7 @@ namespace WpfApp1
                     if (isComplex && isSubTermEmpty)
                     {
                         String past = CleanLatex(term.GetLateX());
-                        if (int.TryParse(past, out int new_num))
+                        if (long.TryParse(past, out long new_num))
                             equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                     }
                     else if (!isComplex)
@@ -217,7 +218,7 @@ namespace WpfApp1
                     if (isComplex && isSubTermEmpty)
                     {
                         String past = CleanLatex(term.GetLateX());
-                        if (int.TryParse(past, out int new_num))
+                        if (long.TryParse(past, out long new_num))
                             equation.InnerTerms[idx].InnerTerms[sub_idx] = new FactorialOperation(new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                     }
                     else if (!isComplex)
@@ -272,7 +273,7 @@ namespace WpfApp1
                 // Square Root of 2
                 else if (sender.Equals(Square_Root_2))
                 {
-                    if (isComplex && isSubTermEmpty && int.TryParse(CleanLatex(term.GetLateX()), out int new_num))
+                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
                         equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                     else if (!isComplex)
                     {
@@ -283,7 +284,7 @@ namespace WpfApp1
                 // Square Root of N
                 else if (sender.Equals(Square_Root))
                 {
-                    if (isComplex && isSubTermEmpty && int.TryParse(CleanLatex(term.GetLateX()), out int new_num))
+                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
                         equation.InnerTerms[idx].InnerTerms[sub_idx] = new NthRootOperation(new EmptyMember(), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                     else if (!isComplex)
                     {
@@ -294,7 +295,7 @@ namespace WpfApp1
                 // Power of 2
                 else if (sender.Equals(Power_2))
                 {
-                    if (isComplex && isSubTermEmpty && int.TryParse(CleanLatex(term.GetLateX()), out int new_num))
+                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
                         equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new AbsoluteMember(2), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                     else if (!isComplex)
                     {
@@ -305,7 +306,7 @@ namespace WpfApp1
                 // Power of N
                 else if (sender.Equals(Power))
                 {
-                    if (isComplex && isSubTermEmpty && int.TryParse(CleanLatex(term.GetLateX()), out int new_num))
+                    if (isComplex && isSubTermEmpty && long.TryParse(CleanLatex(term.GetLateX()), out long new_num))
                         equation.InnerTerms[idx].InnerTerms[sub_idx] = new PowerOperation(new EmptyMember(), new List<Term>() { new AbsoluteMember(new_num) { IsSelected = true } });
                     else if (!isComplex)
                     {
@@ -619,7 +620,7 @@ namespace WpfApp1
                         {
                             equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
                         }
-                        else if (int.TryParse(past_num_str, out int new_num))
+                        else if (long.TryParse(past_num_str, out long new_num))
                         {
                             equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
                         }
