@@ -4,7 +4,7 @@ namespace CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 
 public class AbsoluteMember : Term
 {
-    public decimal? AbsoluteValue { get; init; }
+    public decimal AbsoluteValue { get; init; }
 
     public AbsoluteMember(decimal absoluteValue, IList<Term>? terms = null) : base(terms)
     {
@@ -13,15 +13,12 @@ public class AbsoluteMember : Term
 
     public override decimal GetResult()
     {
-        if (AbsoluteValue == null) throw new Exception("Chýbajúca hodnota.");
-        return AbsoluteValue.Value;
+        return AbsoluteValue;
     }
 
     public override string GetLateX()
     {
-        if (AbsoluteValue == null) throw new Exception();
-
         if (IsSelected) return $"\\colorbox{{{Colors.Highlight}}}{{{AbsoluteValue.ToString()}}}";
-        return AbsoluteValue.Value.ToString();
+        return AbsoluteValue.ToString();
     }
 }
