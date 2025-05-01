@@ -1,1 +1,7 @@
-tento soubor bude obsahovat rozdil mezi planem projektu a skutecnosti
+Implementácia matematickej knižnice mala a aj podporuje nekonečne vnorenie príkladu (zadávanie podobne ako photomath, geogebra...), takisto takto rekurzívne generovaný LateX kód, 
+no podcenili sme čas potrebný na implementáciu UI rozhrania a to teda zanorenie v odovzdanej podobe nepodporuje. Vieme však, že za použitia tejto matematickej knižnice by sme boli schopný plánovaný výsledok dosiahnuť.
+
+Inštalácia mala mať pôvodne UI a odkliknutím licencie GNU - všetky UI knižnice sme mali pripravené no nakoniec sme sa rozhodli, že spravíme priamy inštalátor pretože nám toto užívateľské rozhranie prišlo zbytočne.
+
+Nie všetky tlačidla v aplikácii sú funkčne kvôli spomenutému nedokončenému UI rekurzívnemu zadávaniu bez ktorého by nemali zmysel (napr. zátvorky a pod.)
+
