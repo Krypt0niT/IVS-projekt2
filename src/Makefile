@@ -1,43 +1,44 @@
-WPF_DIR := ../src/WpfApp1
-
-#STDDEV_EXE := ../src/CalculatorAp/bin/Debug/net8.0/StdDev.exe
-#CALCULATOR_EXE := $(WPF_DIR)/bin/Debug/net8.0/WpfApp1.exe
+PROFILING_EXE := CalculatorApp.Profiling\bin\Debug\net8.0\CalculatorApp.Profiling.exe
+CALCULATOR_EXE := WpfApp1\bin\Debug\net8.0-windows\WpfApp1.exe
+STDDEV_INPUT := CalculatorApp.Profiling\testInput.txt
 
 .DEFAULT_GOAL := all
 
-all: run
+all: build run
+
+build:
+	@echo Building solution...
+	dotnet publish WpfApp1 -c Release -r win-x64 -o WpfApp1\bin\Debug\net8.0-windows
 
 run:
 	@echo Starting calculator GUI...
-	dotnet run --project $(WPF_DIR)/WpfApp1.csproj
-#@"$(CALCULATOR_EXE)"
+	@"$(CALCULATOR_EXE)"
 
 stddev:
 	@echo Running StdDev with test data...
-#@type ../testdata.txt | "$(STDDEV_EXE)"
+	@$(PROFILING_EXE) < $(STDDEV_INPUT)
 
 clean:
-	@echo Removing unnecesary files...
-#@for /D %%d in (../src\*) do if exist %%d\bin rmdir /S /Q %%d\bin
-#@for /D %%d in (../src\*) do if exist %%d\obj rmdir /S /Q %%d\obj
-# @if exist $(DOC_DIR) rmdir /S /Q $(DOC_DIR)
+	@echo Removing unnecessary files...
+	@for /d /r . %%d in (bin,obj) do @if exist "%%d" rmdir /s /q "%%d"
+	@echo Clean complete.
 
 pack:
 	@echo Packing project...
-	@powershell Compress-Archive -Path "..\*" -DestinationPath "..\xuradnl00_xkuzmok00_xlancor00.zip"
+	@powershell -Command "Compress-Archive -Path '..\*' -DestinationPath '..\xuradnl00_xkuzmok00_xlancor00.zip' -Force"
+	@echo Packing complete.
 
 doc:
 	@echo Generating documentation...
-	@doxygen ../src/Doxyfile
+	@doxygen "Doxyfile"
 
 help:
 	@echo ======= Makefile Help =======
 	@echo Available targets:
 	@echo -------------------------------
-	@echo all       - runs calculator and standard deviation
-	@echo run       - runs calculator GUI
+	@echo all       - runs calculator GUI
+	@echo run       - runs calculator GUI (builds if needed)
 	@echo stddev    - runs standard deviation calculation
-	@echo test      - runs math library tests
 	@echo doc       - generates documentation
 	@echo pack      - creates project zip package
 	@echo clean     - cleans temporary files
