@@ -2,43 +2,46 @@
 using CalculatorApp.MathLibrary.Entities.AbsoluteMembers;
 using CalculatorApp.MathLibrary.Entities.Operands;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Xml.Linq;
-using XamlMath;
 
 namespace WpfApp1
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /**
+     * @brief Window of calculator.
+     *
+     * Main window class responsible of showing GUI, initializing data and joining math terms.
+     * Works with Latex.
+     * Shows info box.
+    */
     public partial class MainWindow : Window
     {
+        // Initial data
         SumOperation equation = new SumOperation(new List<Term>() { new AbsoluteMember(0) { IsSelected = true } });
-        int idx = 0;
-        int sub_idx = 0;
-        int len = 1;
-        bool bool_decimal = false;
+        int idx = 0; // Points to a term in quation
+        int sub_idx = 0; // Subindex is used to better specify specific item in term
+        int len = 1; // Total number of terms
+        bool bool_decimal = false; // Helping bool used between button clicks, used to create decimal number
 
-        int max_size= 22;
-        int current_size = 0;
+        int max_size= 22; // Max line size (doesn't change)
+        int current_size = 0; // Current line size (changes)
 
-        bool bool_out = false;
+        bool bool_out = false; // Helping bool for Minus operand. Actives when (idx + 1) == len to create Minus term on Minus button click
 
+        /**
+         * @brief Initializes window and form.
+        */
         public MainWindow()
         {
             InitializeComponent();
             formulaWraper.Formula = @"\color{red}{|} -10  \color{green}{|}"
 ;
-            formulaWraper.FontSize = 30;  // Font
-            formulaWraper.FontFamily = new System.Windows.Media.FontFamily("Arial");  // Font
-            formulaWraper.Foreground = new SolidColorBrush(Colors.Black);  // Farba textu
+            formulaWraper.FontSize = 30;  // Font size
+            formulaWraper.FontFamily = new System.Windows.Media.FontFamily("Arial");  // Font family
+            formulaWraper.Foreground = new SolidColorBrush(Colors.Black);  // Text color
 
-            formulaWraper.Formula = equation.GetLateX();
+            formulaWraper.Formula = equation.GetLateX(); // Shows initial Latex
         }
 
         private void FormulaWrapper_Loaded(object sender, RoutedEventArgs e)
@@ -47,9 +50,13 @@ namespace WpfApp1
         }
 
 
-        /*
-         * Buttons
-         */
+        /**
+        * @brief Executes calculator behaviour based on keys pressed.
+        *
+        * By clicking on a button user calls this function.
+        * This functions determines which button was pressed and acts accordingly.
+        * Supports error handling.
+        */
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -81,9 +88,10 @@ namespace WpfApp1
                 {
                     current_size++;
 
-                    // Logic
+                    // Term has subterms
                     if (isComplex)
                     {
+                        // Empty element
                         if (isSubTermEmpty)
                         {
                             decimal value = bool_decimal ? Convert.ToDecimal("0." + number) : number;
@@ -92,6 +100,7 @@ namespace WpfApp1
                         else
                         {
                             string past = "";
+                            // Power
                             if (term is PowerOperation pwd)
                             {
                                 if (pwd.Exponent.IsSelected && pwd.Exponent is EmptyMember)
@@ -99,6 +108,7 @@ namespace WpfApp1
                                 else
                                     past = CleanLatex(pwd.Exponent.IsSelected ? CleanLatex(pwd.Exponent.GetLateX()) : CleanLatex(pwd.InnerTerms[0].GetLateX()));
                             }
+                            // Square root
                             else if (term is NthRootOperation sqr)
                             {
                                 if (sqr.Degree.IsSelected && sqr.Degree is EmptyMember)
@@ -684,11 +694,19 @@ namespace WpfApp1
 
         }
 
-
+        /**
+         * @brief Apply new equation to UI.
+        */
         void update()
         {
             formulaWraper.Formula = equation.GetLateX();
         }
+
+        /**
+         * @brief Sets new value of a term.
+         *
+         * Universal function to set value of a term, exponent or degree.
+        */
         void SetValue(object target, decimal value, bool isComplex)
         {
             // Power operation uses Exponent
@@ -713,6 +731,11 @@ namespace WpfApp1
             }
         }
 
+        /**
+         * @brief Unselects current term and moves pointer.
+         *
+         * Used after creation of a new term
+        */
         void unselectOnNew()
         {
             if (equation.InnerTerms[idx].GetType() != typeof(AbsoluteMember) && equation.InnerTerms[idx].GetType() != typeof(PiConst))
@@ -729,6 +752,13 @@ namespace WpfApp1
             len++;
         }
 
+        /**
+         * @brief Maps keyboard keys to calculator buttons.
+         *
+         * Maps keyboard keys and key combinations to calculator button.
+         * Gives user ability to use calculator without using mouse.
+         * At least most essential parts.
+        */
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             // Dot, Modulo, Factorial, Brackets
