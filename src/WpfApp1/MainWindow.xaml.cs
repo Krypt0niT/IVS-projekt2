@@ -114,16 +114,19 @@ namespace WpfApp1
                             else if (past.Contains("."))
                             {
                                 var parts = past.Split('.');
-                                if (long.TryParse(parts[1], out long behind) && behind < 999_999_999)
+                                if (decimal.TryParse(parts[1], out decimal behind) && behind < 999_999_999)
                                 {
                                     var combined = parts[0] + "." + (behind * 10 + number);
                                     if (decimal.TryParse(combined, out decimal result))
                                         SetValue(term, result, isComplex);
                                 }
                             }
-                            else if (long.TryParse(past, out long new_num) && new_num < 999_999_999_999_999_999)
+                            else if (decimal.TryParse(past, out decimal new_num) && new_num < 999_999_999_999_999_999)
                             {
-                                SetValue(term, new_num * 10 + (long) number, isComplex);
+                                if (new_num < 0)
+                                    SetValue(term, new_num * 10 - (decimal) number, isComplex);
+                                else
+                                    SetValue(term, new_num * 10 + (decimal)number, isComplex);
                             }
                         }
                     }
@@ -136,16 +139,19 @@ namespace WpfApp1
                         else if (past.Contains("."))
                         {
                             var parts = past.Split('.');
-                            if (long.TryParse(parts[1], out long behind) && behind < 999_999_999)
+                            if (decimal.TryParse(parts[1], out decimal behind) && behind < 999_999_999)
                             {
                                 var combined = parts[0] + "." + (behind * 10 + number);
                                 if (decimal.TryParse(combined, out decimal result))
                                     SetValue(term, result, isComplex);
                             }
                         }
-                        else if (long.TryParse(past, out long new_num) && new_num < 999_999_999_999_999_999)
+                        else if (decimal.TryParse(past, out decimal new_num) && new_num < 999_999_999_999_999_999)
                         {
-                            SetValue(term, new_num * 10 + (long) number, isComplex);
+                            if (new_num < 0)
+                                SetValue(term, new_num * 10 - (decimal)number, isComplex);
+                            else
+                                SetValue(term, new_num * 10 + (decimal)number, isComplex);
                         }
 
                     }
@@ -186,13 +192,13 @@ namespace WpfApp1
                     else if (isComplex)
                     {
                         string past = CleanLatex(subTerm.GetLateX());
-                        if (long.TryParse(past, out long new_num))
+                        if (decimal.TryParse(past, out decimal new_num))
                             equation.InnerTerms[idx].InnerTerms[sub_idx] = new AbsoluteMember(-new_num) { IsSelected = true };
                     }
                     else
                     {
                         string past = CleanLatex(term.GetLateX());
-                        if (long.TryParse(past, out long new_num))
+                        if (decimal.TryParse(past, out decimal new_num))
                             equation.InnerTerms[idx] = new AbsoluteMember(-new_num) { IsSelected = true };
                     }
                         bool_out = false;
@@ -626,15 +632,11 @@ namespace WpfApp1
 
                         past_num_str = past_num_str.Substring(0, past_num_str.Length - 1);
                         current_size--;
-                        if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0)
-                        {
+                        if (string.IsNullOrWhiteSpace(past_num_str) || past_num_str.Length == 0 || past_num_str == "-")
                             equation.InnerTerms[idx] = new AbsoluteMember(0) { IsSelected = true };
-                        }
-                        else if (past_num_str.Contains(".") && decimal.TryParse(past_num_str, out decimal result))
-                        {
+                        else if (decimal.TryParse(past_num_str, out decimal result))
                             equation.InnerTerms[idx] = new AbsoluteMember(result) { IsSelected = true };
-                        }
-                        else if (long.TryParse(past_num_str, out long new_num))
+                        else if (decimal.TryParse(past_num_str, out decimal new_num))
                         {
                             equation.InnerTerms[idx] = new AbsoluteMember(new_num) { IsSelected = true };
                         }
